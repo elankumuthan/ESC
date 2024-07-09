@@ -1,11 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './style.css';  // Ensure the correct path to the consolidated CSS file
-import SearchBox from './searchBox';  // Ensure the correct path to the consolidated component
+import ReactDOM from 'react-dom/client';
+import './Styles/index.css';  // Ensure the correct path to the consolidated CSS file
+import App from './App';
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+
+/*ReactDOM.render(
   <React.StrictMode>
     <SearchBox />
   </React.StrictMode>,
   document.getElementById('root')
 );
+*/

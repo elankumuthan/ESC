@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Fuse from 'fuse.js';
-import './style.css';
+import '../Styles/style.css';
 import SearchBoxLayout from './SearchBoxLayout';  // Ensure the correct path to the new component
 
 // Debounce function
