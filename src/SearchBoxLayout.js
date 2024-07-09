@@ -3,7 +3,6 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
 const SearchBoxLayout = ({ 
-    rooms, setRooms, 
     guests, setGuests, 
     inputValue, handleInputChange, 
     startDate, setStartDate, 
@@ -43,7 +42,7 @@ const SearchBoxLayout = ({
         <div className="search-box">
             <div className="row">
                 <div className="guests-rooms" onClick={toggleDropdown}>
-                    <span>{rooms} Room | {adults + children} Guests per room</span>
+                    <span>{room} Room | {adults + children} Guests per room</span>
                     {dropdownVisible && (
                         <div className="dropdown-menu" ref={dropdownRef}>
                             <div className="dropdown-item">
