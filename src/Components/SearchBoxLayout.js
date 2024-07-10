@@ -1,32 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
+import React, { useRef, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { Divider } from '@mui/material';
 
 const SearchBoxLayout = ({ 
+    rooms, setRooms, 
     guests, setGuests, 
     inputValue, handleInputChange, 
     startDate, setStartDate, 
     endDate, setEndDate, 
-    suggestions, handleSuggestionClick 
+    suggestions, handleSuggestionClick,
+    dropdownVisible, toggleDropdown, applySelection, adults, setAdults, children, setChildren,
+    handleFocus, handleBlur, inputFocused 
 }) => {
-    const [dropdownVisible, setDropdownVisible] = useState(false);
-    const [room, SetRoom] = useState(1)
-    const [adults, setAdults] = useState(1);
-    const [children, setChildren] = useState(0);
     const dropdownRef = useRef(null);
-
-    const toggleDropdown = () => {
-        setDropdownVisible(!dropdownVisible);
-    };
-
-    const applySelection = () => {
-        setGuests(adults + children);
-        setDropdownVisible(false);
-    };
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-            setDropdownVisible(false);
+            toggleDropdown(false);
         }
     };
 
@@ -37,22 +28,82 @@ const SearchBoxLayout = ({
         };
     }, []);
 
-
     return (
         <div className="search-box">
             <div className="row">
-                <div className="guests-rooms" onClick={toggleDropdown}>
-                    <span>{room} Room | {adults + children} Guests per room</span>
+                <div className="clickable-element where-element" onClick={() => document.getElementById('input-box').focus()}>
+                    <div className="label">Where</div>
+                    <input
+                        type="text"
+                        id="input-box"
+                        className="destination-input"
+                        placeholder="Search destinations"
+                        autoComplete="off"
+                        value={inputValue}
+                        onChange={handleInputChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                    />
+                    {suggestions.length > 0 && (
+                        <div className="suggestion-list">
+                            <ul>
+                                {suggestions.map((suggestion, index) => (
+                                    <li key={index} onClick={() => handleSuggestionClick(suggestion.term)}>
+                                        {suggestion.term}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+                <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
+                <div className="clickable-element" onClick={() => document.getElementById('check-in').focus()}>
+                    <div className="label">Check in</div>
+                    <DatePicker
+                        selected={startDate}
+                        onChange={date => setStartDate(date)}
+                        selectsStart
+                        startDate={startDate}
+                        endDate={endDate}
+                        placeholderText="Add dates"
+                        className="date-input"
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                        id="check-in"
+                    />
+                </div>
+                <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
+                <div className="clickable-element" onClick={() => document.getElementById('check-out').focus()}>
+                    <div className="label">Check out</div>
+                    <DatePicker
+                        selected={endDate}
+                        onChange={date => setEndDate(date)}
+                        selectsEnd
+                        startDate={startDate}
+                        endDate={endDate}
+                        minDate={startDate}
+                        placeholderText="Add dates"
+                        className="date-input"
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                        id="check-out"
+                    />
+                </div>
+                <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
+                <div className="clickable-element" onClick={toggleDropdown} onFocus={handleFocus} onBlur={handleBlur}>
+                    <div className="label">Who</div>
+                    <div className="travellers">
+                        <span>Add guests</span>
+                    </div>
                     {dropdownVisible && (
                         <div className="dropdown-menu" ref={dropdownRef}>
                             <div className="dropdown-item">
                                 <span>Rooms</span>
                                 <div className="control-group">
-                                    <button onClick={(e) => {e.stopPropagation(); SetRoom(Math.max(1, room - 1));}}>-</button>
-                                    <span>{room}</span>
-                                    <button onClick={(e) => {e.stopPropagation(); SetRoom(room + 1);}}>+</button>
+                                    <button onClick={(e) => {e.stopPropagation(); setRooms(Math.max(1, rooms - 1));}}>-</button>
+                                    <span>{rooms}</span>
+                                    <button onClick={(e) => {e.stopPropagation(); setRooms(rooms + 1);}}>+</button>
                                 </div>
-
                             </div>
                             <div className="dropdown-item">
                                 <span>Adults</span>
@@ -74,34 +125,10 @@ const SearchBoxLayout = ({
                         </div>
                     )}
                 </div>
+                <button className="search-button">
+                    {inputFocused ? 'Search' : <i className="fa-solid fa-magnifying-glass"></i>}
+                </button>
             </div>
-            <div className="row">
-                <input
-                    type="text"
-                    id="input-box"
-                    className="destination-input"
-                    placeholder="Destinations"
-                    autoComplete="off"
-                    value={inputValue}
-                    onChange={handleInputChange}
-                />
-                <div className="stay-period">
-                    <span>Stay Period</span>
-                    <span>{startDate} - {endDate}</span>
-                </div>
-                <button className="search-button"> Search</button>
-            </div>
-            {suggestions.length > 0 && (
-                <div className="result-box" id="result-box">
-                    <ul>
-                        {suggestions.map((suggestion, index) => (
-                            <li key={index} onClick={() => handleSuggestionClick(suggestion.term)}>
-                                {suggestion.term}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
         </div>
     );
 };

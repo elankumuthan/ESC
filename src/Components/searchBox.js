@@ -18,11 +18,15 @@ const SearchBox = () => {
     const [inputValue, setInputValue] = useState('');
     const [guests, setGuests] = useState(1);
     const [rooms, setRooms] = useState(1);
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
     const [suggestions, setSuggestions] = useState([]);
     const [locations, setLocations] = useState([]);
     const [fuse, setFuse] = useState(null);
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [adults, setAdults] = useState(2);
+    const [children, setChildren] = useState(0);
+    const [inputFocused, setInputFocused] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -76,18 +80,22 @@ const SearchBox = () => {
         setSuggestions([]);
     };
 
-    const handleClickOutside = (event) => {
-        if (!event.target.closest('.search-box')) {
-            setSuggestions([]);
-        }
+    const toggleDropdown = () => {
+        setDropdownVisible(!dropdownVisible);
     };
 
-    useEffect(() => {
-        document.addEventListener('click', handleClickOutside);
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
-        };
-    }, []);
+    const applySelection = () => {
+        setGuests(adults + children);
+        setDropdownVisible(false);
+    };
+
+    const handleFocus = () => {
+        setInputFocused(true);
+    };
+
+    const handleBlur = () => {
+        setInputFocused(false);
+    };
 
     return (
         <SearchBoxLayout 
@@ -97,6 +105,11 @@ const SearchBox = () => {
             startDate={startDate} setStartDate={setStartDate}
             endDate={endDate} setEndDate={setEndDate}
             suggestions={suggestions} handleSuggestionClick={handleSuggestionClick}
+            dropdownVisible={dropdownVisible} toggleDropdown={toggleDropdown}
+            applySelection={applySelection} adults={adults} setAdults={setAdults}
+            children={children} setChildren={setChildren}
+            handleFocus={handleFocus} handleBlur={handleBlur}
+            inputFocused={inputFocused}
         />
     );
 };
