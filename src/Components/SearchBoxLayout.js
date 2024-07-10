@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Divider } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 const SearchBoxLayout = ({ 
     rooms, setRooms, 
@@ -57,7 +59,7 @@ const SearchBoxLayout = ({
                     )}
                 </div>
                 <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
-                <div className="clickable-element" onClick={() => document.getElementById('check-in').focus()}>
+                <div className="clickable-element check-element" onClick={() => document.getElementById('check-in').focus()}>
                     <div className="label">Check in</div>
                     <DatePicker
                         selected={startDate}
@@ -73,7 +75,7 @@ const SearchBoxLayout = ({
                     />
                 </div>
                 <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
-                <div className="clickable-element" onClick={() => document.getElementById('check-out').focus()}>
+                <div className="clickable-element check-element" onClick={() => document.getElementById('check-out').focus()}>
                     <div className="label">Check out</div>
                     <DatePicker
                         selected={endDate}
@@ -90,10 +92,10 @@ const SearchBoxLayout = ({
                     />
                 </div>
                 <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
-                <div className="clickable-element" onClick={toggleDropdown} onFocus={handleFocus} onBlur={handleBlur}>
+                <div className="clickable-element who-element" onClick={toggleDropdown} onFocus={handleFocus} onBlur={handleBlur}>
                     <div className="label">Who</div>
                     <div className="travellers">
-                        <span>Add guests</span>
+                        <span>{adults+children} Guests</span>
                     </div>
                     {dropdownVisible && (
                         <div className="dropdown-menu" ref={dropdownRef}>
@@ -126,7 +128,7 @@ const SearchBoxLayout = ({
                     )}
                 </div>
                 <button className="search-button">
-                    {inputFocused ? 'Search' : <i className="fa-solid fa-magnifying-glass"></i>}
+                    <FontAwesomeIcon icon={faMagnifyingGlass} size='s' />
                 </button>
             </div>
         </div>
