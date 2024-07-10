@@ -9,12 +9,3 @@ root.render(
     <App />
   </React.StrictMode>
 );
-
-
-/*ReactDOM.render(
-  <React.StrictMode>
-    <SearchBox />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-*/

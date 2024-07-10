@@ -5,7 +5,7 @@
     padding: 40px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: flex-start;
     gap: 12px;
     color: white;
@@ -14,7 +14,7 @@
 }
 /* Title */
 .ft-title img {
-    width: 150px; /* Adjust this value as needed */
+    width: 100px; /* Adjust this value as needed */
     height: auto; /* Maintains the aspect ratio */
     
 }
@@ -29,7 +29,7 @@
     margin: 16px 0 40px;
     color: #D0D3DA;
     font-family: 'Rubik', sans-serif;
-    font-size: 20px;
+    font-size: 15px;
     letter-spacing: .8px;
     line-height: 1.7rem;
 }
@@ -75,7 +75,7 @@
 .ft-list-title {
     margin: 16px 0;
     font-family: 'Rubik', sans-serif;
-    font-size: 24px;
+    font-size: 13px;
     font-weight: bold;
     letter-spacing: .8px;
 }
@@ -90,9 +90,9 @@
     transition: border .2s ease;
 }
 .ft-list-items li {
-    margin: 24px 0;
+    margin: 20px 0;
     font-family: 'Rubik', sans-serif;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: bold;
     letter-spacing: .8px;
 }
@@ -107,7 +107,7 @@
     align-items: center;
     color: #cbcdd3;
     font-family: 'Rubik', sans-serif;
-    font-size: 18px;
+    font-size: 10px;
     font-weight: bold;
     letter-spacing: .8px;
 }
@@ -116,21 +116,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
 }
 .ft-social-links li a {
-    width: 40px;
-    height: 40px;
+    width: 27px;
+    height: 27px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid #cbcdd3;
-    border-radius: 50%;
+    border: 1px solid #cbcdd3;
+    border-radius: 70%;
     cursor: pointer;
 }
 .ft-social-links li a svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     padding: 1px;
 }
 .ft-social-links li a svg path {
@@ -138,7 +138,7 @@
 }
 .ft-social-links li a:hover, .ft-social-links li a:hover svg path {
     fill: #1A8EFD;
-    border: 2px solid #1A8EFD;
+    border: 1px solid #1A8EFD;
 }
 /* Responsive */
 @media screen and (max-width: 700px) {
