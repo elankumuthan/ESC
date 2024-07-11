@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "../Styles/Navbar.css";
 import { Link } from "react-router-dom";
-import logo from "../Assets/Ascenda_Blue_Logo (2).jpg" 
+import logo from "../Assets/file.png"; 
 
 function Navbar() {
   const [nav, setNav] = useState(false);

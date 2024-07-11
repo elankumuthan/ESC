@@ -1,7 +1,7 @@
 import React from "react";
 import "../Styles/Footer.css";
 import { Link } from 'react-router-dom';
-import logo from "../Assets/Ascenda_Blue_Logo (2).jpg" 
+import logo from "../Assets/file.png";
 
 function Footer() {
   return (
