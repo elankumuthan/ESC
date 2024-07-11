@@ -26,14 +26,14 @@
 }
 
 .check-element {
-    flex: 1; /* Make these elements take up less space */
+    flex: 3; /* Make these elements take up less space */
 }
 
 .clickable-element {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 10px;
+    padding: 15px;
     cursor: pointer;
     transition: background-color 0.3s, border-radius 0.3s; /* Add transition for border-radius */
     position: relative; /* Ensure relative positioning for suggestion list */
@@ -42,18 +42,6 @@
 .clickable-element:hover {
     background-color: #f0f0f0;
     border-radius: 60px; /* Add border-radius on hover */
-}
-
-.clickable-element:hover + .custom-divider {
-    display: none; /* Hide the next sibling divider on hover */
-}
-
-.custom-divider {
-    transition: height 0.1s;
-}
-
-.clickable-element input {
-    cursor: pointer;
 }
 
 .label {
@@ -109,7 +97,7 @@
 }
 
 .search-button {
-    background: #ff385c;
+    background: #09184C;
     border: none;
     border-radius: 50%;
     color: white;
@@ -121,10 +109,6 @@
     justify-content: center;
     transition: background-color 0.3s;
     margin-right: 10px;
-}
-
-.search-button:hover {
-    background-color: #e31e52;
 }
 
 .dropdown-menu {
@@ -162,9 +146,9 @@
 }
 
 .control-group button, .control-group span {
-    background: #f2f2f2;
+    background: #ffffff;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 15px;
     width: 30px;
     height: 30px;
     cursor: pointer;
@@ -175,10 +159,92 @@
 }
 
 .apply-button {
-    background: #007bff;
+    background: #09184C;
     border: none;
     color: white;
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
+    margin-left: 180px;
+    width: 100px;
 }
+
+  .DateRangePickerInput {
+    border: none !important;
+    background: none !important;
+  }
+
+  .DateInput_input {
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 60px;
+    transition: box-shadow 0.2s ease-in-out; /* Smooth transition */
+  }
+  
+  .DateInput {
+    background: none !important;
+    padding: 5px !important;
+  }
+  
+  .DateInput_input {
+    background: none !important;
+    box-shadow: none !important;
+    padding: 5px !important;
+  }
+  
+  .DateInput_input:hover {
+    border-color: none;
+    box-shadow: 0 0 3px rgba(0, 123, 255, 0.5); /* Smaller shadow effect */
+  }
+  
+
+.CalendarDay__selected_span {
+    background: none; 
+    color: rgb(146, 31, 31); 
+    border: 1px solid none; 
+}
+
+.CalendarDay__selected {
+    background: #82e0aa;
+    color: white;
+}
+  
+.CalendarDay__selected:hover {
+    background: orange;
+    color: white;
+}
+  
+  
+.CalendarDay__hovered_span:hover,
+.CalendarDay__hovered_span {
+    background: brown;
+}
+
+/* Hide the default arrow */
+.DateRangePickerInput_arrow_svg {
+    display: none;
+  }
+  
+  /* Custom divider */
+  .DateRangePickerInput_arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; /* Adjust width as needed */
+    height: 100%; /* Full height of the input */
+  }
+  
+  .DateRangePickerInput_arrow:before {
+    content: '';
+    display: block;
+    width: 1px; /* Divider thickness */
+    height: 60px; /* Divider height */
+    background-color: hsl(0, 2%, 89%); /* Divider color */
+    margin: auto; /* Center the divider vertically */
+  }
+  
+  
+  
+
+  

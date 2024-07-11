@@ -1,24 +1,27 @@
-import React, { useRef, useEffect, useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useState, useRef, useEffect } from 'react';
 import { Divider } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { motion } from "framer-motion";
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+import { DateRangePicker } from 'react-dates';
+import moment from 'moment';
 
-const SearchBoxLayout = ({ 
-    rooms, setRooms, 
-    guests, setGuests, 
-    inputValue, handleInputChange, 
-    startDate, setStartDate, 
-    endDate, setEndDate, 
+const SearchBoxLayout = ({
+    rooms, setRooms,
+    guests, setGuests,
+    inputValue, handleInputChange,
+    startDate, setStartDate,
+    endDate, setEndDate,
     suggestions, handleSuggestionClick,
     dropdownVisible, toggleDropdown, applySelection, adults, setAdults, children, setChildren,
-    handleFocus, handleBlur 
+    handleFocus, handleBlur
 }) => {
     const dropdownRef = useRef(null);
     const whereInputRef = useRef(null);
-    const checkInRef = useRef(null);
-    const checkOutRef = useRef(null);
+
+    const [focusedInput, setFocusedInput] = useState(null);
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -33,6 +36,10 @@ const SearchBoxLayout = ({
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+    const handleDateFocus = (input) => {
+        setFocusedInput(input);
+    };
 
     return (
         <div className="search-box">
@@ -64,37 +71,22 @@ const SearchBoxLayout = ({
                     )}
                 </div>
                 <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
-                <div className="clickable-element check-element" onClick={() => { checkInRef.current.setFocus(); }}>
-                    <div className="label">Check in</div>
-                    <DatePicker
-                        selected={startDate}
-                        onChange={date => setStartDate(date)}
-                        selectsStart
-                        startDate={startDate}
-                        endDate={endDate}
-                        placeholderText="Add dates"
-                        className="date-input"
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
-                        ref={checkInRef}
-                    />
-                </div>
-                <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
-                <div className="clickable-element check-element" onClick={() => { checkOutRef.current.setFocus(); }}>
-                    <div className="label">Check out</div>
-                    <DatePicker
-                        selected={endDate}
-                        onChange={date => setEndDate(date)}
-                        selectsEnd
-                        startDate={startDate}
-                        endDate={endDate}
-                        minDate={startDate}
-                        placeholderText="Add dates"
-                        className="date-input"
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
-                        ref={checkOutRef}
-                    />
+                <div className="clickable-element check-element" onClick={() => handleDateFocus('startDate')}>
+                <div className="date-picker-wrapper">
+                <DateRangePicker
+                    startDate={startDate} 
+                    startDateId="start_date_id"
+                    endDate={endDate}
+                    endDateId="end_date_id"
+                    onDatesChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }}
+                    focusedInput={focusedInput}
+                    onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+                    startDatePlaceholderText="Check-in"
+                    endDatePlaceholderText="Check-out"
+                    isOutsideRange={() => false}
+                />
+            </div>
+ 
                 </div>
                 <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
                 <div className="clickable-element who-element" onClick={() => { toggleDropdown(); }}>
@@ -107,34 +99,40 @@ const SearchBoxLayout = ({
                             <div className="dropdown-item">
                                 <span>Rooms</span>
                                 <div className="control-group">
-                                    <button onClick={(e) => {e.stopPropagation(); setRooms(Math.max(1, rooms - 1));}}>-</button>
+                                    <button onClick={(e) => { e.stopPropagation(); setRooms(Math.max(1, rooms - 1)); }}>-</button>
                                     <span>{rooms}</span>
-                                    <button onClick={(e) => {e.stopPropagation(); setRooms(rooms + 1);}}>+</button>
+                                    <button onClick={(e) => { e.stopPropagation(); setRooms(rooms + 1); }}>+</button>
                                 </div>
                             </div>
                             <div className="dropdown-item">
                                 <span>Adults</span>
                                 <div className="control-group">
-                                    <button onClick={(e) => {e.stopPropagation(); setAdults(Math.max(1, adults - 1));}}>-</button>
+                                    <button onClick={(e) => { e.stopPropagation(); setAdults(Math.max(1, adults - 1)); }}>-</button>
                                     <span>{adults}</span>
-                                    <button onClick={(e) => {e.stopPropagation(); setAdults(adults + 1);}}>+</button>
+                                    <button onClick={(e) => { e.stopPropagation(); setAdults(adults + 1); }}>+</button>
                                 </div>
                             </div>
                             <div className="dropdown-item">
                                 <span>Children</span>
                                 <div className="control-group">
-                                    <button onClick={(e) => {e.stopPropagation(); setChildren(Math.max(0, children - 1));}}>-</button>
+                                    <button onClick={(e) => { e.stopPropagation(); setChildren(Math.max(0, children - 1)); }}>-</button>
                                     <span>{children}</span>
-                                    <button onClick={(e) => {e.stopPropagation(); setChildren(children + 1);}}>+</button>
+                                    <button onClick={(e) => { e.stopPropagation(); setChildren(children + 1); }}>+</button>
                                 </div>
                             </div>
-                            <button className="apply-button" onClick={applySelection}>Apply</button>
+                            <motion.button className="apply-button"
+                                whileHover={{ scale: 1.1 }}
+                                onClick={applySelection}>Apply</motion.button>
                         </div>
                     )}
                 </div>
-                <button className="search-button">
+                <motion.button className="search-button"
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => null}
+                >
                     <FontAwesomeIcon icon={faMagnifyingGlass} size='s' />
-                </button>
+                </motion.button>
             </div>
         </div>
     );
