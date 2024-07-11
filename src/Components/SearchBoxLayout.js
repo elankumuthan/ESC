@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Divider } from '@mui/material';
@@ -13,12 +13,16 @@ const SearchBoxLayout = ({
     endDate, setEndDate, 
     suggestions, handleSuggestionClick,
     dropdownVisible, toggleDropdown, applySelection, adults, setAdults, children, setChildren,
-    handleFocus, handleBlur, inputFocused 
+    handleFocus, handleBlur 
 }) => {
     const dropdownRef = useRef(null);
+    const whereInputRef = useRef(null);
+    const checkInRef = useRef(null);
+    const checkOutRef = useRef(null);
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            applySelection();
             toggleDropdown(false);
         }
     };
@@ -33,11 +37,12 @@ const SearchBoxLayout = ({
     return (
         <div className="search-box">
             <div className="row">
-                <div className="clickable-element where-element" onClick={() => document.getElementById('input-box').focus()}>
+                <div className="clickable-element where-element" onClick={() => { whereInputRef.current.focus(); }}>
                     <div className="label">Where</div>
                     <input
                         type="text"
                         id="input-box"
+                        ref={whereInputRef}
                         className="destination-input"
                         placeholder="Search destinations"
                         autoComplete="off"
@@ -59,7 +64,7 @@ const SearchBoxLayout = ({
                     )}
                 </div>
                 <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
-                <div className="clickable-element check-element" onClick={() => document.getElementById('check-in').focus()}>
+                <div className="clickable-element check-element" onClick={() => { checkInRef.current.setFocus(); }}>
                     <div className="label">Check in</div>
                     <DatePicker
                         selected={startDate}
@@ -71,11 +76,11 @@ const SearchBoxLayout = ({
                         className="date-input"
                         onFocus={handleFocus}
                         onBlur={handleBlur}
-                        id="check-in"
+                        ref={checkInRef}
                     />
                 </div>
                 <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
-                <div className="clickable-element check-element" onClick={() => document.getElementById('check-out').focus()}>
+                <div className="clickable-element check-element" onClick={() => { checkOutRef.current.setFocus(); }}>
                     <div className="label">Check out</div>
                     <DatePicker
                         selected={endDate}
@@ -88,14 +93,14 @@ const SearchBoxLayout = ({
                         className="date-input"
                         onFocus={handleFocus}
                         onBlur={handleBlur}
-                        id="check-out"
+                        ref={checkOutRef}
                     />
                 </div>
                 <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
-                <div className="clickable-element who-element" onClick={toggleDropdown} onFocus={handleFocus} onBlur={handleBlur}>
+                <div className="clickable-element who-element" onClick={() => { toggleDropdown(); }}>
                     <div className="label">Who</div>
                     <div className="travellers">
-                        <span>{adults+children} Guests</span>
+                        <span>{adults + children} Guests</span>
                     </div>
                     {dropdownVisible && (
                         <div className="dropdown-menu" ref={dropdownRef}>
