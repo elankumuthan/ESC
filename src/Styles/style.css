@@ -199,28 +199,6 @@
   }
   
 
-.CalendarDay__selected_span {
-    background: none; 
-    color: rgb(146, 31, 31); 
-    border: 1px solid none; 
-}
-
-.CalendarDay__selected {
-    background: #82e0aa;
-    color: white;
-}
-  
-.CalendarDay__selected:hover {
-    background: orange;
-    color: white;
-}
-  
-  
-.CalendarDay__hovered_span:hover,
-.CalendarDay__hovered_span {
-    background: brown;
-}
-
 /* Hide the default arrow */
 .DateRangePickerInput_arrow_svg {
     display: none;
@@ -243,7 +221,6 @@
     background-color: hsl(0, 2%, 89%); /* Divider color */
     margin: auto; /* Center the divider vertically */
   }
-  
   
   
 
