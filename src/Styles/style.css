@@ -19,10 +19,12 @@
 
 .where-element{
     flex: 3; /* Make these elements take up more space */
+    padding: 5px;
 }
 
 .who-element {
     flex: 2; /* Make these elements take up more space */
+    padding: 5px;
 }
 
 .check-element {
@@ -33,7 +35,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 15px;
     cursor: pointer;
     transition: background-color 0.3s, border-radius 0.3s; /* Add transition for border-radius */
     position: relative; /* Ensure relative positioning for suggestion list */
@@ -169,49 +170,31 @@
     width: 100px;
 }
 
-  .DateRangePickerInput {
-    border: none !important;
-    background: none !important;
-  }
 
-  .DateInput_input {
-    border: 1px solid #ccc;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 60px;
-    transition: box-shadow 0.2s ease-in-out; /* Smooth transition */
-  }
-  
-  .DateInput {
-    background: none !important;
-    padding: 5px !important;
-  }
-  
-  .DateInput_input {
-    background: none !important;
-    box-shadow: none !important;
-    padding: 5px !important;
-  }
-  
-  .DateInput_input:hover {
-    border-color: none;
-    box-shadow: 0 0 3px rgba(0, 123, 255, 0.5); /* Smaller shadow effect */
-  }
-  
+
 
 /* Hide the default arrow */
 .DateRangePickerInput_arrow_svg {
     display: none;
-  }
-  
-  /* Custom divider */
-  .DateRangePickerInput_arrow {
+}
+
+/* Custom divider */
+.DateRangePickerInput_arrow {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 20px; /* Adjust width as needed */
     height: 100%; /* Full height of the input */
-  }
+}
+
+.DateRangePickerInput_arrow:before {
+    align-items: center;
+    display: block;
+    width: 1px; /* Divider thickness */
+    height: 60px; /* Divider height */
+    background-color: hsl(0, 2%, 89%); /* Divider color */
+    margin: auto; /* Center the divider vertically */
+}
   
   .DateRangePickerInput_arrow:before {
     content: '';
