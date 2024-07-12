@@ -71,22 +71,22 @@ const SearchBoxLayout = ({
                     )}
                 </div>
                 <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
-                <div className="clickable-element check-element">
-                    <div className="date-picker-wrapper">
-                        <DateRangePicker
-                            startDate={startDate}
-                            startDateId="start_date_id"
-                            endDate={endDate}
-                            endDateId="end_date_id"
-                            onDatesChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }}
-                            focusedInput={focusedInput}
-                            onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-                            startDatePlaceholderText="Check-in"
-                            endDatePlaceholderText="Check-out"
-                            isOutsideRange={() => false}
-                            displayFormat="DD/MM/YYYY" // Format display as DD/MM/YYYY
-                        />
-                    </div>
+                <div className="clickable-element check-element" onClick={() => handleDateFocus('startDate')}>
+                <div className="date-picker-wrapper">
+                <DateRangePicker
+                    startDate={startDate} 
+                    startDateId="start_date_id"
+                    endDate={endDate}
+                    endDateId="end_date_id"
+                    onDatesChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }}
+                    focusedInput={focusedInput}
+                    onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+                    startDatePlaceholderText="Check-in"
+                    endDatePlaceholderText="Check-out"
+                    isOutsideRange={() => false}
+                />
+            </div>
+ 
                 </div>
                 <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
                 <div className="clickable-element who-element" onClick={() => { toggleDropdown(); }}>
