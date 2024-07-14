@@ -35,7 +35,7 @@ const SearchBoxLayout = ({
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [dropdownVisible]);
 
     const handleDateFocus = (input) => {
         setFocusedInput(input);
@@ -57,6 +57,17 @@ const SearchBoxLayout = ({
                         onChange={handleInputChange}
                         onFocus={handleFocus}
                         onBlur={handleBlur}
+                        style={{
+                            fontFamily: 'Poppins, sans-serif',
+                            fontSize: '16px',
+                            color: '#666',
+                            border: 'none',
+                            outline: 'none',
+                            width: '100%',
+                            background: 'none',
+                            cursor: 'pointer',
+                            paddingLeft: '20px'
+                        }}
                     />
                     {suggestions.length > 0 && (
                         <div className="suggestion-list">
@@ -72,21 +83,21 @@ const SearchBoxLayout = ({
                 </div>
                 <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
                 <div className="clickable-element check-element" onClick={() => handleDateFocus('startDate')}>
-                <div className="date-picker-wrapper">
-                <DateRangePicker
-                    startDate={startDate} 
-                    startDateId="start_date_id"
-                    endDate={endDate}
-                    endDateId="end_date_id"
-                    onDatesChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }}
-                    focusedInput={focusedInput}
-                    onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-                    startDatePlaceholderText="Check-in"
-                    endDatePlaceholderText="Check-out"
-                    isOutsideRange={() => false}
-                />
-            </div>
- 
+                    <div className="date-picker-wrapper">
+                        <DateRangePicker
+                            startDate={startDate} 
+                            startDateId="start_date_id"
+                            endDate={endDate}
+                            endDateId="end_date_id"
+                            onDatesChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }}
+                            focusedInput={focusedInput}
+                            onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+                            startDatePlaceholderText="Check-in"
+                            endDatePlaceholderText="Check-out"
+                            isOutsideRange={() => false}
+                            displayFormat="DD/MM/YYYY"
+                        />
+                    </div>
                 </div>
                 <Divider orientation="vertical" flexItem className="custom-divider" sx={{ height: '60px', margin: 'auto' }} />
                 <div className="clickable-element who-element" onClick={() => { toggleDropdown(); }}>

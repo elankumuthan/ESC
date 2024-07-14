@@ -19,16 +19,18 @@
 
 .where-element{
     flex: 3; /* Make these elements take up more space */
-    padding: 5px;
+    padding: 10px;
 }
 
 .who-element {
     flex: 2; /* Make these elements take up more space */
-    padding: 5px;
+    padding: 10px;
+    
 }
 
 .check-element {
     flex: 3; /* Make these elements take up less space */
+    padding: 4px;
 }
 
 .clickable-element {
@@ -53,9 +55,10 @@
     padding-left: 20px;
 }
 
-.destination-input, .date-input, .travellers span {
-    font-size: 16px;
-    color: #666;
+.travellers span {
+    font-family: 'Poppins'; /* Ensure the font family matches */
+    font-size: 16px; /* Adjust the font size if necessary */
+    color: #aba9a9; /* Updated to match desired color */
     border: none;
     outline: none;
     width: 100%;
@@ -170,9 +173,6 @@
     width: 100px;
 }
 
-
-
-
 .CalendarDay__selected_span {
     background: none; 
     color: rgb(146, 31, 31); 
@@ -192,7 +192,7 @@
   
 .CalendarDay__hovered_span:hover,
 .CalendarDay__hovered_span {
-    background: brown;
+    background: #a52a2a;
 }
 
 /* Hide the default arrow */
@@ -227,7 +227,18 @@
     margin: auto; /* Center the divider vertically */
   }
   
-  
-  
+/* DateRangePicker.css */
+.DateRangePicker,
+.DateRangePickerInput,
+.DateInput,
+.CalendarDay {
+    font-family: 'Poppins' !important; /* Change to your desired font */
+}
+
+.DateInput_input {
+    font-size: 16px !important; /* Change to your desired font size */
+    color: #9a9797 !important; /* Change to your desired color */
+}
+
 
   
