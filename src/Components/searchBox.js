@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Fuse from 'fuse.js';
+import moment from 'moment';
 import '../Styles/style.css';
-import SearchBoxLayout from './SearchBoxLayout';  // Ensure the correct path to the new component
-import { useSelectedCountries } from './SelectedCountries'; // Adjust the import path accordingly
+import SearchBoxLayout from './SearchBoxLayout';  
+import { useSelectedCountry } from './SelectedCountries'; 
 
 // Debounce function
 const debounce = (func, delay) => {
@@ -16,19 +17,12 @@ const debounce = (func, delay) => {
 };
 
 const SearchBox = () => {
-    const [inputValue, setInputValue] = useState('');
-    const [guests, setGuests] = useState(1);
-    const [rooms, setRooms] = useState(1);
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
     const [suggestions, setSuggestions] = useState([]);
     const [locations, setLocations] = useState([]);
     const [fuse, setFuse] = useState(null);
     const [dropdownVisible, setDropdownVisible] = useState(false);
-    const [adults, setAdults] = useState(2);
-    const [children, setChildren] = useState(0);
     const [inputFocused, setInputFocused] = useState(false);
-    const { addCountry } = useSelectedCountries(); // Use the custom hook
+    const { selectedCountry, setSelectedCountry, startDate, setStartDate, endDate, setEndDate, guests, setGuests, destinationInput, setDestinationInput } = useSelectedCountry(); // Use the custom hook
 
     useEffect(() => {
         async function fetchData() {
@@ -73,17 +67,16 @@ const SearchBox = () => {
 
     const handleInputChange = (event) => {
         const query = event.target.value.trim();
-        setInputValue(query);
+        setDestinationInput(query);
         debouncedFilterSuggestions(query);
     };
 
     const handleSuggestionClick = (term) => {
         const selectedCountry = locations.find(loc => loc.term === term);
         if (selectedCountry) {
-            addCountry(selectedCountry); // Add the selected country using the hook
-            console.log('Selected Country UID:', selectedCountry.uid)
+            setSelectedCountry(selectedCountry);
         }
-        setInputValue(term);
+        setDestinationInput(term);
         setSuggestions([]);
     };
 
@@ -92,7 +85,7 @@ const SearchBox = () => {
     };
 
     const applySelection = () => {
-        setGuests(adults + children);
+        setGuests({ ...guests });
         setDropdownVisible(false);
     };
 
@@ -104,19 +97,25 @@ const SearchBox = () => {
         setInputFocused(false);
     };
 
+    const handleSearch = () => {
+        console.log('Selected Dates:', { startDate, endDate });
+        console.log('Number of Guests:', guests);
+        console.log('Selected Country UID:', selectedCountry ? selectedCountry.uid : 'None');
+    };
+
     return (
         <SearchBoxLayout 
-            rooms={rooms} setRooms={setRooms}
-            guests={guests} setGuests={setGuests}
-            inputValue={inputValue} handleInputChange={handleInputChange}
-            startDate={startDate} setStartDate={setStartDate}
-            endDate={endDate} setEndDate={setEndDate}
+            rooms={guests.rooms} setRooms={(rooms) => setGuests({ ...guests, rooms })}
+            guests={guests.adults + guests.children} setGuests={setGuests}
+            inputValue={destinationInput} handleInputChange={handleInputChange}
+            startDate={startDate ? moment(startDate) : null} setStartDate={(date) => setStartDate(moment(date))}
+            endDate={endDate ? moment(endDate) : null} setEndDate={(date) => setEndDate(moment(date))}
             suggestions={suggestions} handleSuggestionClick={handleSuggestionClick}
             dropdownVisible={dropdownVisible} toggleDropdown={toggleDropdown}
-            applySelection={applySelection} adults={adults} setAdults={setAdults}
-            children={children} setChildren={setChildren}
+            applySelection={applySelection} adults={guests.adults} setAdults={(adults) => setGuests({ ...guests, adults })}
+            children={guests.children} setChildren={(children) => setGuests({ ...guests, children })}
             handleFocus={handleFocus} handleBlur={handleBlur}
-            inputFocused={inputFocused}
+            inputFocused={inputFocused} handleSearch={handleSearch}
         />
     );
 };

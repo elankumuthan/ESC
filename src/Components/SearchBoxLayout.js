@@ -16,7 +16,7 @@ const SearchBoxLayout = ({
     endDate, setEndDate,
     suggestions, handleSuggestionClick,
     dropdownVisible, toggleDropdown, applySelection, adults, setAdults, children, setChildren,
-    handleFocus, handleBlur
+    handleFocus, handleBlur, handleSearch
 }) => {
     const dropdownRef = useRef(null);
     const whereInputRef = useRef(null);
@@ -85,9 +85,9 @@ const SearchBoxLayout = ({
                 <div className="clickable-element check-element" onClick={() => handleDateFocus('startDate')}>
                     <div className="date-picker-wrapper">
                         <DateRangePicker
-                            startDate={startDate} 
+                            startDate={startDate ? moment(startDate) : null}
                             startDateId="start_date_id"
-                            endDate={endDate}
+                            endDate={endDate ? moment(endDate) : null}
                             endDateId="end_date_id"
                             onDatesChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }}
                             focusedInput={focusedInput}
@@ -140,7 +140,7 @@ const SearchBoxLayout = ({
                 <motion.button className="search-button"
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.9 }}
-                    onClick={() => null}
+                    onClick={handleSearch}
                 >
                     <FontAwesomeIcon icon={faMagnifyingGlass} size='s' />
                 </motion.button>

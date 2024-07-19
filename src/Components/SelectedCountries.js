@@ -1,25 +1,34 @@
-import { useState, useContext, createContext } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 
-const SelectedCountriesContext = createContext();
+const SelectedCountryContext = createContext();
 
-export const SelectedCountriesProvider = ({ children }) => {
-    const [selectedCountries, setSelectedCountries] = useState([]);
+const usePersistedState = (key, initialValue) => {
+    const [state, setState] = useState(() => {
+        const persistedState = localStorage.getItem(key);
+        return persistedState !== null ? JSON.parse(persistedState) : initialValue;
+    });
 
-    const addCountry = (country) => {
-        setSelectedCountries((prevCountries) => [...prevCountries, country]);
-    };
+    useEffect(() => {
+        localStorage.setItem(key, JSON.stringify(state));
+    }, [key, state]);
 
-    const removeCountry = (countryUid) => {
-        setSelectedCountries((prevCountries) => prevCountries.filter((c) => c.uid !== countryUid));
-    };
+    return [state, setState];
+};
+
+export const SelectedCountryProvider = ({ children }) => {
+    const [selectedCountry, setSelectedCountry] = usePersistedState('selectedCountry', null);
+    const [startDate, setStartDate] = usePersistedState('startDate', null);
+    const [endDate, setEndDate] = usePersistedState('endDate', null);
+    const [guests, setGuests] = usePersistedState('guests', { adults: 2, children: 0 });
+    const [destinationInput, setDestinationInput] = usePersistedState('destinationInput', '');
 
     return (
-        <SelectedCountriesContext.Provider value={{ selectedCountries, addCountry, removeCountry }}>
+        <SelectedCountryContext.Provider value={{ selectedCountry, setSelectedCountry, startDate, setStartDate, endDate, setEndDate, guests, setGuests, destinationInput, setDestinationInput }}>
             {children}
-        </SelectedCountriesContext.Provider>
+        </SelectedCountryContext.Provider>
     );
 };
 
-export const useSelectedCountries = () => {
-    return useContext(SelectedCountriesContext);
+export const useSelectedCountry = () => {
+    return useContext(SelectedCountryContext);
 };
