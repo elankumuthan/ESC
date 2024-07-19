@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Fuse from 'fuse.js';
 import '../Styles/style.css';
 import SearchBoxLayout from './SearchBoxLayout';  // Ensure the correct path to the new component
+import { useSelectedCountries } from './SelectedCountries'; // Adjust the import path accordingly
 
 // Debounce function
 const debounce = (func, delay) => {
@@ -27,6 +28,7 @@ const SearchBox = () => {
     const [adults, setAdults] = useState(2);
     const [children, setChildren] = useState(0);
     const [inputFocused, setInputFocused] = useState(false);
+    const { addCountry } = useSelectedCountries(); // Use the custom hook
 
     useEffect(() => {
         async function fetchData() {
@@ -76,6 +78,11 @@ const SearchBox = () => {
     };
 
     const handleSuggestionClick = (term) => {
+        const selectedCountry = locations.find(loc => loc.term === term);
+        if (selectedCountry) {
+            addCountry(selectedCountry); // Add the selected country using the hook
+            console.log('Selected Country UID:', selectedCountry.uid)
+        }
         setInputValue(term);
         setSuggestions([]);
     };
