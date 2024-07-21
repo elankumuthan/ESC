@@ -1,12 +1,20 @@
-# Getting Started with Create React App
+# Running the HotelBooking Site 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Instructions
 
-In the project directory, you can run:
+Follow these step by step guide to set up the project in your own local machine.
 
-### `npm start`
+*Note: Instruction guide is written based on a Macbook running Apple Silicon*
+
+### Installing Packages
+Run `npm i` on both client and server directory separately to install all the packages required.
+
+### Setting up MYSQL Database locally 
+1) Using *brew* to install mysql: `brew install mysql`
+2) Start mysql server from the command line: `mysql.server start`
+3) Enterring mysql commandline: `mysql -u root -p
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
