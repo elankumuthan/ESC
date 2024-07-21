@@ -142,7 +142,7 @@ const SearchBoxLayout = ({
                     whileTap={{ scale: 0.9 }}
                     onClick={handleSearch}
                 >
-                    <FontAwesomeIcon icon={faMagnifyingGlass} size='s' />
+                    <FontAwesomeIcon icon={faMagnifyingGlass} size='sm' />
                 </motion.button>
             </div>
         </div>
