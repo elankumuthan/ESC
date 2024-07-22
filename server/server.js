@@ -1,41 +1,30 @@
-//declarations
+// Declarations
 const express = require('express');
 const app = express();
 const db = require("./models");
 
-//cross origin resource sharing (CORS) for for authorized resource sharing with external third partie
+// Cross origin resource sharing (CORS) for authorized resource sharing with external third parties
 const cors = require("cors");
 
-app.use(express.json())
+app.use(express.json());
 app.use(cors());
 
-//Routing
+// Routing
 
-//test
-const testingRouter = require('./routes/tests.js')
+// Test
+const testingRouter = require('./routes/tests.js');
 app.use("/test", testingRouter);
 
-//creating booking
-const createBookinggRouter = require('./routes/bookings.js')
-app.use("/booking", createBookinggRouter);
+// Creating booking
+const createBookingRouter = require('./routes/bookings.js');
+app.use("/booking", createBookingRouter);
 
-//api
-const hotelAPIRouter = require('./routes/hotelapi.js')
+// API
+const hotelAPIRouter = require('./routes/hotelapi.js');
 app.use("/api/hotels", hotelAPIRouter);
 
-let server;
-
-db.sequelize.sync().then(() =>{
-   server = app.listen(3004, () =>{
+db.sequelize.sync().then(() => {
+    app.listen(3004, () => {
         console.log('server running on port 3004: http://localhost:3004');
     });
-
 });
-
-const shutdown = async () => {
-    if (server) {
-        await server.close();
-    }
-};
-
-module.exports = { app, shutdown };

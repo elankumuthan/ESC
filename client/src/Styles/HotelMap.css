@@ -1,0 +1,10 @@
+.map-container {
+    position: fixed;
+    width: 15.3cm;
+    height: 15cm;
+    right: 0px;
+    bottom: 0px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
