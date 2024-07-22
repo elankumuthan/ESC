@@ -23,8 +23,21 @@ app.use("/booking", createBookinggRouter);
 const hotelAPIRouter = require('./routes/hotelapi.js')
 app.use("/api/hotels", hotelAPIRouter);
 
+let server;
+
 db.sequelize.sync().then(() =>{
-    app.listen(3004, () =>{
+   server = app.listen(3004, () =>{
         console.log('server running on port 3004: http://localhost:3004');
     });
+
 });
+
+const shutdown = () => {
+    if (server) {
+        server.close(() => {
+            db.sequelize.close();
+        });
+    }
+};
+
+module.exports = { app, shutdown };

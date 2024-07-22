@@ -7,10 +7,16 @@ module.exports = (sequalize, DataTypes) => {
             firstName:{
                 type: DataTypes.STRING,
                 allowNull: false,
+                validate: {
+                    is: /^[a-zA-Z\s@#$&]*$/i // Regex to allow alphabetic characters, spaces, and special characters @, #, $, &
+                }
             },
             lastName:{
                 type: DataTypes.STRING,
                 allowNull: false,
+                validate: {
+                    is: /^[a-zA-Z\s@#$&]*$/i // Regex to allow alphabetic characters, spaces, and special characters @, #, $, &
+                }
             },
             phoneNo:{
                 type: DataTypes.STRING,
