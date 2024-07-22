@@ -13,8 +13,6 @@ function Destination() {
         <h3 className="dt-title">
           <span>Popular Destinations</span>
         </h3>
-
-
       </div>
 
       <div className="dt-cards-content">
@@ -23,24 +21,28 @@ function Destination() {
           name="Singapore"
           stars="4.9"
           reviews="1800"
+          link="/RsBU"
         />
         <DestinationCards
           img={profile2}
           name="Malaysia"
           stars="4.8"
           reviews="700"
+          link="/yI92"
         />
         <DestinationCards
           img={profile3}
           name="Japan"
           stars="4.7"
           reviews="450"
+          link="/1y34"
         />
         <DestinationCards
           img={profile4}
           name="Australia"
           stars="4.8"
           reviews="500"
+          link="/7H9O "
         />
       </div>
     </div>

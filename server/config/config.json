@@ -1,23 +1,24 @@
 {
   "development": {
     "username": "root",
-    "password": null,
+    "password": "260800",
     "database": "hotelDB",
     "host": "localhost",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": null,
+    "password": "260800",
     "database": "database_test",
     "host": "localhost",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": null,
+    "password": "260800",
     "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
 }
+
