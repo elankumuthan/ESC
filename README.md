@@ -16,6 +16,7 @@ Run `npm i` on both client and server directory separately to install all the pa
 2) Start mysql server from the command line: `mysql.server start`
 3) Enterring mysql.server from commandline: `mysql -u root -p`, just press enter with prompted pwd
 4) Creating database: `create database hotelDB;`
+5) Creating test_database: `create database database_test;`
 
 ### Running the web app
 

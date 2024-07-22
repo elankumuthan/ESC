@@ -99,16 +99,17 @@ const SearchBox = () => {
 
     const handleSearch = async () => {
 
-        //console logs are for testing purposes 
-        // console.log('Selected Dates:', { startDate, endDate });
-        // console.log('Number of Guests:', guests);
-        // console.log('Selected Country UID:', selectedCountry ? selectedCountry.uid : 'None');
+        // console logs are for testing purposes 
+        console.log('Selected Dates:', { startDate, endDate });
+        console.log('Number of Guests:', guests);
+        console.log('Selected Country UID:', selectedCountry ? selectedCountry.uid : 'None');
+    
 
         //change the date to a moment object
-        const formatDate = (date) => {
+    const formatDate = (date) => {
             if (!date) return '';
             return moment(date).isValid() ? moment(date).format('YYYY-MM-DD') : '';
-        };
+    };
 
 
     if (selectedCountry) {
