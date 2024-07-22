@@ -1,0 +1,148 @@
+/* Grid layout for hotel items */
+.hotel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 7cm);
+    gap: 1.1cm;
+    margin-left: 0.7cm;
+}
+
+/* Style for each hotel item */
+.hotel-item {
+    position: relative;
+    width: 7.5cm;
+}
+
+/* Container for image and controls */
+.image-container {
+    position: relative;
+    width: 7.5cm;
+    height: 7cm;
+    overflow: hidden;
+}
+
+/* Style for images */
+.hotel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+}
+
+/* Controls for the image slideshow */
+.slideshow-controls {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.image-container:hover .slideshow-controls {
+    opacity: 1;
+}
+
+.slideshow-controls button {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 15px;
+    transition: background-color 0.3s ease;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slideshow-controls button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.prev {
+    position: absolute;
+    left: 10px;
+}
+
+.next {
+    position: absolute;
+    right: 10px;
+}
+
+/* Style for hotel details section */
+.hotel-details {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.1cm;
+}
+
+/* Container for hotel name and rating on the same line */
+.hotel-name-rating {
+    display: flex;
+    align-items: center;
+}
+
+/* Style for hotel name */
+.hotel-name {
+    flex: 1;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Style for hotel rating */
+.hotel-rating {
+    display: flex;
+    align-items: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 16px;
+    margin-left: 1cm;
+}
+
+.star {
+    color: gold;
+    font-size: 18px;
+}
+
+/* Style for price per night */
+.price-per-night {
+    margin-top: 0.2cm;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    border: none;
+    background-color: #f1f1f1;
+    color: black;
+    padding: 10px 15px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.pagination button:hover {
+    background-color: #ddd;
+}
+
+/* In src/Destination/Pages/Hotels.css */
+.hotels-page .search-box {
+    margin-top: -115px;
+    /* Adjust this value as needed */
+}

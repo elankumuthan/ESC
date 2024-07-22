@@ -12,6 +12,14 @@ function EachHotel() {
     const { startDate, endDate, guests, destinationId } = location.state || {};
     //console.log('Received Params:', { destinationId, startDate, endDate, guests }); //for testing
 
+    const formatDate = (dateString) => {
+        const [year, month, day] = dateString.split('-');
+        return `${day}/${month}/${year}`;
+    };
+
+    const formattedStartDate = startDate ? formatDate(startDate) : 'N/A';
+    const formattedEndDate = endDate ? formatDate(endDate) : 'N/A';
+
     const initialValues = {
         firstName: "",
         lastName: "",
@@ -43,8 +51,8 @@ function EachHotel() {
         <>
             <Navbar />
             <h1>I AM A HOTEL {hid}</h1>
-            <p>Start Date: {startDate}</p>
-            <p>End Date: {endDate}</p>
+            <p>Start Date: {formattedStartDate}</p>
+            <p>End Date: {formattedEndDate}</p>
             <p>Guests: {guests ? `Adults: ${guests.adults}, Children: ${guests.children}, Rooms: ${guests.rooms}` : 'N/A'}</p>
 
             <div className="bookingHotel">
