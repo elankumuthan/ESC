@@ -73,6 +73,8 @@
 }
 
 .suggestion-list {
+    font-family: 'Poppins'; /* Ensure the font family matches */
+    font-size: 16px; /* Adjust the font size if necessary */
     position: absolute;
     top: 100%;
     left: 0;
@@ -117,6 +119,8 @@
 }
 
 .dropdown-menu {
+    font-family: 'Poppins'; /* Ensure the font family matches */
+    font-size: 16px; /* Adjust the font size if necessary */
     position: absolute;
     top: 60px;
     left: 0;
@@ -174,58 +178,20 @@
     width: 100px;
 }
 
-.CalendarDay__selected_span {
-    background: none; 
-    color: rgb(146, 31, 31); 
-    border: 1px solid none; 
-}
 
-.CalendarDay__selected {
-    background: #82e0aa;
-    color: white;
-}
-  
-.CalendarDay__selected:hover {
-    background: orange;
-    color: white;
-}
-  
-  
-.CalendarDay__hovered_span:hover,
-.CalendarDay__hovered_span {
-    background: #a52a2a;
-}
 
 /* Hide the default arrow */
 .DateRangePickerInput_arrow_svg {
     display: none;
 }
 
-/* Custom divider */
-.DateRangePickerInput_arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px; /* Adjust width as needed */
-    height: 100%; /* Full height of the input */
-}
-
-.DateRangePickerInput_arrow:before {
-    align-items: center;
-    display: block;
-    width: 1px; /* Divider thickness */
-    height: 60px; /* Divider height */
-    background-color: hsl(0, 2%, 89%); /* Divider color */
-    margin: auto; /* Center the divider vertically */
-}
-  
   .DateRangePickerInput_arrow:before {
     content: '';
     display: block;
     width: 1px; /* Divider thickness */
     height: 60px; /* Divider height */
     background-color: hsl(0, 2%, 89%); /* Divider color */
-    margin: auto; /* Center the divider vertically */
+    margin: auto; /* Center the divider vertically */;
   }
   
 /* DateRangePicker.css */
