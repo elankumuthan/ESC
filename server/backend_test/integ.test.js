@@ -5,14 +5,14 @@ const {app,shutdown} = require('../server');
 beforeAll(async () => {
     //Authenticate and sync models before tests
     await sequelize.authenticate();
-    await sequelize.sync({ force: true }); // Creates tables and resets the database
+    // Creates tables and resets the database
   });
   
   afterAll(async () => {
     //Clean up database and close connection after tests
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: true }); 
     await sequelize.close(); // Close database connection
-    shutdown(); // Shut down the server
+    await shutdown(); // Shut down the server
   });
 
 

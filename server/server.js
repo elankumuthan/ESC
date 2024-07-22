@@ -32,11 +32,9 @@ db.sequelize.sync().then(() =>{
 
 });
 
-const shutdown = () => {
+const shutdown = async () => {
     if (server) {
-        server.close(() => {
-            db.sequelize.close();
-        });
+        await server.close();
     }
 };
 
