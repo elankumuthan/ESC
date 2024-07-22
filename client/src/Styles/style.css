@@ -48,6 +48,7 @@
 }
 
 .label {
+    font-family: 'Poppins'; 
     font-weight: bold;
     font-size: 14px;
     color: #000;

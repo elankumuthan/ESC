@@ -53,6 +53,9 @@
   },
   "jest": {
     "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "/Users/elankumuthan/Desktop/ESC/client/jest.setup.js"
+    ],
     "testMatch": [
       "<rootDir>/test/**/*.test.js",
       "<rootDir>/test/**/*.spec.js",
@@ -65,7 +68,7 @@
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!(react-datepicker)/)"
+      "node_modules/(?!(axios)/)"
     ]
   },
   "babel": {
@@ -73,5 +76,12 @@
       "@babel/preset-env",
       "@babel/preset-react"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.9",
+    "@babel/preset-env": "^7.24.8",
+    "@babel/preset-react": "^7.24.7",
+    "babel-jest": "^29.7.0",
+    "jest": "^27.5.1"
   }
 }

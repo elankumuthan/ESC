@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { motion } from "framer-motion";
 import 'react-dates/initialize';
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-dates/lib/css/_datepicker.css';
 import { DateRangePicker } from 'react-dates';
 import moment from 'moment';
 
@@ -23,19 +23,19 @@ const SearchBoxLayout = ({
 
     const [focusedInput, setFocusedInput] = useState(null);
 
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            applySelection();
+            toggleDropdown(false);
+        }
+    };
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                applySelection();
-                toggleDropdown(false);
-            }
-        };
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [dropdownVisible, applySelection, toggleDropdown]);
+    }, [dropdownVisible, handleClickOutside]);
 
     const handleDateFocus = (input) => {
         setFocusedInput(input);
@@ -58,7 +58,7 @@ const SearchBoxLayout = ({
                         onFocus={handleFocus}
                         onBlur={handleBlur}
                         style={{
-                            fontFamily: 'Poppins, sans-serif',
+                            fontFamily: 'Poppins',
                             fontSize: '16px',
                             color: '#666',
                             border: 'none',
@@ -142,7 +142,7 @@ const SearchBoxLayout = ({
                     whileTap={{ scale: 0.9 }}
                     onClick={handleSearch}
                 >
-                    <FontAwesomeIcon icon={faMagnifyingGlass} size='sm' />
+                    <FontAwesomeIcon icon={faMagnifyingGlass} size='s' />
                 </motion.button>
             </div>
         </div>
