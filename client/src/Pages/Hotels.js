@@ -5,6 +5,8 @@ import HotelList from '../Components/HotelList';  // Import the HotelList compon
 import HotelMap from '../Components/HotelMap';  // Import the HotelMap component
 import RatingFilter from '../Components/RatingFilter';  // Import the RatingFilter component
 import SearchBox from '../Components/searchBox';  // Import the SearchBox component
+import Navbar from "../Components/Navbar";
+import Footer from "../Components/Footer";
 
 function Hotels() {
     const [listofHotels, setListofHotels] = useState([]);
@@ -77,16 +79,13 @@ function Hotels() {
     console.log('Hotel Prices State:', hotelPrices); // Debug state value
 
     return (
-        <div className="hotels-page" style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-            <h1>LIST OF HOTELS</h1>
-            <div style={{ padding: '10px' }}>
-                <RatingFilter selectedRating={selectedRating} onRatingChange={setSelectedRating} />
-                <div style={{ marginTop: '10px' }}>
-                    <SearchBox searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> {/* Added SearchBox component */}
-                </div>
+        <div className="hotels-page">
+            <div className="fixed-header">
+                <Navbar />
+                <SearchBox searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> {/* Added SearchBox component */}
             </div>
-            <div style={{ flex: 1, display: 'flex' }}>
-                <div style={{ flex: 1 }}>
+            <div className="content" style={{ flex: 1, display: 'flex' }}>
+                <div className="hotel-list-container" style={{ flex: 1 }}>
                     <HotelList
                         hotels={filteredHotels}
                         hotelPrices={hotelPrices} // Pass hotel prices to HotelList
@@ -96,13 +95,14 @@ function Hotels() {
                         hoveredHotelId={hoveredHotelId}
                     />
                 </div>
-                <div style={{ flex: 1 }}>
+                <div className="hotel-map-container" style={{ flex: 1 }}>
                     <HotelMap
                         hotels={filteredHotels}
                         hoveredHotelId={hoveredHotelId}
                     />
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

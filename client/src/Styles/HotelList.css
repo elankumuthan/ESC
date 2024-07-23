@@ -143,6 +143,41 @@
 
 /* In src/Destination/Pages/Hotels.css */
 .hotels-page .search-box {
-    margin-top: -115px;
+    margin-top: -80px;
     /* Adjust this value as needed */
+}
+
+/* Styles for the Hotels component */
+.hotels-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Ensure the navbar and search box stick to the top */
+.fixed-header {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+
+.content {
+    margin-top: 100px; /* Adjust this value based on the combined height of Navbar and SearchBox */
+}
+
+/* Adjust the layout for different screen sizes */
+@media (max-width: 768px) {
+    .hotels-page {
+        flex-direction: column;
+    }
+
+    .hotel-list-container,
+    .hotel-map-container {
+        flex: 1 0 auto;
+    }
 }
