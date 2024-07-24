@@ -1,12 +1,15 @@
+// Imports 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import HotelList from '../Components/HotelList';  // Import the HotelList component
 import HotelMap from '../Components/HotelMap';  // Import the HotelMap component
 import RatingFilter from '../Components/RatingFilter';  // Import the RatingFilter component
 import SearchBox from '../Components/searchBox';  // Import the SearchBox component
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+
+
 
 function Hotels() {
     const [listofHotels, setListofHotels] = useState([]);
@@ -16,17 +19,19 @@ function Hotels() {
     const [selectedRating, setSelectedRating] = useState(null); // State for selected rating
     const [searchQuery, setSearchQuery] = useState(""); // State for search query
 
-    let navigate = useNavigate(); // For navigating to other pages
     let location = useLocation(); // For getting the params from URL
 
     useEffect(() => {
+
+        //URL Parm Pharsing
         const searchParams = new URLSearchParams(location.search);
         const destinationId = searchParams.get('destination_id');
         let startDate = searchParams.get('start_date');
         let endDate = searchParams.get('end_date');
         const guests = searchParams.get('guests') ? JSON.parse(searchParams.get('guests')) : null;
 
-        console.log('Received Params:', { destinationId, startDate, endDate, guests }); // For testing
+        // For testing
+        //console.log('Received Params:', { destinationId, startDate, endDate, guests }); 
 
         // Format the dates to YYYY-MM-DD if they are not already
         const formatDate = (dateStr) => {
@@ -39,6 +44,8 @@ function Hotels() {
 
         if (startDate) startDate = formatDate(startDate);
         if (endDate) endDate = formatDate(endDate);
+
+
 
         if (destinationId) {
             // Fetch hotel data
@@ -85,7 +92,9 @@ function Hotels() {
                 <SearchBox searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> {/* Added SearchBox component */}
             </div>
             <div className="content" style={{ flex: 1, display: 'flex' }}>
-                <div className="hotel-list-container" style={{ flex: 1 }}>
+
+                {/* Hotels container */}
+                <div className="hotel-list-container" style={{ flex: 1 }} >
                     <HotelList
                         hotels={filteredHotels}
                         hotelPrices={hotelPrices} // Pass hotel prices to HotelList
@@ -95,6 +104,8 @@ function Hotels() {
                         hoveredHotelId={hoveredHotelId}
                     />
                 </div>
+
+                {/* Google Map display container */}
                 <div className="hotel-map-container" style={{ flex: 1 }}>
                     <HotelMap
                         hotels={filteredHotels}

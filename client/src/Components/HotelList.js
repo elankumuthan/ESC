@@ -1,8 +1,37 @@
+// Imports
 import React from 'react';
 import '../Styles/HotelList.css';  // Import the CSS file
+import { useNavigate, useLocation } from "react-router-dom";
 
 const HotelList = ({ hotels, hotelPrices, currentImageIndices, setCurrentImageIndices, setHoveredHotelId, hoveredHotelId }) => {
     const validHotels = Array.isArray(hotels) ? hotels : [];
+
+
+    //URL Parm Pharsing
+    let navigate = useNavigate(); // For navigating to other pages
+    let location = useLocation(); // For getting the params from URL
+    const searchParams = new URLSearchParams(location.search);
+    const destinationId = searchParams.get('destination_id');
+    let startDate = searchParams.get('start_date');
+    let endDate = searchParams.get('end_date');
+    const guests = searchParams.get('guests') ? JSON.parse(searchParams.get('guests')) : null;
+
+    console.log('Received Params:', { destinationId, startDate, endDate, guests }); // For testing
+
+    // Format the dates to YYYY-MM-DD if they are not already
+    const formatDate = (dateStr) => {
+        const date = new Date(dateStr);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    if (startDate) startDate = formatDate(startDate);
+    if (endDate) endDate = formatDate(endDate);
+
+
+
 
     const nextImage = (hotelId) => {
         const hotel = validHotels.find(hotel => hotel.id === hotelId);
@@ -32,12 +61,13 @@ const HotelList = ({ hotels, hotelPrices, currentImageIndices, setCurrentImageIn
     return (
         <div className="hotel-grid">
             {hotelsWithImages.map(hotel => (
-                <div
-                    key={hotel.id}
-                    className="hotel-item"
-                    onMouseEnter={() => setHoveredHotelId(hotel.id)}
-                    onMouseLeave={() => setHoveredHotelId(null)}
-                >
+                <div onClick={() => navigate(`/hoteldetails/${hotel.name}`, { state: { startDate: new URLSearchParams(location.search).get('start_date'), endDate: new URLSearchParams(location.search).get('end_date'), guests: JSON.parse(new URLSearchParams(location.search).get('guests')), destinationId: new URLSearchParams(location.search).get('destination_id') } })}>
+                    <div
+                        key={hotel.id}
+                        className="hotel-item"
+                        onMouseEnter={() => setHoveredHotelId(hotel.id)}
+                        onMouseLeave={() => setHoveredHotelId(null)}
+                    >
                     <div className="image-container">
                         <img
                             src={`https://d2ey9sqrvkqdfs.cloudfront.net/${hotel.id}/${currentImageIndices[hotel.id]}.jpg`}
@@ -64,27 +94,30 @@ const HotelList = ({ hotels, hotelPrices, currentImageIndices, setCurrentImageIn
                         </p>
                     </div>
                 </div>
+                </div>
             ))}
             {hotelsWithoutImages.map(hotel => (
-                <div
-                    key={hotel.id}
-                    className="hotel-item"
-                    onMouseEnter={() => setHoveredHotelId(hotel.id)}
-                    onMouseLeave={() => setHoveredHotelId(null)}
-                >
-                    <div className="hotel-details">
-                        <div className="hotel-name-rating">
-                            <h2 className="hotel-name">{hotel.name}</h2>
-                            {hotel.rating && (
-                                <div className="hotel-rating">
-                                    <span className="star">&#9733;</span>
-                                    <span>{hotel.rating}</span>
-                                </div>
-                            )}
+                <div onClick={() => navigate(`/hoteldetails/${hotel.name}`, { state: { startDate: new URLSearchParams(location.search).get('start_date'), endDate: new URLSearchParams(location.search).get('end_date'), guests: JSON.parse(new URLSearchParams(location.search).get('guests')), destinationId: new URLSearchParams(location.search).get('destination_id') } })}>
+                    <div
+                        key={hotel.id}
+                        className="hotel-item"
+                        onMouseEnter={() => setHoveredHotelId(hotel.id)}
+                        onMouseLeave={() => setHoveredHotelId(null)}
+                    >
+                        <div className="hotel-details">
+                            <div className="hotel-name-rating">
+                                <h2 className="hotel-name">{hotel.name}</h2>
+                                {hotel.rating && (
+                                    <div className="hotel-rating">
+                                        <span className="star">&#9733;</span>
+                                        <span>{hotel.rating}</span>
+                                    </div>
+                                )}
+                            </div>
+                            <p className="price-per-night">
+                                {hotelPrices[hotel.id] ? `${hotelPrices[hotel.id]} per night` : 'Price not available'}
+                            </p>
                         </div>
-                        <p className="price-per-night">
-                            {hotelPrices[hotel.id] ? `${hotelPrices[hotel.id]} per night` : 'Price not available'}
-                        </p>
                     </div>
                 </div>
             ))}
