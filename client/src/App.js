@@ -1,3 +1,4 @@
+// Desc: Main App component
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { SelectedCountryProvider } from './Components/SelectedCountries';
@@ -6,7 +7,7 @@ import './Styles/react_dates_overrides.css';
 import './App.css';
 import Home from "./Pages/Home"
 import Hotels from "./Pages/Hotels"
-import EachHotel from "./Pages/EachHotel"
+import EachHotel from "./Pages/Booking"
 
 
 

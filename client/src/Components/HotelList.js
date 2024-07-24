@@ -3,9 +3,9 @@ import React from 'react';
 import '../Styles/HotelList.css';  // Import the CSS file
 import { useNavigate, useLocation } from "react-router-dom";
 
+// Define the HotelList component
 const HotelList = ({ hotels, hotelPrices, currentImageIndices, setCurrentImageIndices, setHoveredHotelId, hoveredHotelId }) => {
     const validHotels = Array.isArray(hotels) ? hotels : [];
-
 
     //URL Parm Pharsing
     let navigate = useNavigate(); // For navigating to other pages
@@ -16,7 +16,8 @@ const HotelList = ({ hotels, hotelPrices, currentImageIndices, setCurrentImageIn
     let endDate = searchParams.get('end_date');
     const guests = searchParams.get('guests') ? JSON.parse(searchParams.get('guests')) : null;
 
-    console.log('Received Params:', { destinationId, startDate, endDate, guests }); // For testing
+    // For testing
+    console.log('Received Params:', { destinationId, startDate, endDate, guests }); 
 
     // Format the dates to YYYY-MM-DD if they are not already
     const formatDate = (dateStr) => {
@@ -27,12 +28,12 @@ const HotelList = ({ hotels, hotelPrices, currentImageIndices, setCurrentImageIn
         return `${year}-${month}-${day}`;
     };
 
+    //Formating the dates
     if (startDate) startDate = formatDate(startDate);
     if (endDate) endDate = formatDate(endDate);
 
 
-
-
+    //Image Handling 
     const nextImage = (hotelId) => {
         const hotel = validHotels.find(hotel => hotel.id === hotelId);
         if (hotel) {
@@ -58,10 +59,11 @@ const HotelList = ({ hotels, hotelPrices, currentImageIndices, setCurrentImageIn
     const hotelsWithImages = validHotels.filter(hotel => hotel.image_details.count > 0);
     const hotelsWithoutImages = validHotels.filter(hotel => hotel.image_details.count === 0);
 
+    // Return the JSX for the List of Hotels in Grid format
     return (
         <div className="hotel-grid">
             {hotelsWithImages.map(hotel => (
-                <div onClick={() => navigate(`/hoteldetails/${hotel.name}`, { state: { startDate: new URLSearchParams(location.search).get('start_date'), endDate: new URLSearchParams(location.search).get('end_date'), guests: JSON.parse(new URLSearchParams(location.search).get('guests')), destinationId: new URLSearchParams(location.search).get('destination_id') } })}>
+                <div onClick={() => navigate(`/hoteldetails/${hotel.id}`, { state: { startDate: new URLSearchParams(location.search).get('start_date'), endDate: new URLSearchParams(location.search).get('end_date'), guests: JSON.parse(new URLSearchParams(location.search).get('guests')), destinationId: new URLSearchParams(location.search).get('destination_id'), hotelName: hotel.name } })}>
                     <div
                         key={hotel.id}
                         className="hotel-item"
@@ -97,7 +99,7 @@ const HotelList = ({ hotels, hotelPrices, currentImageIndices, setCurrentImageIn
                 </div>
             ))}
             {hotelsWithoutImages.map(hotel => (
-                <div onClick={() => navigate(`/hoteldetails/${hotel.name}`, { state: { startDate: new URLSearchParams(location.search).get('start_date'), endDate: new URLSearchParams(location.search).get('end_date'), guests: JSON.parse(new URLSearchParams(location.search).get('guests')), destinationId: new URLSearchParams(location.search).get('destination_id') } })}>
+                <div onClick={() => navigate(`/hoteldetails/${hotel.id}`, { state: { startDate: new URLSearchParams(location.search).get('start_date'), endDate: new URLSearchParams(location.search).get('end_date'), guests: JSON.parse(new URLSearchParams(location.search).get('guests')), destinationId: new URLSearchParams(location.search).get('destination_id') } })}>
                     <div
                         key={hotel.id}
                         className="hotel-item"

@@ -1,3 +1,4 @@
+//Desc: This file contains the routes for the bookings table
 const express = require("express");
 const router=require("express").Router();
 const {booking} = require("../models") //booking refers to the table name 
@@ -15,6 +16,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+//Get request to the bookings endpoint
 router.get("/", async (req, res) => {
     try {
         const listofbookings = await booking.findAll();
@@ -25,11 +27,12 @@ router.get("/", async (req, res) => {
     }
 });
 
-
+//Post request to store the booking details in the database
 router.post("/", async (req, res) => {
     try {
+        //Creating a new booking entry in the database
         const booking_req = req.body; // the JSON format is called body
-        const newBooking = await booking.create(booking_req); // creating the booking
+        const newBooking = await booking.create(booking_req); //INSERT INTO bookings VALUES (booking_req)
 
         // Prepare the email content
         const mailOptions = {

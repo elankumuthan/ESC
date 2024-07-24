@@ -1,3 +1,4 @@
+// Desc: Page for booking a hotel
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
@@ -11,7 +12,7 @@ function EachHotel() {
     let location = useLocation();
     let navigate = useNavigate();
 
-    const { startDate, endDate, guests, destinationId } = location.state || {};
+    const { startDate, endDate, guests, destinationId, hotelName } = location.state || {};
     //console.log('Received Params:', { destinationId, startDate, endDate, guests }); //for testing
 
     const personal_details = {
@@ -51,7 +52,7 @@ function EachHotel() {
         <Navbar />
         <div className="hotel-header">
             <h1>Hotel Booking</h1>
-            <p>Hotel ID: {hid}</p>
+            <p>Hotel Name: {hotelName}</p>
             <p>Start Date: {startDate}</p>
             <p>End Date: {endDate}</p>
             <p>Guests: {guests ? `Adults: ${guests.adults}, Children: ${guests.children}, Rooms: ${guests.rooms}` : 'N/A'}</p>

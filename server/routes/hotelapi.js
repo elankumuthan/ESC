@@ -1,11 +1,15 @@
+// Desc: This file contains the route for the hotelapi endpoint
 const express = require("express");
 const router=require("express").Router();
 
 
+//Get request to the hotelapi endpoint
 router.get("/", async (req, res) => {
+    
     //receiving the destID from the front end
     const destinationId = req.query.destination_id;
-
+    
+    //fetching the data from the Ascenda's endpoint --> hotel list based on the destination ID
     try {
         const response = await fetch(`https://hotelapi.loyalty.dev/api/hotels?destination_id=${destinationId}`);//query the Ascenda's endpoint 
         const text = await response.text(); // Get the response as text

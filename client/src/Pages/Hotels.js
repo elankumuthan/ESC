@@ -1,4 +1,4 @@
-// Imports 
+// Desc: Hotels page component
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
@@ -9,8 +9,7 @@ import SearchBox from '../Components/searchBox';  // Import the SearchBox compon
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 
-
-
+// Define the Hotel component
 function Hotels() {
     const [listofHotels, setListofHotels] = useState([]);
     const [hotelPrices, setHotelPrices] = useState({});
@@ -22,7 +21,6 @@ function Hotels() {
     let location = useLocation(); // For getting the params from URL
 
     useEffect(() => {
-
         //URL Parm Pharsing
         const searchParams = new URLSearchParams(location.search);
         const destinationId = searchParams.get('destination_id');
@@ -42,13 +40,14 @@ function Hotels() {
             return `${year}-${month}-${day}`;
         };
 
+        //Formating the dates
         if (startDate) startDate = formatDate(startDate);
         if (endDate) endDate = formatDate(endDate);
 
 
-
+        //Fetch list of hotels depending on the destinationID
         if (destinationId) {
-            // Fetch hotel data
+            // Fetch hotel data from backend
             axios.get(`http://localhost:3004/api/hotels?destination_id=${destinationId}`)
                 .then((response) => {
                     const hotels = response.data;

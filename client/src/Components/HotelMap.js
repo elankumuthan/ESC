@@ -1,24 +1,26 @@
+//Imports
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 import React, { useEffect, useState } from "react";
 import '../Styles/HotelMap.css';
 import '../Styles/LoadingSpinner.css'; // Import the loading spinner CSS
 
+
 const libraries = ['places']; // Include libraries if needed
 
+// Define the HotelMap component
 const HotelMap = ({ hotels, hoveredHotelId }) => {
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: 'AIzaSyAkEAiHZLnlGMPNLjLw-VwNkocnxQ2mTLs', // Replace with your API key
         libraries,
     });
 
+    // State for loading spinner
     const [loading, setLoading] = useState(true);
-
     useEffect(() => {
         if (hotels && hotels.length > 0) {
             setLoading(false);
         }
     }, [hotels]);
-
     if (loadError) return <div>Error loading map</div>;
     if (!isLoaded || loading) {
         return (
