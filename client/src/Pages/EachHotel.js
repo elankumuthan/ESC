@@ -1,26 +1,20 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as Yup from 'yup';
 import Navbar from "../Components/Navbar";
+import '../Styles/bookingform.css'; 
 
 function EachHotel() {
     let { hid } = useParams();
     let location = useLocation();
+    let navigate = useNavigate();
 
     const { startDate, endDate, guests, destinationId } = location.state || {};
     //console.log('Received Params:', { destinationId, startDate, endDate, guests }); //for testing
 
-    const formatDate = (dateString) => {
-        const [year, month, day] = dateString.split('-');
-        return `${day}/${month}/${year}`;
-    };
-
-    const formattedStartDate = startDate ? formatDate(startDate) : 'N/A';
-    const formattedEndDate = endDate ? formatDate(endDate) : 'N/A';
-
-    const initialValues = {
+    const personal_details = {
         firstName: "",
         lastName: "",
         phoneNo: "",
@@ -40,52 +34,67 @@ function EachHotel() {
         destID: Yup.string().required('Required')
     });
 
-    const onSubmit = (data) => {
+    const updateDB = (data) => {
         axios.post("http://localhost:3004/booking", data)
             .then((response) => {
-                console.log("Data's Added!!!");
+                console.log(`Data added! ${personal_details}`);
+                //redirection
+                navigate("/confirmation");
+            })
+            .catch((error) => {
+                console.error('There was an error booking the hotel!', error);
             });
     };
 
     return (
         <>
-            <Navbar />
-            <h1>I AM A HOTEL {hid}</h1>
-            <p>Start Date: {formattedStartDate}</p>
-            <p>End Date: {formattedEndDate}</p>
+        <Navbar />
+        <div className="hotel-header">
+            <h1>Hotel Booking</h1>
+            <p>Hotel ID: {hid}</p>
+            <p>Start Date: {startDate}</p>
+            <p>End Date: {endDate}</p>
             <p>Guests: {guests ? `Adults: ${guests.adults}, Children: ${guests.children}, Rooms: ${guests.rooms}` : 'N/A'}</p>
+        </div>
 
-            <div className="bookingHotel">
-                <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-                    <Form>
-                        <label htmlFor="infirstName">First Name:</label><br />
-                        <ErrorMessage name="firstName" component="span" style={{ color: "red" }} /><br />
-                        <Field id="infirstName" name="firstName" placeholder="John" /><br />
+        <div className="booking-form">
+            <Formik initialValues={personal_details} onSubmit={updateDB} validationSchema={validationSchema}>
+                <Form>
+                    <div className="form-group">
+                        <label htmlFor="infirstName">First Name</label>
+                        <Field id="infirstName" name="firstName" placeholder="John" className="form-field" />
+                        <ErrorMessage name="firstName" component="div" className="error-message" />
+                    </div>
 
-                        <label htmlFor="inlastName">Last Name:</label><br />
-                        <ErrorMessage name="lastName" component="span" style={{ color: "red" }} /><br />
-                        <Field id="inlastName" name="lastName" placeholder="Doe" /><br />
+                    <div className="form-group">
+                        <label htmlFor="inlastName">Last Name</label>
+                        <Field id="inlastName" name="lastName" placeholder="Doe" className="form-field" />
+                        <ErrorMessage name="lastName" component="div" className="error-message" />
+                    </div>
 
-                        <label htmlFor="inphoneNo">Phone Number</label><br />
-                        <ErrorMessage name="phoneNo" component="span" style={{ color: "red" }} /><br />
-                        <Field id="inphoneNo" name="phoneNo" placeholder="+65 85848392" /><br />
+                    <div className="form-group">
+                        <label htmlFor="inphoneNo">Phone Number</label>
+                        <Field id="inphoneNo" name="phoneNo" placeholder="+65 85848392" className="form-field" />
+                        <ErrorMessage name="phoneNo" component="div" className="error-message" />
+                    </div>
 
-                        <label htmlFor="inemail">Email:</label><br />
-                        <ErrorMessage name="email" component="span" style={{ color: "red" }} /><br />
-                        <Field id="inemail" name="email" placeholder="abc@mail.com" /><br />
+                    <div className="form-group">
+                        <label htmlFor="inemail">Email</label>
+                        <Field id="inemail" name="email" placeholder="abc@mail.com" className="form-field" />
+                        <ErrorMessage name="email" component="div" className="error-message" />
+                    </div>
 
-                        <label htmlFor="inspecial_req">Special Requests</label><br />
-                        <ErrorMessage name="special_req" component="span" style={{ color: "red" }} /><br />
-                        <Field id="inspecial_req" name="special_req" placeholder="Green Bed sheets" /><br />
+                    <div className="form-group">
+                        <label htmlFor="inspecial_req">Special Requests</label>
+                        <Field id="inspecial_req" name="special_req" placeholder="Green Bed sheets" className="form-field" />
+                        <ErrorMessage name="special_req" component="div" className="error-message" />
+                    </div>
 
-                        <Field id="hotelID" name="hotelID" hidden />
-                        <Field id="destID" name="destID" hidden /><br />
-
-                        <button type="submit">Confirm Booking</button>
-                    </Form>
-                </Formik>
-            </div>
-        </>
+                    <button type="submit" className="submit-button">Confirm Booking</button>
+                </Form>
+            </Formik>
+        </div>
+    </>
     );
 }
 
