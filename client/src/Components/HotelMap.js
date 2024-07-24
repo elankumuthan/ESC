@@ -1,6 +1,7 @@
-import React from 'react';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
+import React, { useEffect, useState } from "react";
 import '../Styles/HotelMap.css';
+import '../Styles/LoadingSpinner.css'; // Import the loading spinner CSS
 
 const libraries = ['places']; // Include libraries if needed
 
@@ -10,8 +11,24 @@ const HotelMap = ({ hotels, hoveredHotelId }) => {
         libraries,
     });
 
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (hotels && hotels.length > 0) {
+            setLoading(false);
+        }
+    }, [hotels]);
+
     if (loadError) return <div>Error loading map</div>;
-    if (!isLoaded) return <div>Loading...</div>;
+    if (!isLoaded || loading) {
+        return (
+            <div className="spinner">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        );
+    }
 
     const createMarkerIcon = (color, size) => {
         const svgMarker = `
@@ -24,10 +41,6 @@ const HotelMap = ({ hotels, hoveredHotelId }) => {
             anchor: new window.google.maps.Point(size.width / 2, size.height / 2)
         };
     };
-
-    if (!hotels || hotels.length === 0) {
-        return <div>No hotels available</div>;
-    }
 
     return (
         <div className="map-container">
