@@ -42,7 +42,22 @@ router.post("/", async (req, res) => {
             },
             to: booking_req.email,
             subject: 'Booking Confirmation',
-            text: `Dear ${booking_req.firstName},\n\nYour booking has been confirmed!\n\nDetails:\nHotel ID: ${booking_req.hotelID}\nDestination ID: ${booking_req.destID}\n\nThank you for booking with us.\n\nBest regards,\nYour Company Name`
+            html: `
+                <div style="font-family: Arial, sans-serif; color: #333;">
+                    <h2>Your receipt from HotelBooking</h2>
+                    <p>Receipt ID: ${newBooking.id} &middot; ${new Date().toLocaleDateString()}</p>
+                    <h3>Booking Confirmation</h3>
+                    <p>Dear ${booking_req.firstName} ${booking_req.lastName},</p>
+                    <p>Thank you for booking with us. Here are your booking details:</p>
+                    <ul>
+                        <li>Hotel ID: ${booking_req.hotelID}</li>
+                        <li>Destination ID: ${booking_req.destID}</li>
+                        <li>Special Requests: ${booking_req.special_req}</li>
+                    </ul>
+                    <p>We look forward to hosting you!</p>
+                    <p>Best regards,<br>Your Company Name</p>
+                </div>
+            `
         };
 
         // Send the email

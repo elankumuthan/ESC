@@ -4,7 +4,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import HotelList from '../Components/HotelList';  // Import the HotelList component
 import HotelMap from '../Components/HotelMap';  // Import the HotelMap component
-import RatingFilter from '../Components/RatingFilter';  // Import the RatingFilter component
+//import RatingFilter from '../Components/RatingFilter';  // Import the RatingFilter component
 import SearchBox from '../Components/searchBox';  // Import the SearchBox component
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
@@ -63,12 +63,12 @@ function Hotels() {
             // Fetch hotel prices
             axios.get(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${destinationId}&checkin=${startDate}&checkout=${endDate}&lang=en_US&currency=SGD&country_code=SG&guests=${guests}&partner_id=1`)
                 .then((response) => {
-                    console.log('API Response:', response.data); // Debug API response
+                    //console.log('API Response:', response.data); // Debug API response
                     const prices = response.data.hotels.reduce((acc, hotel) => {
                         acc[hotel.id] = hotel.price;  // Extract the price from the API response
                         return acc;
                     }, {});
-                    console.log('Prices:', prices); // Debug extracted prices
+                    //console.log('Prices:', prices); // Debug extracted prices
                     setHotelPrices(prices);
                 })
                 .catch(error => console.error("Error fetching hotel prices:", error));
@@ -82,7 +82,7 @@ function Hotels() {
         return matchesRating && matchesSearchQuery;
     });
 
-    console.log('Hotel Prices State:', hotelPrices); // Debug state value
+    //console.log('Hotel Prices State:', hotelPrices); // Debug state value
 
     return (
         <div className="hotels-page">

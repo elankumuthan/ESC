@@ -8,6 +8,7 @@ import './App.css';
 import Home from "./Pages/Home"
 import Hotels from "./Pages/Hotels"
 import EachHotel from "./Pages/Booking"
+import Confirmation from "./Pages/Confirmed"
 
 
 
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/hotels" element={<Hotels />} />
             <Route path="/hoteldetails/:hid" element={<EachHotel/>} />
+            <Route path="/confirmation" element={<Confirmation/>} />
           </Routes>
         </Router>
       </SelectedCountryProvider>

@@ -1,5 +1,5 @@
 // Desc: Page for booking a hotel
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -14,6 +14,8 @@ function EachHotel() {
 
     const { startDate, endDate, guests, destinationId, hotelName } = location.state || {};
     //console.log('Received Params:', { destinationId, startDate, endDate, guests }); //for testing
+
+    const [loading, setLoading] = useState(false); // Add a loading state
 
     const personal_details = {
         firstName: "",
@@ -38,7 +40,7 @@ function EachHotel() {
     const updateDB = (data) => {
         axios.post("http://localhost:3004/booking", data)
             .then((response) => {
-                console.log(`Data added! ${personal_details}`);
+                console.log(`Data added! Response: ${response.data}`);
                 //redirection
                 navigate("/confirmation");
             })
@@ -95,6 +97,15 @@ function EachHotel() {
                 </Form>
             </Formik>
         </div>
+        
+        {/* Loading screen */}
+        {loading && (
+                <div className="loading-screen">
+                    <div className="loading-spinner"></div>
+                    <p>Confirming your reservation...</p>
+                </div>
+            )}
+
     </>
     );
 }
