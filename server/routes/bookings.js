@@ -55,7 +55,7 @@ router.post("/", async (req, res) => {
                         <li>Special Requests: ${booking_req.special_req}</li>
                     </ul>
                     <p>We look forward to hosting you!</p>
-                    <p>Best regards,<br>Your Company Name</p>
+                    <p>Best regards,<br>HotelBooking.com</p>
                 </div>
             `
         };

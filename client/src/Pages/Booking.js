@@ -1,4 +1,3 @@
-// Desc: Page for booking a hotel
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
@@ -13,7 +12,6 @@ function EachHotel() {
     let navigate = useNavigate();
 
     const { startDate, endDate, guests, destinationId, hotelName } = location.state || {};
-    //console.log('Received Params:', { destinationId, startDate, endDate, guests }); //for testing
 
     const [loading, setLoading] = useState(false); // Add a loading state
 
@@ -38,75 +36,77 @@ function EachHotel() {
     });
 
     const updateDB = (data) => {
+        setLoading(true); // Set loading state to true
         axios.post("http://localhost:3004/booking", data)
             .then((response) => {
                 console.log(`Data added! Response: ${response.data}`);
-                //redirection
+                setLoading(false); // Set loading state to false
                 navigate("/confirmation");
             })
             .catch((error) => {
                 console.error('There was an error booking the hotel!', error);
+                setLoading(false); // Set loading state to false
             });
     };
 
     return (
         <>
-        <Navbar />
-        <div className="hotel-header">
-            <h1>Hotel Booking</h1>
-            <p>Hotel Name: {hotelName}</p>
-            <p>Start Date: {startDate}</p>
-            <p>End Date: {endDate}</p>
-            <p>Guests: {guests ? `Adults: ${guests.adults}, Children: ${guests.children}, Rooms: ${guests.rooms}` : 'N/A'}</p>
-        </div>
+            <Navbar />
+            <div className="hotel-header">
+                <h1>Hotel Booking</h1>
+                <p>Hotel Name: {hotelName}</p>
+                <p>Start Date: {startDate}</p>
+                <p>End Date: {endDate}</p>
+                <p>Guests: {guests ? `Adults: ${guests.adults}, Children: ${guests.children}, Rooms: ${guests.rooms}` : 'N/A'}</p>
+            </div>
 
-        <div className="booking-form">
-            <Formik initialValues={personal_details} onSubmit={updateDB} validationSchema={validationSchema}>
-                <Form>
-                    <div className="form-group">
-                        <label htmlFor="infirstName">First Name</label>
-                        <Field id="infirstName" name="firstName" placeholder="John" className="form-field" />
-                        <ErrorMessage name="firstName" component="div" className="error-message" />
-                    </div>
+            <div className="booking-form">
+                <Formik initialValues={personal_details} onSubmit={updateDB} validationSchema={validationSchema}>
+                    <Form>
+                        <div className="form-group">
+                            <label htmlFor="infirstName">First Name</label>
+                            <Field id="infirstName" name="firstName" placeholder="John" className="form-field" />
+                            <ErrorMessage name="firstName" component="div" className="error-message" />
+                        </div>
 
-                    <div className="form-group">
-                        <label htmlFor="inlastName">Last Name</label>
-                        <Field id="inlastName" name="lastName" placeholder="Doe" className="form-field" />
-                        <ErrorMessage name="lastName" component="div" className="error-message" />
-                    </div>
+                        <div className="form-group">
+                            <label htmlFor="inlastName">Last Name</label>
+                            <Field id="inlastName" name="lastName" placeholder="Doe" className="form-field" />
+                            <ErrorMessage name="lastName" component="div" className="error-message" />
+                        </div>
 
-                    <div className="form-group">
-                        <label htmlFor="inphoneNo">Phone Number</label>
-                        <Field id="inphoneNo" name="phoneNo" placeholder="+65 85848392" className="form-field" />
-                        <ErrorMessage name="phoneNo" component="div" className="error-message" />
-                    </div>
+                        <div className="form-group">
+                            <label htmlFor="inphoneNo">Phone Number</label>
+                            <Field id="inphoneNo" name="phoneNo" placeholder="+65 85848392" className="form-field" />
+                            <ErrorMessage name="phoneNo" component="div" className="error-message" />
+                        </div>
 
-                    <div className="form-group">
-                        <label htmlFor="inemail">Email</label>
-                        <Field id="inemail" name="email" placeholder="abc@mail.com" className="form-field" />
-                        <ErrorMessage name="email" component="div" className="error-message" />
-                    </div>
+                        <div className="form-group">
+                            <label htmlFor="inemail">Email</label>
+                            <Field id="inemail" name="email" placeholder="abc@mail.com" className="form-field" />
+                            <ErrorMessage name="email" component="div" className="error-message" />
+                        </div>
 
-                    <div className="form-group">
-                        <label htmlFor="inspecial_req">Special Requests</label>
-                        <Field id="inspecial_req" name="special_req" placeholder="Green Bed sheets" className="form-field" />
-                        <ErrorMessage name="special_req" component="div" className="error-message" />
-                    </div>
+                        <div className="form-group">
+                            <label htmlFor="inspecial_req">Special Requests</label>
+                            <Field id="inspecial_req" name="special_req" placeholder="Green Bed sheets" className="form-field" />
+                            <ErrorMessage name="special_req" component="div" className="error-message" />
+                        </div>
 
-                    <button type="submit" className="submit-button">Confirm Booking</button>
-                </Form>
-            </Formik>
-        </div>
-        
-        {/* Loading screen */}
-        {loading && (
+                        <button type="submit" className="submit-button" disabled={loading}>
+                            {loading ? 'Confirming your reservation...' : 'Confirm Booking'}
+                        </button>
+                    </Form>
+                </Formik>
+            </div>
+
+            {loading && (
                 <div className="loading-screen">
                     <div className="loading-spinner"></div>
                     <p>Confirming your reservation...</p>
                 </div>
             )}
-
-    </>
+        </>
     );
 }
 
