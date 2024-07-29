@@ -4,6 +4,9 @@ const router=require("express").Router();
 const {booking} = require("../models") //booking refers to the table name 
 const nodemailer = require('nodemailer');
 
+//stripe 
+const stripe = require('stripe')('sk_test_51PVRhkBQYdvRSbbU9Y9xlRheqP1XPfW6CizK8QNLhFe0aMzeUCDyH1BWo5MZQZC9PK8v6akTVcBlJ25rccSyX1FQ00Zfwqb9cb');
+
 // Nodemailer configuration
 const transporter = nodemailer.createTransport({
     service: 'Gmail', 
@@ -60,6 +63,7 @@ router.post("/", async (req, res) => {
             `
         };
 
+    
         // Send the email
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
@@ -76,4 +80,18 @@ router.post("/", async (req, res) => {
     }
 });
 
+//stripe getting clientSecret to handle paymentIntent( for a single transaction object )
+router.post('/checkout', async function(req,res,next){
+
+    const paymentIntent=await stripe.paymentIntents.create({
+        currency:"sgd",
+        amount:2000,//put this first based on actual hotel price
+        automatic_payment_methods:{
+            enabled:true,
+        },
+    });
+
+    res.send({clientSecret:paymentIntent.client_secret});
+  
+  });
 module.exports = router;
