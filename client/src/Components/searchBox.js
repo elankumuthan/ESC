@@ -1,3 +1,4 @@
+// SearchBox.js
 import React, { useState, useEffect, useCallback } from 'react';
 import Fuse from 'fuse.js';
 import moment from 'moment';
@@ -14,6 +15,7 @@ const SearchBox = () => {
     const [inputFocused, setInputFocused] = useState(false);
     const { selectedCountry, setSelectedCountry, startDate, setStartDate, endDate, setEndDate, guests, setGuests, destinationInput, setDestinationInput } = useSelectedCountry(); // Use the custom hook
     const navigate = useNavigate();
+
     useEffect(() => {
         async function fetchData() {
             try {
@@ -98,37 +100,33 @@ const SearchBox = () => {
     };
 
     const handleSearch = async () => {
-
         // console logs are for testing purposes 
         console.log('Selected Dates:', { startDate, endDate });
         console.log('Number of Guests:', guests);
         console.log('Selected Country UID:', selectedCountry ? selectedCountry.uid : 'None');
-    
 
         //change the date to a moment object
-    const formatDate = (date) => {
+        const formatDate = (date) => {
             if (!date) return '';
             return moment(date).isValid() ? moment(date).format('YYYY-MM-DD') : '';
-    };
+        };
 
+        if (selectedCountry) {
+            try {
+                //parsing the parms into a format
+                const searchParams = new URLSearchParams({
+                    destination_id: selectedCountry.uid,
+                    start_date: formatDate(startDate),
+                    end_date: formatDate(endDate),
+                    guests: JSON.stringify(guests)
+                });
 
-    if (selectedCountry) {
-
-        try {
-            //parsing the parms into a format
-            const searchParams = new URLSearchParams({
-                destination_id: selectedCountry.uid,
-                start_date: formatDate(startDate),
-                end_date: formatDate(endDate),
-                guests: JSON.stringify(guests)
-            });
-
-            // Redirect to /hotels page with the query parameters
-            navigate(`/hotels?${searchParams.toString()}`);
-        } catch (error) {
-            console.error('Error during redirection:', error);
+                // Redirect to /hotels page with the query parameters
+                navigate(`/hotels?${searchParams.toString()}`);
+            } catch (error) {
+                console.error('Error during redirection:', error);
+            }
         }
-    }
     };
 
     return (
