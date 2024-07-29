@@ -1,26 +1,22 @@
-// Declarations
 const express = require('express');
 const app = express();
-const db = require("./models");
+const cors = require('cors');
+const db = require("./models"); // Assuming you have Sequelize models set up
 
-// Cross origin resource sharing (CORS) for authorized resource sharing with external third parties
-const cors = require("cors");
-
-// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Routing
-
-// Creating booking
+// Import routes
 const createBookingRouter = require('./routes/bookings.js');
-app.use("/booking", createBookingRouter);
-
-// API to call for hotel data
 const hotelAPIRouter = require('./routes/hotelapi.js');
-app.use("/api/hotels", hotelAPIRouter);
+const hotelPricesRouter = require('./routes/hotelPrices.js');
 
-// Syncing the database and starting the server
+// Use routes
+app.use("/booking", createBookingRouter);
+app.use("/api/hotels", hotelAPIRouter);
+app.use("/api", hotelPricesRouter); // Ensure the base route is /api
+
+// Sync database and start server
 db.sequelize.sync().then(() => {
     app.listen(3004, () => {
         console.log('server running on port 3004: http://localhost:3004');

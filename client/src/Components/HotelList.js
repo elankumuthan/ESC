@@ -64,6 +64,15 @@ const HotelList = ({ hotels, hotelPrices, currentImageIndices, setCurrentImageIn
         return selectedRating ? hotel.rating === selectedRating : true;
     });
 
+    // Sort filtered hotels by price availability
+    const sortedHotels = filteredHotels.sort((a, b) => {
+        const priceA = hotelPrices[a.id];
+        const priceB = hotelPrices[b.id];
+        if (priceA && !priceB) return -1; // Hotels with prices first
+        if (!priceA && priceB) return 1;  // Hotels without prices last
+        return 0; // Preserve original order if both have or don't have prices
+    });
+
     // Reset pagination when filter changes
     useEffect(() => {
         setCurrentPage(1);
@@ -73,54 +82,56 @@ const HotelList = ({ hotels, hotelPrices, currentImageIndices, setCurrentImageIn
     const startIndex = (currentPage - 1) * hotelsPerPage;
     const endIndex = startIndex + hotelsPerPage;
 
-    // Paginate the filtered hotels
-    const paginatedHotels = filteredHotels.slice(startIndex, endIndex);
+    // Paginate the sorted hotels
+    const paginatedHotels = sortedHotels.slice(startIndex, endIndex);
 
     // Determine if pagination should be shown
-    const shouldShowPagination = filteredHotels.length > hotelsPerPage;
+    const shouldShowPagination = sortedHotels.length > hotelsPerPage;
 
     // Handle page changes
     const handlePageChange = (event, newPage) => {
-        if (newPage >= 1 && newPage <= Math.ceil(filteredHotels.length / hotelsPerPage)) {
-            setCurrentPage(newPage);
-        }
+        setCurrentPage(newPage);
     };
 
-    const handleHotelClick = (hotelId, hotelName) => {
-        navigate(`/hoteldetails`, {
-            state: {
-                hotelId,
-                startDate,
-                endDate,
-                guests,
-                destinationId,
-                hotelName
-            }
-        });
+    const handleHotelClick = (event, hotelId, hotelName) => {
+        if (event.target.className.includes('hotel-image')) {
+            navigate(`/hoteldetails`, {
+                state: {
+                    hotelId,
+                    startDate,
+                    endDate,
+                    guests,
+                    destinationId,
+                    hotelName
+                }
+            });
+        }
     };
 
     return (
         <div>
             <FilterComponent selectedRating={selectedRating} setSelectedRating={setSelectedRating} />
             <div className="hotel-grid">
-                {paginatedHotels.filter(hotel => hotel.image_details.count > 0).map(hotel => (
-                    <div key={hotel.id} onClick={() => handleHotelClick(hotel.id, hotel.name)}>
+                {paginatedHotels.map(hotel => (
+                    <div key={hotel.id} onClick={(event) => handleHotelClick(event, hotel.id, hotel.name)}>
                         <div
                             className="hotel-item"
                             onMouseEnter={() => setHoveredHotelId(hotel.id)}
                             onMouseLeave={() => setHoveredHotelId(null)}
                         >
-                            <div className="image-container">
-                                <img
-                                    src={`https://d2ey9sqrvkqdfs.cloudfront.net/${hotel.id}/${currentImageIndices[hotel.id]}.jpg`}
-                                    alt={hotel.name}
-                                    className="hotel-image"
-                                />
-                                <div className="slideshow-controls">
-                                    <button className="prev" onClick={(event) => previousImage(event, hotel.id)}>&#10094;</button>
-                                    <button className="next" onClick={(event) => nextImage(event, hotel.id)}>&#10095;</button>
+                            {hotel.image_details.count > 0 && (
+                                <div className="image-container">
+                                    <img
+                                        src={`https://d2ey9sqrvkqdfs.cloudfront.net/${hotel.id}/${currentImageIndices[hotel.id]}.jpg`}
+                                        alt={hotel.name}
+                                        className="hotel-image"
+                                    />
+                                    <div className="slideshow-controls">
+                                        <button className="prev" onClick={(event) => previousImage(event, hotel.id)}>&#10094;</button>
+                                        <button className="next" onClick={(event) => nextImage(event, hotel.id)}>&#10095;</button>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                             <div className="hotel-details">
                                 <div className="hotel-name-rating">
                                     <h2 className="hotel-name">{hotel.name}</h2>
@@ -132,31 +143,7 @@ const HotelList = ({ hotels, hotelPrices, currentImageIndices, setCurrentImageIn
                                     )}
                                 </div>
                                 <p className="price-per-night">
-                                    {hotelPrices[hotel.id] ? `${hotelPrices[hotel.id]} per night` : 'Price not available'}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-                {paginatedHotels.filter(hotel => hotel.image_details.count === 0).map(hotel => (
-                    <div key={hotel.id} onClick={() => handleHotelClick(hotel.id, hotel.name)}>
-                        <div
-                            className="hotel-item"
-                            onMouseEnter={() => setHoveredHotelId(hotel.id)}
-                            onMouseLeave={() => setHoveredHotelId(null)}
-                        >
-                            <div className="hotel-details">
-                                <div className="hotel-name-rating">
-                                    <h2 className="hotel-name">{hotel.name}</h2>
-                                    {hotel.rating && (
-                                        <div className="hotel-rating">
-                                            <span className="star">&#9733;</span>
-                                            <span>{hotel.rating}</span>
-                                        </div>
-                                    )}
-                                </div>
-                                <p className="price-per-night">
-                                    {hotelPrices[hotel.id] ? `${hotelPrices[hotel.id]} per night` : 'Price not available'}
+                                    {hotelPrices[hotel.id] ? <strong>{`$${hotelPrices[hotel.id]}`}</strong> : 'Hotel not available for selected dates'}
                                 </p>
                             </div>
                         </div>
@@ -165,9 +152,9 @@ const HotelList = ({ hotels, hotelPrices, currentImageIndices, setCurrentImageIn
             </div>
             {shouldShowPagination && (
                 <PaginationComponent
-                    count={Math.ceil(filteredHotels.length / hotelsPerPage)}
+                    count={Math.ceil(sortedHotels.length / hotelsPerPage)}
                     page={currentPage}
-                    handleChange={handlePageChange}
+                    handleChange={(event, value) => handlePageChange(event, value)}
                 />
             )}
         </div>

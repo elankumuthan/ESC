@@ -19,7 +19,7 @@ function Hotels() {
     const [currentPage, setCurrentPage] = useState(1); // State for current page
     const [hotelsPerPage] = useState(18); // Number of hotels per page
 
-    let location = useLocation(); // For getting the params from URL
+    const location = useLocation(); // For getting the params from URL
     const navigate = useNavigate(); // For navigation
 
     useEffect(() => {
@@ -31,7 +31,7 @@ function Hotels() {
         const guests = searchParams.get('guests') ? JSON.parse(searchParams.get('guests')) : null;
 
         // For testing
-        //console.log('Received Params:', { destinationId, startDate, endDate, guests }); 
+        console.log('Received Params:', { destinationId, startDate, endDate, guests });
 
         // Format the dates to YYYY-MM-DD if they are not already
         const formatDate = (dateStr) => {
@@ -46,33 +46,55 @@ function Hotels() {
         if (startDate) startDate = formatDate(startDate);
         if (endDate) endDate = formatDate(endDate);
 
+        // Calculate total number of guests
+        const totalGuests = guests ? (guests.adults + guests.children) : 0;
+
         // Fetch list of hotels depending on the destinationID
         if (destinationId) {
             // Fetch hotel data from backend
-            axios.get(`http://localhost:3004/api/hotels?destination_id=${destinationId}`)
-                .then((response) => {
-                    const hotels = response.data;
-                    setListofHotels(hotels);
-                    const initialImageIndices = {};
-                    hotels.forEach(hotel => {
-                        initialImageIndices[hotel.id] = 0;
-                    });
-                    setCurrentImageIndices(initialImageIndices);
-                })
-                .catch(error => console.error("Error fetching hotels:", error));
+            axios.get(`http://localhost:3004/api/hotels`, {
+                params: { destination_id: destinationId }
+            })
+            .then(response => {
+                const hotels = response.data;
+                setListofHotels(hotels);
+                const initialImageIndices = {};
+                hotels.forEach(hotel => {
+                    initialImageIndices[hotel.id] = 0;
+                });
+                setCurrentImageIndices(initialImageIndices);
 
-            // Fetch hotel prices
-            axios.get(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${destinationId}&checkin=${startDate}&checkout=${endDate}&lang=en_US&currency=SGD&country_code=SG&guests=${guests}&partner_id=1`)
-                .then((response) => {
-                    //console.log('API Response:', response.data); // Debug API response
-                    const prices = response.data.hotels.reduce((acc, hotel) => {
-                        acc[hotel.id] = hotel.price;  // Extract the price from the API response
-                        return acc;
-                    }, {});
-                    //console.log('Prices:', prices); // Debug extracted prices
-                    setHotelPrices(prices);
-                })
-                .catch(error => console.error("Error fetching hotel prices:", error));
+                // Fetch hotel prices after fetching the hotel list
+                return axios.get(`http://localhost:3004/api/hotel-prices`, {
+                    params: {
+                        destination_id: destinationId,
+                        checkin: startDate,
+                        checkout: endDate,
+                        guests: totalGuests  // Pass total guests as a single number
+                    }
+                });
+            })
+            .then(response => {
+                console.log('API Response:', response.data); // Debug API response
+                const prices = response.data.hotels.reduce((acc, hotel) => {
+                    acc[hotel.id] = hotel.price ? hotel.price : 'Price not available';  // Extract the price from the API response
+                    return acc;
+                }, {});
+                console.log('Prices:', prices); // Debug extracted prices
+                setHotelPrices(prices);
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+                if (error.response) {
+                    console.error("Error data:", error.response.data);
+                    console.error("Error status:", error.response.status);
+                    console.error("Error headers:", error.response.headers);
+                } else if (error.request) {
+                    console.error("Error request:", error.request);
+                } else {
+                    console.error('Error message:', error.message);
+                }
+            });
         }
     }, [location.search]);
 
@@ -115,12 +137,26 @@ function Hotels() {
         return matchesRating && matchesSearchQuery;
     });
 
-    // Get current hotels for the page
-    const indexOfLastHotel = currentPage * hotelsPerPage;
-    const indexOfFirstHotel = indexOfLastHotel - hotelsPerPage;
-    const currentHotels = filteredHotels.slice(indexOfFirstHotel, indexOfLastHotel);
+    // Sort filtered hotels by price availability
+    const sortedHotels = filteredHotels.sort((a, b) => {
+        const priceA = hotelPrices[a.id];
+        const priceB = hotelPrices[b.id];
+        if (priceA && !priceB) return -1; // Hotels with prices first
+        if (!priceA && priceB) return 1;  // Hotels without prices last
+        return 0; // Preserve original order if both have or don't have prices
+    });
 
-    // Change page
+    // Calculate the start and end index for the current page
+    const startIndex = (currentPage - 1) * hotelsPerPage;
+    const endIndex = startIndex + hotelsPerPage;
+
+    // Paginate the sorted hotels
+    const paginatedHotels = sortedHotels.slice(startIndex, endIndex);
+
+    // Determine if pagination should be shown
+    const shouldShowPagination = sortedHotels.length > hotelsPerPage;
+
+    // Handle page changes
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
     };
@@ -156,7 +192,7 @@ function Hotels() {
                 {/* Hotels container */}
                 <div className="hotel-list-container" style={{ flex: 1 }} >
                     <HotelList
-                        hotels={currentHotels}
+                        hotels={paginatedHotels}
                         handleHotelClick={handleHotelClick} // Add this line
                         hotelPrices={hotelPrices} // Pass hotel prices to HotelList
                         currentImageIndices={currentImageIndices}
@@ -166,17 +202,19 @@ function Hotels() {
                         selectedRating={selectedRating} // Pass selectedRating to HotelList
                         setSelectedRating={setSelectedRating} // Pass setSelectedRating to HotelList
                     />
-                    <PaginationComponent
-                        count={Math.ceil(filteredHotels.length / hotelsPerPage)}
-                        page={currentPage}
-                        handleChange={handlePageChange}
-                    />
+                    {shouldShowPagination && (
+                        <PaginationComponent
+                            count={Math.ceil(sortedHotels.length / hotelsPerPage)}
+                            page={currentPage}
+                            handleChange={handlePageChange}
+                        />
+                    )}
                 </div>
 
                 {/* Google Map display container */}
                 <div className="hotel-map-container" style={{ flex: 1 }}>
                     <HotelMap
-                        hotels={currentHotels}
+                        hotels={paginatedHotels}
                         hoveredHotelId={hoveredHotelId}
                     />
                 </div>

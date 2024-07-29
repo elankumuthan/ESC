@@ -19,6 +19,12 @@
     height: 7cm;
     overflow: hidden;
     margin-top: 0.5cm;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.image-container:hover {
+    transform: scale(1.05); /* Zoom effect on hover */
 }
 
 /* Style for images */
