@@ -25,7 +25,7 @@ const HotelDetails = () => {
 
     useEffect(() => {
         const fetchRoomDetails = async () => {
-            const { hotelId, startDate, endDate, guests, destinationId } = location.state;
+            const { hotelId, startDate, endDate, guests, destinationId, hotelName } = location.state;
 
             const guestsCount = guests.adults + guests.children;
 
@@ -80,11 +80,14 @@ const HotelDetails = () => {
         }
         return 'N/A';
     };
+    console.log(roomDetails);
 
     const handleBook = () => {
-        const { startDate, endDate, guests } = location.state;
-        navigate('/hoteldetails/:hid', {
+        const { startDate, endDate, guests, destinationId, hotelId } = location.state;
+        navigate('/booking', {
             state: {
+                destinationId,
+                hotelId,
                 startDate,
                 endDate,
                 guests,

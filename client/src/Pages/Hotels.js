@@ -98,38 +98,7 @@ function Hotels() {
         }
     }, [location.search]);
 
-    const handleHotelClick = (hotelId) => {
-        const searchParams = new URLSearchParams(location.search);
-        const destinationId = searchParams.get('destination_id');
-        const startDate = searchParams.get('start_date');
-        const endDate = searchParams.get('end_date');
-        const guests = searchParams.get('guests') ? JSON.parse(searchParams.get('guests')) : null;
-
-        // Debug logging
-        console.log('Navigating with params:', {
-            hotelId,
-            destinationId,
-            startDate,
-            endDate,
-            guests
-        });
-
-        if (destinationId && startDate && endDate && guests) {
-            navigate('/hoteldetails', {
-                state: {
-                    hotelId,
-                    destinationId,
-                    checkinDate: startDate,
-                    checkoutDate: endDate,
-                    numberOfGuests: guests,
-                    hotelName: "The Forest by Wangz" // Assuming you want to pass the hotel name as well
-                }
-            });
-        } else {
-            console.error("Missing required parameters for navigation.");
-        }
-    };
-
+  
     // Filter hotels based on selected rating and search query
     const filteredHotels = listofHotels.filter(hotel => {
         const matchesRating = selectedRating ? hotel.rating === selectedRating : true;
@@ -193,7 +162,6 @@ function Hotels() {
                 <div className="hotel-list-container" style={{ flex: 1 }} >
                     <HotelList
                         hotels={paginatedHotels}
-                        handleHotelClick={handleHotelClick} // Add this line
                         hotelPrices={hotelPrices} // Pass hotel prices to HotelList
                         currentImageIndices={currentImageIndices}
                         setCurrentImageIndices={setCurrentImageIndices}
