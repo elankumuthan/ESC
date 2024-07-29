@@ -1,12 +1,9 @@
-// Destination.js
 import React from "react";
-import DestinationCards from "./DestinationCards";
-import profile1 from "../Assets/singapore.jpg";
-import profile2 from "../Assets/malaysia.jpg";
-import profile3 from "../Assets/japan.jpg";
-import profile4 from "../Assets/aust.jpg";
 import "../Styles/Cards.css";
-import { useSelectedCountry } from './SelectedCountries'; 
+import { useSelectedCountry } from './SelectedCountries';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import AutoPlayMethods from "./Carousel"; // Ensure this import path is correct
 
 function Destination() {
   const { setStartDate, setEndDate, setDestinationInput } = useSelectedCountry();
@@ -45,38 +42,7 @@ function Destination() {
       </div>
 
       <div className="dt-cards-content">
-        <DestinationCards
-          img={profile1}
-          name="Singapore"
-          title="A Beautiful City"
-          stars="4.9"
-          reviews="1800"
-          handleClick={() => handleClick("RsBU", "Singapore")}
-        />
-        <DestinationCards
-          img={profile2}
-          name="Kuala Lumpur, Malaysia"
-          title="Cultural Hub"
-          stars="4.8"
-          reviews="700"
-          handleClick={() => handleClick("EzoR", "Kuala Lumpur, Malaysia")}
-        />
-        <DestinationCards
-          img={profile3}
-          name="Tokyo, Japan"
-          title="Land of the Rising Sun"
-          stars="4.7"
-          reviews="450"
-          handleClick={() => handleClick("1y34", "Japan")}
-        />
-        <DestinationCards
-          img={profile4}
-          name="Sydney, Australia"
-          title="Down Under"
-          stars="4.8"
-          reviews="500"
-          handleClick={() => handleClick("7H9O", "Australia")}
-        />
+        <AutoPlayMethods handleClick={handleClick} />
       </div>
     </div>
   );
