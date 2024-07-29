@@ -100,31 +100,17 @@
     justify-content: center;
     align-items: center;
 }
-.slick-prev:before{
-    /* background-color: blue !important; */
-    width: 46px;
-    height: 46px;
-    content: '' !important;
-    position: absolute;
-    top: -11px;
-    left: -40px;
-    background-image: url('../Assets/left-arrow.png');
-    background-repeat: no-repeat;
-    vertical-align: middle;
-    background-size: 46px;
-    opacity: 1 !important;
-    }
-.slick-prev:after{
-    /* background-color: blue !important; */
-    width: 46px;
-    height: 46px;
-    content: '' !important;
-    position: absolute;
-    top: -11px;
-    left: 950px;
-    background-image: url('../Assets/right-arrow.png');
-    background-repeat: no-repeat;
-    vertical-align: middle;
-    background-size: 46px;
-    opacity: 1 !important;
-    }
+
+.slick-prev:before, .slick-next:before {
+    font-family: 'slick';
+    font-size: 20px;
+    line-height: 1;
+    opacity: .75;
+    color: black !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.slick-prev, .slick-next {
+    height: 95px !important;
+}

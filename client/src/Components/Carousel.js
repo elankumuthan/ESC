@@ -14,7 +14,7 @@ function SamplePrevArrow(props) {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block" }}
+      style={{ ...style, display: "block", background: "white" }}
       onClick={onClick}
     />
   );
@@ -25,7 +25,7 @@ function SampleNextArrow(props) {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block" }}
+      style={{ ...style, display: "block", background: "white" }}
       onClick={onClick}
     />
   );
@@ -42,9 +42,8 @@ function AutoPlayMethods({ handleClick }) {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,
-    prevArrow: <SamplePrevArrow to="prev" />,
     nextArrow: <SampleNextArrow to="next"/>,
-
+    prevArrow: <SamplePrevArrow to="prev" />,
   };
 
   return (
@@ -87,7 +86,7 @@ function AutoPlayMethods({ handleClick }) {
             img={profile5}
             name="Seoul, Korea"
             title="Gyeongbokgung Palace"
-            handleClick={() => handleClick("b3ni", "Australia")}
+            handleClick={() => handleClick("7H9O", "Australia")}
           />
         </div >
 
@@ -96,7 +95,7 @@ function AutoPlayMethods({ handleClick }) {
             img={profile6}
             name="Bangkok, Thailand"
             title="Wat Arun"
-            handleClick={() => handleClick("Zauv", "Australia")}
+            handleClick={() => handleClick("7H9O", "Australia")}
           />
         </div >
       </Slider>
