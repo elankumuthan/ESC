@@ -10,7 +10,7 @@ function Footer() {
         <div className="ft-info">
           <div className="ft-info-p1">
             <p className="ft-title">
-            <Link to="/">
+            <Link to="">
               <img src={logo} alt="Logo" /> {/* Corrected the img tag */}
               </Link>
             </p>
@@ -21,13 +21,13 @@ function Footer() {
           <p className="ft-list-title">About Ascenda</p>
           <ul className="ft-list-items">
             <li>
-            <Link to={"/"}>About Us</Link>
+            <Link to={""}>About Us</Link>
             </li>
             <li>
-            <Link to={"/"}>Careers</Link>
+            <Link to={""}>Careers</Link>
             </li>
             <li>
-            <Link to={"/"}>Contact us</Link>
+            <Link to={""}>Contact us</Link>
             </li>
           </ul>
         </div>
@@ -36,16 +36,16 @@ function Footer() {
           <p className="ft-list-title">Explore</p>
           <ul className="ft-list-items">
             <li>
-              <Link to={"/"}>Write a review</Link>
+              <Link to={""}>Write a review</Link>
             </li>
             <li>
-              <Link to={"/"}>Add a Place</Link>
+              <Link to={""}>Add a Place</Link>
             </li>
             <li>
-              <Link to={"/"}>Join </Link>
+              <Link to={""}>Join </Link>
             </li>
             <li>
-              <Link to={"/"}>Help Centre</Link>
+              <Link to={""}>Help Centre</Link>
             </li>
           </ul>
         </div>
