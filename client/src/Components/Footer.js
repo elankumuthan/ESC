@@ -14,9 +14,6 @@ function Footer() {
               <img src={logo} alt="Logo" /> {/* Corrected the img tag */}
               </Link>
             </p>
-            <p className="ft-description">
-              elan is so handsome
-            </p>
           </div>
         </div>
 
@@ -24,13 +21,13 @@ function Footer() {
           <p className="ft-list-title">About Ascenda</p>
           <ul className="ft-list-items">
             <li>
-              <a href="#services">About Us</a>
+            <Link to={"/"}>About Us</Link>
             </li>
             <li>
-              <a href="#services">Careers</a>
+            <Link to={"/"}>Careers</Link>
             </li>
             <li>
-              <a href="#services">Contact us</a>
+            <Link to={"/"}>Contact us</Link>
             </li>
           </ul>
         </div>
@@ -39,16 +36,16 @@ function Footer() {
           <p className="ft-list-title">Explore</p>
           <ul className="ft-list-items">
             <li>
-              <Link to={"/legal"}>Write a review</Link>
+              <Link to={"/"}>Write a review</Link>
             </li>
             <li>
-              <Link to={"/legal"}>Add a Place</Link>
+              <Link to={"/"}>Add a Place</Link>
             </li>
             <li>
-              <Link to={"/legal"}>Join </Link>
+              <Link to={"/"}>Join </Link>
             </li>
             <li>
-              <Link to={"/legal"}>Help Centre</Link>
+              <Link to={"/"}>Help Centre</Link>
             </li>
           </ul>
         </div>
@@ -64,18 +61,12 @@ function Footer() {
                 appointment@ascenda.com
               </a>
             </li>
-            <li>
-              <a href="tel:+995">+995</a>
-            </li>
-            <li>
-              <a href="tel:+999">+999</a>
-            </li>
           </ul>
         </div>
       </div>
 
       <div className="ft-copyright">
-        <p>© 2000-2024 Ascenda. All rights reserved.</p>
+        <p>© 2023 Ascenda. All rights reserved.</p>
 
         <ul className="ft-social-links">
           <li>
