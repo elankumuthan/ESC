@@ -1,10 +1,9 @@
-// Desc: Hotels page component
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import HotelList from '../Components/HotelList';  // Import the HotelList component
 import HotelMap from '../Components/HotelMap';  // Import the HotelMap component
-//import RatingFilter from '../Components/RatingFilter';  // Import the RatingFilter component
+import PaginationComponent from '../Components/PaginationComponent';  // Import the Pagination component
 import SearchBox from '../Components/searchBox';  // Import the SearchBox component
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
@@ -17,11 +16,14 @@ function Hotels() {
     const [hoveredHotelId, setHoveredHotelId] = useState(null);
     const [selectedRating, setSelectedRating] = useState(null); // State for selected rating
     const [searchQuery, setSearchQuery] = useState(""); // State for search query
+    const [currentPage, setCurrentPage] = useState(1); // State for current page
+    const [hotelsPerPage] = useState(18); // Number of hotels per page
 
     let location = useLocation(); // For getting the params from URL
+    const navigate = useNavigate(); // For navigation
 
     useEffect(() => {
-        //URL Parm Pharsing
+        // URL Param Parsing
         const searchParams = new URLSearchParams(location.search);
         const destinationId = searchParams.get('destination_id');
         let startDate = searchParams.get('start_date');
@@ -40,12 +42,11 @@ function Hotels() {
             return `${year}-${month}-${day}`;
         };
 
-        //Formating the dates
+        // Formatting the dates
         if (startDate) startDate = formatDate(startDate);
         if (endDate) endDate = formatDate(endDate);
 
-
-        //Fetch list of hotels depending on the destinationID
+        // Fetch list of hotels depending on the destinationID
         if (destinationId) {
             // Fetch hotel data from backend
             axios.get(`http://localhost:3004/api/hotels?destination_id=${destinationId}`)
@@ -75,6 +76,38 @@ function Hotels() {
         }
     }, [location.search]);
 
+    const handleHotelClick = (hotelId) => {
+        const searchParams = new URLSearchParams(location.search);
+        const destinationId = searchParams.get('destination_id');
+        const startDate = searchParams.get('start_date');
+        const endDate = searchParams.get('end_date');
+        const guests = searchParams.get('guests') ? JSON.parse(searchParams.get('guests')) : null;
+
+        // Debug logging
+        console.log('Navigating with params:', {
+            hotelId,
+            destinationId,
+            startDate,
+            endDate,
+            guests
+        });
+
+        if (destinationId && startDate && endDate && guests) {
+            navigate('/hoteldetails', {
+                state: {
+                    hotelId,
+                    destinationId,
+                    checkinDate: startDate,
+                    checkoutDate: endDate,
+                    numberOfGuests: guests,
+                    hotelName: "The Forest by Wangz" // Assuming you want to pass the hotel name as well
+                }
+            });
+        } else {
+            console.error("Missing required parameters for navigation.");
+        }
+    };
+
     // Filter hotels based on selected rating and search query
     const filteredHotels = listofHotels.filter(hotel => {
         const matchesRating = selectedRating ? hotel.rating === selectedRating : true;
@@ -82,7 +115,36 @@ function Hotels() {
         return matchesRating && matchesSearchQuery;
     });
 
-    //console.log('Hotel Prices State:', hotelPrices); // Debug state value
+    // Get current hotels for the page
+    const indexOfLastHotel = currentPage * hotelsPerPage;
+    const indexOfFirstHotel = indexOfLastHotel - hotelsPerPage;
+    const currentHotels = filteredHotels.slice(indexOfFirstHotel, indexOfLastHotel);
+
+    // Change page
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
+
+    // Adjust map scroll when the footer appears
+    useEffect(() => {
+        const handleScroll = () => {
+            const footer = document.querySelector('.footer-section');
+            const mapContainer = document.querySelector('.hotel-map-container');
+            if (footer && mapContainer) {
+                const footerTop = footer.getBoundingClientRect().top;
+                const mapBottom = mapContainer.getBoundingClientRect().bottom;
+                if (mapBottom > footerTop) {
+                    const scrollAmount = mapBottom - footerTop;
+                    mapContainer.style.marginBottom = `${scrollAmount}px`;
+                } else {
+                    mapContainer.style.marginBottom = '0px';
+                }
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     return (
         <div className="hotels-page">
@@ -91,23 +153,30 @@ function Hotels() {
                 <SearchBox searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> {/* Added SearchBox component */}
             </div>
             <div className="content" style={{ flex: 1, display: 'flex' }}>
-
                 {/* Hotels container */}
                 <div className="hotel-list-container" style={{ flex: 1 }} >
                     <HotelList
-                        hotels={filteredHotels}
+                        hotels={currentHotels}
+                        handleHotelClick={handleHotelClick} // Add this line
                         hotelPrices={hotelPrices} // Pass hotel prices to HotelList
                         currentImageIndices={currentImageIndices}
                         setCurrentImageIndices={setCurrentImageIndices}
                         setHoveredHotelId={setHoveredHotelId}
                         hoveredHotelId={hoveredHotelId}
+                        selectedRating={selectedRating} // Pass selectedRating to HotelList
+                        setSelectedRating={setSelectedRating} // Pass setSelectedRating to HotelList
+                    />
+                    <PaginationComponent
+                        count={Math.ceil(filteredHotels.length / hotelsPerPage)}
+                        page={currentPage}
+                        handleChange={handlePageChange}
                     />
                 </div>
 
                 {/* Google Map display container */}
                 <div className="hotel-map-container" style={{ flex: 1 }}>
                     <HotelMap
-                        hotels={filteredHotels}
+                        hotels={currentHotels}
                         hoveredHotelId={hoveredHotelId}
                     />
                 </div>

@@ -1,0 +1,110 @@
+/* styles.css */
+
+.hotel-details {
+    text-align: center;
+}
+
+.hotel-details .image-container {
+    display: flex;
+    width: 80%;
+    height: 400px;
+    /* This sets the height of the container */
+    gap: 4px;
+    justify-content: center;
+    position: relative;
+    margin: 1cm auto;
+}
+
+.hotel-details .image-container .main-image {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.hotel-details .image-container .main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.hotel-details .image-container .grid-images {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    width: 40%;
+    height: 100%;
+    gap: 4px;
+}
+
+.hotel-details .image-container .grid-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hotel-details .image-container .grid-images img:nth-child(1) {
+    grid-row: span 1;
+    grid-column: span 1;
+}
+
+.hotel-details .image-container .grid-images img:nth-child(2) {
+    grid-row: span 1;
+    grid-column: span 1;
+    border-top-right-radius: 8px;
+}
+
+.hotel-details .image-container .grid-images img:nth-child(3) {
+    grid-row: span 1;
+    grid-column: span 1;
+}
+
+.hotel-details .image-container .grid-images img:nth-child(4) {
+    grid-row: span 1;
+    grid-column: span 1;
+    border-bottom-right-radius: 8px;
+}
+
+.hotel-details .image-container .grid-images .show-all-button {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+}
+
+.hotel-details .dialog-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.hotel-details .price-amenities {
+    margin-top: 1cm;
+}
+
+.hotel-details .price-amenities h2,
+.hotel-details .price-amenities h4 {
+    margin: 0;
+}
+
+.hotel-details .price-amenities .amenities-list {
+    margin: 10px 0;
+}
+
+.hotel-details .price-amenities .book-button {
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+}
+
+.hotel-details .dialog-amenities ul {
+    list-style-type: none;
+    padding: 0;
+}

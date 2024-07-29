@@ -1,6 +1,6 @@
+/* In src/Styles/PaginationComponent.css */
 .pagination-container {
     display: flex;
-    justify-content: flex-end;
-    margin-right: 23.5cm;
-    margin-top: 50px;
+    justify-content: center;
+    margin-top: 20px;
 }

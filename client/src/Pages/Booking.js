@@ -4,14 +4,14 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as Yup from 'yup';
 import Navbar from "../Components/Navbar";
-import '../Styles/bookingform.css'; 
+import '../Styles/bookingform.css';
 
 function EachHotel() {
     let { hid } = useParams();
     let location = useLocation();
     let navigate = useNavigate();
 
-    const { startDate, endDate, guests, destinationId, hotelName } = location.state || {};
+    const { startDate, endDate, guests, destinationId, hotelName, roomPrice, roomDescription } = location.state || {};
 
     const [loading, setLoading] = useState(false); // Add a loading state
 
@@ -58,6 +58,8 @@ function EachHotel() {
                 <p>Start Date: {startDate}</p>
                 <p>End Date: {endDate}</p>
                 <p>Guests: {guests ? `Adults: ${guests.adults}, Children: ${guests.children}, Rooms: ${guests.rooms}` : 'N/A'}</p>
+                <p>Room Type: {roomDescription}</p>
+                <p>Price: ${roomPrice}</p>
             </div>
 
             <div className="booking-form">
