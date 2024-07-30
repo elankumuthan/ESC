@@ -47,18 +47,21 @@ router.post("/", async (req, res) => {
             subject: 'Booking Confirmation',
             html: `
                 <div style="font-family: Arial, sans-serif; color: #333;">
-                    <h2>Your receipt from HotelBooking</h2>
-                    <p>Receipt ID: ${newBooking.id} &middot; ${new Date().toLocaleDateString()}</p>
-                    <h3>Booking Confirmation</h3>
-                    <p>Dear ${booking_req.firstName} ${booking_req.lastName},</p>
-                    <p>Thank you for booking with us. Here are your booking details:</p>
+                    <h2>Hi ${booking_req.firstName} ${booking_req.lastName},</p>
+                    <p>Your reservation request for ${booking_req.hotelName} has been confirmed. Please review the details of your booking.</h2>
+                    <p>Booking Reference No. HB-${newBooking.id} &middot; ${new Date().toLocaleDateString()}</p>
+                    <h3>Booking Details</h3>
                     <ul>
-                        <li>Hotel ID: ${booking_req.hotelID}</li>
-                        <li>Destination ID: ${booking_req.destID}</li>
+                        <li>Hotel Name: ${booking_req.hotelName}</li>
+                        <li>Room Type: ${booking_req.roomType}</li>
+                        <li>Price: ${booking_req.price}</li>
+                        <li>Start Date: ${booking_req.startDate}</li>
+                        <li>End Date: ${booking_req.endDate}</li>
+                        <li>Guests: ${booking_req.guestDetails}</li>
                         <li>Special Requests: ${booking_req.special_req}</li>
                     </ul>
                     <p>We look forward to hosting you!</p>
-                    <p>Best regards,<br>HotelBooking.com</p>
+                    <p>Best regards,<br>Ascenda Booking Team</p>
                 </div>
             `
         };

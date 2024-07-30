@@ -76,6 +76,7 @@ function EachHotel() {
         special_req: "",
         hotelID: hotelId,
         destID: destinationId,
+        hotelName: hotelName,
         startDate,
         endDate,
         roomType: roomDescription,

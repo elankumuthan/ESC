@@ -38,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            hotelName: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
             startDate: {
                 type: DataTypes.STRING,
                 allowNull: false,
