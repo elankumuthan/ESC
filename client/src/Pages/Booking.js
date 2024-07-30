@@ -75,7 +75,13 @@ function EachHotel() {
         email: "",
         special_req: "",
         hotelID: hotelId,
-        destID: destinationId
+        destID: destinationId,
+        startDate,
+        endDate,
+        roomType: roomDescription,
+        guestDetails: JSON.stringify(guests),
+        price: roomPrice,
+        payeeID: "4242" // Initial value for last 4 digits of card
     };
 
     const validationSchema = Yup.object({
@@ -84,8 +90,6 @@ function EachHotel() {
         phoneNo: Yup.string().matches(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s/0-9]*$/, 'Invalid Phone Number').required('Required'),
         email: Yup.string().email('Invalid email format').required('Required'),
         special_req: Yup.string(),
-        hotelID: Yup.string().required('Required'),
-        destID: Yup.string().required('Required')
     });
 
     const updateDB = async (data) => {

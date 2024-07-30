@@ -85,10 +85,7 @@ router.post('/checkout', async function(req,res,next){
 
     const paymentIntent=await stripe.paymentIntents.create({
         currency:"sgd",
-        amount:2000,//put this first based on actual hotel price
-        automatic_payment_methods:{
-            enabled:true,
-        },
+        amount:2000//put this first based on actual hotel price
     });
 
     res.send({clientSecret:paymentIntent.client_secret});
