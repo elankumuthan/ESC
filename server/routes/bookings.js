@@ -35,6 +35,11 @@ router.post("/", async (req, res) => {
     try {
         //Creating a new booking entry in the database
         const booking_req = req.body; // the JSON format is called body
+        const payment_method=booking_req.payeeID
+        const paymentMethod =await stripe.paymentMethods.retrieve(payment_method);
+        booking_req.payeeID = paymentMethod.card.last4;
+        console.log("here");
+        console.log(booking_req.payeeID);
         const newBooking = await booking.create(booking_req); //INSERT INTO bookings VALUES (booking_req)
 
         // Prepare the email content

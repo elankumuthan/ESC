@@ -9,6 +9,7 @@ import '../Styles/bookingform.css';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 const stripePromise = loadStripe("pk_test_51PVRhkBQYdvRSbbUXQbqZZEgSjlMuM8FukpdV9gtGgYfa0JnICzsxzDtP484SVHZ81fLrPyCt7qEOcagnpfRFP8M009ejwRR6i");
+let payment_method="";
 
 // Payment Button Component included by form component that will call handlebuttonclick function
 //that will pay AND THEN when payment successful submit the form
@@ -65,7 +66,6 @@ function EachHotel() {
     const [clientSecret, setClientSecret] = useState("");
     const effectRan = useRef(false); // Track if the effect has run
     const [isProcessingStripe, setIsProcessingStripe] = useState(false);//states for Stripe
-    const [paymentIntentStatus, setPaymentIntentStatus] = useState("");//state for payment successful or not
     const formikRef = useRef(null);//form instance
 
     const personalDetails = {
@@ -82,7 +82,6 @@ function EachHotel() {
         roomType: roomDescription,
         guestDetails: JSON.stringify(guests),
         price: roomPrice,
-        payeeID: "4242" // Initial value for last 4 digits of card
     };
 
     const validationSchema = Yup.object({
@@ -95,6 +94,8 @@ function EachHotel() {
 
     const updateDB = async (data) => {
         setLoading(true);
+        data.payeeID = payment_method;
+        console.log(data);
         try {
             await axios.post("http://localhost:3004/booking", data);
             console.log(`Data added!`);
@@ -107,7 +108,7 @@ function EachHotel() {
                     hotelName,
                     hotelId,
                     roomDescription,
-                    roomPrice
+                    roomPrice,
                 }
             });
         } catch (error) {
@@ -115,6 +116,7 @@ function EachHotel() {
         } finally {
             setLoading(false);
         }
+        
     };
 
     //function called when payment button clicked, handle payment AND form submission
@@ -138,10 +140,15 @@ function EachHotel() {
                 setLoading(false); // Hide loading screen if payment fails
             } else {
                 const paymentIntentStatus = await stripe.retrievePaymentIntent(clientSecret);
-                setPaymentIntentStatus(paymentIntentStatus.paymentIntent.status);
+                  
 
                 if (paymentIntentStatus.paymentIntent.status === 'succeeded') {
+                    const payment_method_update=paymentIntentStatus.paymentIntent.payment_method;
+                    payment_method=payment_method_update;
                     formikRef.current.submitForm();
+                     
+
+                    
                 } else {
                     setIsProcessingStripe(false);
                     setLoading(false); // Hide loading screen if payment is not succeeded
