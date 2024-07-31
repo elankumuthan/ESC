@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "12345678",
+    "password": "",
     "database": "hotelDB",
     "host": "localhost",
     "dialect": "mysql"
