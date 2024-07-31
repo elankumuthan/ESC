@@ -10,6 +10,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 const stripePromise = loadStripe("pk_test_51PVRhkBQYdvRSbbUXQbqZZEgSjlMuM8FukpdV9gtGgYfa0JnICzsxzDtP484SVHZ81fLrPyCt7qEOcagnpfRFP8M009ejwRR6i");
 let payment_method="";
+let paymentIntentStatus={};
 
 // Payment Button Component included by form component that will call handlebuttonclick function
 //that will pay AND THEN when payment successful submit the form
@@ -67,7 +68,7 @@ function EachHotel() {
     const effectRan = useRef(false); // Track if the effect has run
     const [isProcessingStripe, setIsProcessingStripe] = useState(false);//states for Stripe
     const formikRef = useRef(null);//form instance
-
+    
     const personalDetails = {
         firstName: "",
         lastName: "",
@@ -123,44 +124,40 @@ function EachHotel() {
     //to make the UI nicer and have only one button while ensuring payment is check first before 
     //form is submitted
     async function handleSubmitClick(stripe, elements) {
-        console.log("handleSubmitClick")
         if (!stripe || !elements) return;
         setIsProcessingStripe(true);
         setLoading(true); // Show loading screen immediately
-        try {
-            // Confirm the payment with Stripe
-            const { error } = await stripe.confirmPayment({
-                elements,
-                redirect: 'if_required'
-            });
-
-            if (error) {
-                console.error('Error during payment:', error);
-                setIsProcessingStripe(false);
-                setLoading(false); // Hide loading screen if payment fails
-            } else {
-                const paymentIntentStatus = await stripe.retrievePaymentIntent(clientSecret);
-                  
-
-                if (paymentIntentStatus.paymentIntent.status === 'succeeded') {
-                    const payment_method_update=paymentIntentStatus.paymentIntent.payment_method;
-                    payment_method=payment_method_update;
-                    formikRef.current.submitForm();
-                     
-
-                    
-                } else {
+        paymentIntentStatus = await stripe.retrievePaymentIntent(clientSecret);
+        if (paymentIntentStatus.paymentIntent.status !== 'succeeded') {
+                // Confirm the payment with Stripe
+                const { error } = await stripe.confirmPayment({
+                    elements,
+                    redirect: 'if_required'
+                });
+    
+                if (error) {
+                    console.error('Error during payment:', error);
                     setIsProcessingStripe(false);
-                    setLoading(false); // Hide loading screen if payment is not succeeded
-                }
+                    setLoading(false); // Hide loading screen if payment fails
+                    return;
+                } 
+                paymentIntentStatus = await stripe.retrievePaymentIntent(clientSecret);
             }
-        } catch (err) {
-            console.error('Error during payment:', err);
-            setIsProcessingStripe(false);
-            setLoading(false); // Hide loading screen if there's an error
-        }
-    }
+        
+        if (paymentIntentStatus.paymentIntent.status === 'succeeded') {
+            const payment_method_update=paymentIntentStatus.paymentIntent.payment_method;
+            payment_method=payment_method_update;
+            // Validate the form before proceeding with the payment
+            const formIsValid = await formikRef.current.validateForm();
+            if (Object.keys(formIsValid).length > 0) {
+                    setIsProcessingStripe(false);
+                    setLoading(false);
+                }
 
+            formikRef.current.submitForm();
+            
+     } 
+    }
     //useEffect will be called ONLY first time screen renders to ensure that only one payment transaction
     //determined by the clientSecret is called
     //so that when form fails to submit after payment goes through, resubmitting teh form will not craete a second payment session
