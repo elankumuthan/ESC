@@ -1,9 +1,40 @@
-/* styles.css */
+/* Main Hotel Details Container */
+.hotel-details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    max-width: 1200px; /* Sets a max-width for central alignment */
+    margin: 0 auto; /* Center-aligns the container */
+    padding: 20px; /* Adds padding around the container */
+    background-color: #ffffff; /* Light background color for contrast */
+    border-radius: 15px; /* Rounded corners for a modern look */
+    font-size: large;
+}
 
-.hotel-details {
+/* Hotel Description Box */
+.hotel-description-container {
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
     text-align: center;
 }
 
+/* Adjusting the hotel name styles */
+h1 {
+    font-size: 2.5em; /* Adjusted font size */
+    font-weight: bolder; /* Set font weight to bold */
+    color: #333; /* Color for better readability */
+    text-align: center; /* Center alignment */
+    margin: 0.5em 0; /* Margin to space out from other elements */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Container for the main image and additional images */
 .hotel-details .image-container {
     display: flex;
     width: 80%;
@@ -48,63 +79,140 @@
     object-fit: cover;
 }
 
-.hotel-details .image-container .grid-images img:nth-child(1) {
-    grid-row: span 1;
-    grid-column: span 1;
-}
-
-.hotel-details .image-container .grid-images img:nth-child(2) {
-    grid-row: span 1;
-    grid-column: span 1;
-    border-top-right-radius: 8px;
-}
-
-.hotel-details .image-container .grid-images img:nth-child(3) {
-    grid-row: span 1;
-    grid-column: span 1;
-}
-
-.hotel-details .image-container .grid-images img:nth-child(4) {
-    grid-row: span 1;
-    grid-column: span 1;
-    border-bottom-right-radius: 8px;
-}
-
-.hotel-details .image-container .grid-images .show-all-button {
+/* Styling for the show all images button */
+.image-container .grid-images .show-all-button {
     position: absolute;
     bottom: 8px;
     right: 8px;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
     padding: 4px 8px;
+    font-weight: bold;
     font-size: 0.75rem;
 }
 
-.hotel-details .dialog-images img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
+/* Price & Amenities */
 .hotel-details .price-amenities {
     margin-top: 1cm;
+    padding: 20px;
+    background-color: #f4f4f4; /* Changed to match reference */
+    border-radius: 15px; /* Updated to match reference */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Updated shadow to match reference */
 }
 
-.hotel-details .price-amenities h2,
+.hotel-details .price-amenities h2 {
+    font-size: 2.5em; /* Updated to match reference */
+    font-weight: bolder; /* Updated to match reference */
+    color: #333; /* Updated to match reference */
+    margin-bottom: 0.5em; /* Updated to match reference */
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 8px;
+}
+
 .hotel-details .price-amenities h4 {
-    margin: 0;
+    font-size: larger; /* Updated to match reference */
+    color: #555;
+    margin-bottom: 20px; /* Updated to match reference */
 }
 
 .hotel-details .price-amenities .amenities-list {
     margin: 10px 0;
+    padding: 0;
 }
 
 .hotel-details .price-amenities .book-button {
-    margin-top: 10px;
+    margin-top: 15px;
     background-color: #4CAF50;
     color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    padding: 12px 24px;
+    font-size: larger;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
 }
 
-.hotel-details .dialog-amenities ul {
-    list-style-type: none;
-    padding: 0;
+.hotel-details .price-amenities .book-button:hover {
+    background-color: #45a049;
+}
+
+/* Room Info Container */
+.room-info-container {
+    width: 1040px; /* Fixed width for the container */
+    margin-top: 20px; /* Updated to match reference */
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px; /* Updated to match reference */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9; /* Updated to match reference */
+    margin: 0 auto;
+}
+
+.price-section, .cancellation-section, .long-description-container, .amenities-section {
+    margin-bottom: 20px; /* Updated to match reference */
+}
+
+.room-info-container h4 {
+    color: #333;
+    margin-bottom: 10px; /* Updated to match reference */
+    font-size: large; /* Updated to match reference */
+    font-weight: 600;
+    border-bottom: 2px solid #f4f4f4;
+    padding-bottom: 10px;
+}
+
+.room-info-container p {
+    color: #666;
+    font-size: large; /* Updated to match reference */
+    margin: 0;
+}
+
+/* Amenities Section */
+.amenities-section .amenity-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px; /* Updated to match reference */
+    border: 1px solid #ddd;
+    margin: 5px 0; /* Updated to match reference */
+    background-color: #ffffff; /* Updated to match reference */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Updated shadow to match reference */
+    font-size: large;
+}
+
+.amenity-icon {
+    margin-right: 8px; /* Updated to match reference */
+    color: #4CAF50;
+}
+
+.amenity-text {
+    font-size: large; /* Updated to match reference */
+    color: #333;
+}
+
+/* Long Description Container */
+.long-description-container {
+    font-size: 17px; /* Updated to match reference */
+    line-height: 1.5; /* Updated to match reference */
+    color: #444;
+    padding: 20px; /* Increased padding for better spacing */
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px; /* Updated to match reference */
+    max-width: 1000px; /* Center-align content with max-width */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.long-description-container p {
+    margin-bottom: 15px; /* Spacing between paragraphs */
+}
+
+.long-description-container p b, 
+.long-description-container p strong {
+    font-weight: 600;
+    color: #333;
 }

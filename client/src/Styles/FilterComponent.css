@@ -1,4 +1,35 @@
-/* FilterComponent.css */
 .filter-container {
-    margin: 20px 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    /* Ensure alignment */
+    margin-top: 2cm;
+    /* Reset margin-top */
+    padding: 0.1cm;
+    /* Adjust padding if needed */
+    margin-right: 20px;
+    /* Keep the right margin */
+    position: relative;
+    top: -1.5cm;
+    right: 2.5cm;
+    background-color: white;
+    color: #000;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.filter-button {
+    background-color: #0056b3;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.filter-button:hover {
+    background-color: #003d7a; /* Darker shade for hover effect */
+    color: white;               /* Ensure text color remains visible */
 }

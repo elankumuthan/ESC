@@ -9,18 +9,17 @@ import '../Styles/bookingform.css';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 const stripePromise = loadStripe("pk_test_51PVRhkBQYdvRSbbUXQbqZZEgSjlMuM8FukpdV9gtGgYfa0JnICzsxzDtP484SVHZ81fLrPyCt7qEOcagnpfRFP8M009ejwRR6i");
-let payment_method="";
-let paymentIntentStatus={};
 
-// Payment Button Component included by form component that will call handlebuttonclick function
-//that will pay AND THEN when payment successful submit the form
+let payment_method = "";
+let paymentIntentStatus = {};
+
+// Payment Button Component
 function Button({ isProcessingStripe, submitPayment }) {
-    //create stripe and elements instance
     const stripe = useStripe();
     const elements = useElements();
-    //styling and rendering of button, all functions defined in main/EachHotel()
+
     const buttonStyle = {
-        backgroundColor: '#28a745', // Green color
+        backgroundColor: '#28a745',
         color: 'white',
         border: 'none',
         borderRadius: '5px',
@@ -35,11 +34,10 @@ function Button({ isProcessingStripe, submitPayment }) {
 
     const buttonDisabledStyle = {
         ...buttonStyle,
-        backgroundColor: '#6c757d', // Grey color for disabled state
+        backgroundColor: '#6c757d',
         cursor: 'not-allowed'
     };
 
-    //render button
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '15vh' }}>
             <button
@@ -54,10 +52,8 @@ function Button({ isProcessingStripe, submitPayment }) {
         </div>
     );
 }
-//added button component ends here
 
-
-//form component
+// Form Component
 function EachHotel() {
     let location = useLocation();
     let navigate = useNavigate();
@@ -65,10 +61,10 @@ function EachHotel() {
     const { startDate, endDate, guests, destinationId, hotelName, hotelId, roomDescription, roomPrice } = location.state || {};
     const [loading, setLoading] = useState(false);
     const [clientSecret, setClientSecret] = useState("");
-    const effectRan = useRef(false); // Track if the effect has run
-    const [isProcessingStripe, setIsProcessingStripe] = useState(false);//states for Stripe
-    const formikRef = useRef(null);//form instance
-    
+    const effectRan = useRef(false);
+    const [isProcessingStripe, setIsProcessingStripe] = useState(false);
+    const formikRef = useRef(null);
+
     const personalDetails = {
         firstName: "",
         lastName: "",
@@ -96,7 +92,6 @@ function EachHotel() {
     const updateDB = async (data) => {
         setLoading(true);
         data.payeeID = payment_method;
-        console.log(data);
         try {
             await axios.post("http://localhost:3004/booking", data);
             console.log(`Data added!`);
@@ -117,56 +112,46 @@ function EachHotel() {
         } finally {
             setLoading(false);
         }
-        
     };
 
-    //function called when payment button clicked, handle payment AND form submission
-    //to make the UI nicer and have only one button while ensuring payment is check first before 
-    //form is submitted
     async function handleSubmitClick(stripe, elements) {
         if (!stripe || !elements) return;
         setIsProcessingStripe(true);
-        setLoading(true); // Show loading screen immediately
+        setLoading(true);
         paymentIntentStatus = await stripe.retrievePaymentIntent(clientSecret);
         if (paymentIntentStatus.paymentIntent.status !== 'succeeded') {
-                // Confirm the payment with Stripe
-                const { error } = await stripe.confirmPayment({
-                    elements,
-                    redirect: 'if_required'
-                });
-    
-                if (error) {
-                    console.error('Error during payment:', error);
-                    setIsProcessingStripe(false);
-                    setLoading(false); // Hide loading screen if payment fails
-                    return;
-                } 
-                paymentIntentStatus = await stripe.retrievePaymentIntent(clientSecret);
+            const { error } = await stripe.confirmPayment({
+                elements,
+                redirect: 'if_required'
+            });
+
+            if (error) {
+                console.error('Error during payment:', error);
+                setIsProcessingStripe(false);
+                setLoading(false);
+                return;
             }
-        
+            paymentIntentStatus = await stripe.retrievePaymentIntent(clientSecret);
+        }
+
         if (paymentIntentStatus.paymentIntent.status === 'succeeded') {
-            const payment_method_update=paymentIntentStatus.paymentIntent.payment_method;
-            payment_method=payment_method_update;
-            // Validate the form before proceeding with the payment
-            const formIsValid = await formikRef.current.validateForm();
-            if (Object.keys(formIsValid).length > 0) {
-                    setIsProcessingStripe(false);
-                    setLoading(false);
-                }
+            payment_method = paymentIntentStatus.paymentIntent.payment_method;
+
+            const formErrors = await formikRef.current.validateForm();
+            if (Object.keys(formErrors).length > 0) {
+                setIsProcessingStripe(false);
+                setLoading(false);
+                return;
+            }
 
             formikRef.current.submitForm();
-            
-     } 
+        }
     }
-    //useEffect will be called ONLY first time screen renders to ensure that only one payment transaction
-    //determined by the clientSecret is called
-    //so that when form fails to submit after payment goes through, resubmitting teh form will not craete a second payment session
 
     useEffect(() => {
         if (effectRan.current) return;
         effectRan.current = true;
 
-        console.log("useEffect called");
         fetch("http://localhost:3004/booking/checkout", {
             method: "POST",
             headers: {
@@ -198,8 +183,8 @@ function EachHotel() {
                 <Formik
                     initialValues={personalDetails}
                     validationSchema={validationSchema}
-                    onSubmit={updateDB} // Formik's onSubmit is not used directly
-                    innerRef={formikRef} //get a ref to this form instance so that handleSubmitClick triggered by payment button can trigger submit form
+                    onSubmit={updateDB}
+                    innerRef={formikRef}
                 >
                     <Form>
                         <div className="form-group">
