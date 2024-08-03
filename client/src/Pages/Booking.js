@@ -98,7 +98,7 @@ function EachHotel() {
         data.payeeID = payment_method;
         console.log(data);
         try {
-            await axios.post("http://localhost:3004/booking", data);
+            const res = await axios.post("http://localhost:3004/booking", data);
             console.log(`Data added!`);
             navigate("/confirmation", {
                 state: {
