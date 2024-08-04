@@ -57,26 +57,27 @@
       "last 1 safari version"
     ]
   },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": [
-      "./jest.setup.js"
-    ],
-    "testMatch": [
-      "<rootDir>/test/**/*.test.js",
-      "<rootDir>/test/**/*.spec.js",
-      "<rootDir>/**/__tests__/**/*.[jt]s?(x)"
-    ],
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
-    },
-    "moduleNameMapper": {
-      "\\.(css|less)$": "identity-obj-proxy"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!(axios)/)"
-    ]
+"jest": {
+  "testEnvironment": "jsdom",
+  "setupFilesAfterEnv": [
+    "./jest.setup.js"
+  ],
+  "testMatch": [
+    "<rootDir>/test/**/*.test.js",
+    "<rootDir>/test/**/*.spec.js",
+    "<rootDir>/**/__tests__/**/*.[jt]s?(x)"
+  ],
+  "transform": {
+    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
   },
+  "moduleNameMapper": {
+  "\\.(css|less)$": "identity-obj-proxy",
+  "\\.(jpg|jpeg|png|gif|webp|svg)$": "/Users/elankumuthan/Desktop/ESC/client/test/__mocks___/fileMock.js"
+},
+  "transformIgnorePatterns": [
+    "node_modules/(?!(axios)/)"
+  ]
+},
   "babel": {
     "presets": [
       "@babel/preset-env",

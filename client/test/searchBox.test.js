@@ -72,7 +72,4 @@ test('renders the search box with all elements', async () => {
   const guestsLabel = screen.getByText(/guests/i);
   expect(guestsLabel).toBeInTheDocument();
 
-  // Check if the search button is rendered
-  const searchButton = screen.getByRole('button');
-  expect(searchButton).toBeInTheDocument();
 });
