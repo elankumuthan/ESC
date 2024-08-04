@@ -72,7 +72,7 @@
   },
   "moduleNameMapper": {
   "\\.(css|less)$": "identity-obj-proxy",
-  "\\.(jpg|jpeg|png|gif|webp|svg)$": "/Users/elankumuthan/Desktop/ESC/client/test/__mocks___/fileMock.js"
+  "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/test/__mocks___/fileMock.js"
 },
   "transformIgnorePatterns": [
     "node_modules/(?!(axios)/)"
