@@ -36,7 +36,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "jest ",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -57,27 +57,32 @@
       "last 1 safari version"
     ]
   },
-"jest": {
-  "testEnvironment": "jsdom",
-  "setupFilesAfterEnv": [
-    "./jest.setup.js"
-  ],
-  "testMatch": [
-    "<rootDir>/test/**/*.test.js",
-    "<rootDir>/test/**/*.spec.js",
-    "<rootDir>/**/__tests__/**/*.[jt]s?(x)"
-  ],
-  "transform": {
-    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "./jest.setup.js"
+    ],
+    "testMatch": [
+      "<rootDir>/test/**/*.test.js",
+      "<rootDir>/test/**/*.spec.js",
+      "<rootDir>/**/__tests__/**/*.[jt]s?(x)"
+    ],
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy",
+      "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/test/__mocks___/fileMock.js"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(axios)/)"
+    ],
+    "reporters": [
+      "default",
+      ["jest-summary-reporter", {"failuresOnly": false}]
+    ],
+    "verbose": true
   },
-  "moduleNameMapper": {
-  "\\.(css|less)$": "identity-obj-proxy",
-  "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/test/__mocks___/fileMock.js"
-},
-  "transformIgnorePatterns": [
-    "node_modules/(?!(axios)/)"
-  ]
-},
   "babel": {
     "presets": [
       "@babel/preset-env",
@@ -90,6 +95,7 @@
     "@babel/preset-react": "^7.24.7",
     "@testing-library/dom": "^10.4.0",
     "babel-jest": "^29.7.0",
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "jest-summary-reporter": "^0.0.2"
   }
 }

@@ -13,11 +13,8 @@ jest.mock('axios');
 jest.mock('../src/Assets/file.png', () => 'test-file-stub', { virtual: true });
 
 // Mock fetch for the test
-global.fetch = jest.fn(() =>
-    Promise.resolve({
-        json: () => Promise.resolve({ clientSecret: 'test_client_secret' }),
-    })
-);
+global.fetch = jest.fn();
+
 const createMockStripe = (paymentIntentStatus) => ({
     elements: jest.fn(),
     createToken: jest.fn(),
@@ -48,20 +45,18 @@ const createMockStripe = (paymentIntentStatus) => ({
     }),
 });
 
-
-
-let mockStripe;
 const mockElements = {
     getElement: jest.fn(),
   };
-
-  
+ 
 jest.mock('@stripe/react-stripe-js', () => {
 const stripe = jest.requireActual('@stripe/react-stripe-js');
 return {
     ...stripe,
     useStripe: () => mockStripe,
     useElements: () => mockElements,
+    Elements: jest.fn(({ children }) => <div>{children}</div>),
+    PaymentElement: jest.fn(() => <div data-testid="payment-element"></div>),
 };
 });
 
@@ -86,16 +81,71 @@ jest.mock('react-router-dom', () => ({
     useLocation: ()=>mockLocation,
 }));
 
+let mockStripe;
+let clientSecret;
+
+
+
+
+
+
+//test for useEffect on init to get clientSecret before PaymentElement renders
+describe('useEffect(,[]) on init call retrieve clientSecret from server and allows PaymentElement and button to render',()=>{
+    beforeEach(()=>{
+        fetch.mockClear();
+        clientSecret = undefined;
+    });
+
+    test('PaymnetElement renders when server returns valid clientSecret',async ()=>{
+        fetch.mockImplementationOnce(()=>Promise.resolve({
+            json:()=>Promise.resolve({clientSecret:'test_client_secret'})
+        }));
+        await act(async () => {
+            render(
+                <Router>
+                        <EachHotel />
+                </Router>
+            );
+        });
+        const button = screen.getByText('Pay & Submit');
+        expect(button).toBeInTheDocument(); 
+        const paymentElement= screen.getByTestId("payment-element")
+        expect(paymentElement).toBeInTheDocument();
+    })
+
+    test('PaymnetElement renders when server returns valid clientSecret',async ()=>{
+        fetch.mockImplementationOnce(()=>Promise.resolve({
+            json:()=>Promise.resolve({clientSecret:''})
+        }));
+        await act(async () => {
+            render(
+                <Router>
+                        <EachHotel />
+                </Router>
+            );
+        });
+        const button = screen.queryByText('Pay & Submit');
+        expect(button).not.toBeInTheDocument(); 
+        const paymentElement= screen.queryByTestId("payment-element")
+        expect(paymentElement).not.toBeInTheDocument();
+    })
+})
+
+
+
 
 
 
 //test for handleSubmitClick starts
 describe('submit button front end integration test', () => {
+    fetch.mockImplementation(()=>Promise.resolve({
+        json:()=>Promise.resolve({clientSecret:'test_client_secret'})
+    }));
 
     test('render loading spinner,disable button and navigate to confirmation page when both payment is SUCCESSFUL & form is VALID', async () => {
         mockStripe=createMockStripe('succeeded')
         axios.post.mockResolvedValue({
-            data: {status:200,body:'succeseeded' }
+            data: {status:200,body:'succeeded' }
         });
         await act(async () => {
             render(
