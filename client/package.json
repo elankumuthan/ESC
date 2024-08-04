@@ -8,13 +8,16 @@
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
-    "@mui/material": "^5.16.4",
+    "@mui/material": "^5.16.5",
+    "@mui/icons-material": "^5.16.5",
     "@react-google-maps/api": "^2.19.3",
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.1.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "ajv": "^8.17.1",
+    "ajv-keywords": "^5.1.0",
     "axios": "^1.7.2",
     "cors": "^2.8.5",
     "formik": "^2.4.6",
@@ -60,7 +63,7 @@
   "jest": {
     "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
-      "/Users/elankumuthan/Desktop/ESC/client/jest.setup.js"
+      "/GEXP/ESC/client/jest.setup.js"
     ],
     "testMatch": [
       "<rootDir>/test/**/*.test.js",
@@ -71,7 +74,8 @@
       "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
     },
     "moduleNameMapper": {
-      "\\.(css|less)$": "identity-obj-proxy"
+      "\\.(css|less)$": "identity-obj-proxy",
+      "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/test/__mocks___/fileMock.js"
     },
     "transformIgnorePatterns": [
       "node_modules/(?!(axios)/)"

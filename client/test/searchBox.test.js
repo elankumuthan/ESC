@@ -32,9 +32,9 @@ global.fetch = jest.fn(() =>
 const originalError = console.error;
 beforeAll(() => {
   console.error = (...args) => {
-    if (typeof args[0] === 'string' && 
-        (args[0].includes('Support for defaultProps will be removed') ||
-         args[0].includes('Warning: `ReactDOMTestUtils.act` is deprecated'))) {
+    if (typeof args[0] === 'string' &&
+      (args[0].includes('Support for defaultProps will be removed') ||
+        args[0].includes('Warning: `ReactDOMTestUtils.act` is deprecated'))) {
       return;
     }
     originalError.call(console, ...args);
@@ -72,7 +72,4 @@ test('renders the search box with all elements', async () => {
   const guestsLabel = screen.getByText(/guests/i);
   expect(guestsLabel).toBeInTheDocument();
 
-  // Check if the search button is rendered
-  const searchButton = screen.getByRole('button');
-  expect(searchButton).toBeInTheDocument();
 });

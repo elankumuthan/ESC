@@ -8,6 +8,18 @@ import FilterComponent from '../Components/FilterComponent';
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import SortDialog from '../Components/SortDialog'; // Import the dialog component
+import { Tabs, Tab } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import DiamondIcon from '@mui/icons-material/Diamond';
+import PoolIcon from '@mui/icons-material/Pool';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
+import DesignServicesIcon from '@mui/icons-material/DesignServices';
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import FlareIcon from '@mui/icons-material/Flare';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import SpaIcon from '@mui/icons-material/Spa';
+import ForestIcon from '@mui/icons-material/Forest';
 
 function Hotels() {
     const [listofHotels, setListofHotels] = useState([]);
@@ -23,6 +35,7 @@ function Hotels() {
     const [guestDetails, setGuestDetails] = useState({ adults: 0, children: 0 });
     const [sortOrder, setSortOrder] = useState('default'); // Updated state for sorting order
     const [isDialogOpen, setIsDialogOpen] = useState(false); // State for dialog
+    const [selectedTab, setSelectedTab] = useState(0); // Initializes state for selectedTab
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -112,13 +125,142 @@ function Hotels() {
         }
     };
 
+    const handleTabChange = (event, newValue) => {
+        setSelectedTab(newValue);
+    };
+
     const filteredHotels = listofHotels.filter(hotel => {
         const matchesRating = selectedRating ? hotel.rating === selectedRating : true;
         const matchesSearchQuery = hotel.name.toLowerCase().includes(searchQuery.toLowerCase());
         const hotelPrice = hotelPrices[hotel.id] || 0;
         const matchesPrice = hotelPrice >= priceRange[0] && hotelPrice <= priceRange[1];
-        return matchesRating && matchesSearchQuery && matchesPrice;
+
+        let matchesCategory = true; // Default to true if no filtering by category
+        if (selectedTab === 1) {
+            // Assuming categories might be an array, object, or string
+            if (Array.isArray(hotel.categories)) {
+                matchesCategory = hotel.categories.includes('luxury_hotel');
+            } else if (typeof hotel.categories === 'string') {
+                matchesCategory = hotel.categories === 'luxury_hotel';
+            } else if (typeof hotel.categories === 'object') {
+                matchesCategory = hotel.categories['luxury_hotel'];
+            } else {
+                matchesCategory = false; // If the type is unexpected, do not match
+            }
+        }
+        if (selectedTab === 2) {
+            // Assuming categories might be an array, object, or string
+            if (Array.isArray(hotel.amenities)) {
+                matchesCategory = hotel.amenities.includes('outdoorPool');
+            } else if (typeof hotel.amenities === 'string') {
+                matchesCategory = hotel.amenities === 'outdoorPool';
+            } else if (typeof hotel.amenities === 'object') {
+                matchesCategory = hotel.amenities['outdoorPool'];
+            } else {
+                matchesCategory = false; // If the type is unexpected, do not match
+            }
+        }
+        if (selectedTab === 3) {
+            // Assuming categories might be an array, object, or string
+            if (Array.isArray(hotel.categories)) {
+                matchesCategory = hotel.categories.includes('romantic_hotel');
+            } else if (typeof hotel.categories === 'string') {
+                matchesCategory = hotel.categories === 'romantic_hotel';
+            } else if (typeof hotel.categories === 'object') {
+                matchesCategory = hotel.categories['romantic_hotel'];
+            } else {
+                matchesCategory = false; // If the type is unexpected, do not match
+            }
+        }
+        if (selectedTab === 4) {
+            // Assuming categories might be an array, object, or string
+            if (Array.isArray(hotel.categories)) {
+                matchesCategory = hotel.categories.includes('family_hotel');
+            } else if (typeof hotel.categories === 'string') {
+                matchesCategory = hotel.categories === 'family_hotel';
+            } else if (typeof hotel.categories === 'object') {
+                matchesCategory = hotel.categories['family_hotel'];
+            } else {
+                matchesCategory = false; // If the type is unexpected, do not match
+            }
+        }
+        if (selectedTab === 5) {
+            // Assuming categories might be an array, object, or string
+            if (Array.isArray(hotel.categories)) {
+                matchesCategory = hotel.categories.includes('design_hotel');
+            } else if (typeof hotel.categories === 'string') {
+                matchesCategory = hotel.categories === 'design_hotel';
+            } else if (typeof hotel.categories === 'object') {
+                matchesCategory = hotel.categories['design_hotel'];
+            } else {
+                matchesCategory = false; // If the type is unexpected, do not match
+            }
+        }
+        if (selectedTab === 6) {
+            // Assuming categories might be an array, object, or string
+            if (Array.isArray(hotel.categories)) {
+                matchesCategory = hotel.categories.includes('business_hotel');
+            } else if (typeof hotel.categories === 'string') {
+                matchesCategory = hotel.categories === 'business_hotel';
+            } else if (typeof hotel.categories === 'object') {
+                matchesCategory = hotel.categories['business_hotel'];
+            } else {
+                matchesCategory = false; // If the type is unexpected, do not match
+            }
+        }
+        if (selectedTab === 7) {
+            // Assuming categories might be an array, object, or string
+            if (Array.isArray(hotel.categories)) {
+                matchesCategory = hotel.categories.includes('boutique_hotel');
+            } else if (typeof hotel.categories === 'string') {
+                matchesCategory = hotel.categories === 'boutique_hotel';
+            } else if (typeof hotel.categories === 'object') {
+                matchesCategory = hotel.categories['boutique_hotel'];
+            } else {
+                matchesCategory = false; // If the type is unexpected, do not match
+            }
+        }
+        if (selectedTab === 8) {
+            // Assuming categories might be an array, object, or string
+            if (Array.isArray(hotel.categories)) {
+                matchesCategory = hotel.categories.includes('city_hotel');
+            } else if (typeof hotel.categories === 'string') {
+                matchesCategory = hotel.categories === 'city_hotel';
+            } else if (typeof hotel.categories === 'object') {
+                matchesCategory = hotel.categories['city_hotel'];
+            } else {
+                matchesCategory = false; // If the type is unexpected, do not match
+            }
+        }
+        if (selectedTab === 9) {
+            // Assuming categories might be an array, object, or string
+            if (Array.isArray(hotel.categories)) {
+                matchesCategory = hotel.categories.includes('wellness_hotel');
+            } else if (typeof hotel.categories === 'string') {
+                matchesCategory = hotel.categories === 'wellness_hotel';
+            } else if (typeof hotel.categories === 'object') {
+                matchesCategory = hotel.categories['wellness_hotel'];
+            } else {
+                matchesCategory = false; // If the type is unexpected, do not match
+            }
+        }
+        if (selectedTab === 10) {
+            // Assuming categories might be an array, object, or string
+            if (Array.isArray(hotel.categories)) {
+                matchesCategory = hotel.categories.includes('eco_friendly_hotel');
+            } else if (typeof hotel.categories === 'string') {
+                matchesCategory = hotel.categories === 'eco_friendly_hotel';
+            } else if (typeof hotel.categories === 'object') {
+                matchesCategory = hotel.categories['eco_friendly_hotel'];
+            } else {
+                matchesCategory = false; // If the type is unexpected, do not match
+            }
+        }
+
+
+        return matchesRating && matchesSearchQuery && matchesPrice && matchesCategory;
     });
+
 
     const sortedHotels = filteredHotels.sort((a, b) => {
         const priceA = hotelPrices[a.id] || 0;
@@ -192,6 +334,74 @@ function Hotels() {
             <div className="fixed-header">
                 <Navbar />
                 <SearchBox searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100vh'
+                }}>
+                    <Tabs value={selectedTab} onChange={handleTabChange} aria-label="hotel tabs" TabIndicatorProps={{
+                        style: {
+                            bottom: '20px', // Adjust position of the line from the bottom
+                        }
+                    }}>
+                        <Tab
+                            icon={<SearchIcon />}
+                            label="Your Searches"
+                            sx={{ '& .MuiTab-iconWrapper': { marginTop: '-0.7cm' } }}
+                        />
+                        <Tab
+                            icon={<DiamondIcon />}
+                            label="Luxury"
+                            sx={{ '& .MuiTab-iconWrapper': { marginTop: '-0.7cm' } }}
+                        />
+                        <Tab
+                            icon={<PoolIcon />}
+                            label="Pool"
+                            sx={{ '& .MuiTab-iconWrapper': { marginTop: '-0.7cm' } }}
+                        />
+                        <Tab
+                            icon={<FavoriteIcon />}
+                            label="Romantic"
+                            sx={{ '& .MuiTab-iconWrapper': { marginTop: '-0.7cm' } }}
+                        />
+                        <Tab
+                            icon={<FamilyRestroomIcon />}
+                            label="Family"
+                            sx={{ '& .MuiTab-iconWrapper': { marginTop: '-0.7cm' } }}
+                        />
+                        <Tab
+                            icon={<DesignServicesIcon />}
+                            label="Design"
+                            sx={{ '& .MuiTab-iconWrapper': { marginTop: '-0.7cm' } }}
+                        />
+                        <Tab
+                            icon={<BusinessCenterIcon />}
+                            label="Business"
+                            sx={{ '& .MuiTab-iconWrapper': { marginTop: '-0.7cm' } }}
+                        />
+                        <Tab
+                            icon={<FlareIcon />}
+                            label="Boutique"
+                            sx={{ '& .MuiTab-iconWrapper': { marginTop: '-0.7cm' } }}
+                        />
+                        <Tab
+                            icon={<LocationCityIcon />}
+                            label="City"
+                            sx={{ '& .MuiTab-iconWrapper': { marginTop: '-0.7cm' } }}
+                        />
+                        <Tab
+                            icon={<SpaIcon />}
+                            label="Wellness"
+                            sx={{ '& .MuiTab-iconWrapper': { marginTop: '-0.7cm' } }}
+                        />
+                        <Tab
+                            icon={<ForestIcon />}
+                            label="Eco"
+                            sx={{ '& .MuiTab-iconWrapper': { marginTop: '-0.7cm' } }}
+                        />
+                    </Tabs>
+                </div>
                 <FilterComponent
                     setSelectedRating={handleFilterChange}
                     resetFilter={handleFilterReset}
@@ -210,6 +420,7 @@ function Hotels() {
                     sortOrder={sortOrder}
                 />
             </div>
+
             <div className="content" style={{ flex: 1, display: 'flex' }}>
                 <div className="hotel-list-container" style={{ flex: 1 }}>
                     <HotelList

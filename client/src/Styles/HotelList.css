@@ -151,7 +151,7 @@
 
 /* In src/Destination/Pages/Hotels.css */
 .hotels-page .search-box {
-    margin-top: -40px;
+    margin-top: -110px;
     /* Adjust this value as needed */
 }
 
@@ -165,17 +165,17 @@
 /* Ensure the navbar and search box stick to the top */
 .fixed-header {
     position: fixed;
-    top: 0;
+    top: 0cm;
     z-index: 1000;
     background-color: white;
     width: 100%;
     display: flex;
     flex-direction: column;
-    height: 7.1cm;
+    height: 5cm;
 }
 
 .content {
-    margin-top: 100px;
+    margin-top: 11.5%;
     /* Adjust this value based on the combined height of Navbar and SearchBox */
 }
 
@@ -199,19 +199,52 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     transition: all 0.2s ease;
-    padding: 0.23cm; /* Adjust padding for appearance */
-    font-size: 16px;   /* Adjust font size */
-    width: 2cm;        /* Set a fixed width */
-    min-width: 2.05cm; /* Set a minimum width for better appearance */
-    position: relative; /* Ensure proper positioning */
-    top: -2.57cm;       /* Adjust positioning as needed */
-    left: 39.55cm;     /* Adjust positioning as needed */
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif ;
+    padding: 0.23cm;
+    /* Adjust padding for appearance */
+    font-size: 16px;
+    /* Adjust font size */
+    width: 2cm;
+    /* Set a fixed width */
+    min-width: 2.05cm;
+    /* Set a minimum width for better appearance */
+    position: relative;
+    /* Ensure proper positioning */
+    top: -5cm;
+    /* Adjust positioning as needed */
+    left: 37cm;
+    /* Adjust positioning as needed */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.filter-button {
+    background-color: #0056b3;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    padding: 0.23cm;
+    /* Adjust padding for appearance */
+    font-size: 16px;
+    /* Adjust font size */
+    width: 2cm;
+    /* Set a fixed width */
+    min-width: 2.05cm;
+    /* Set a minimum width for better appearance */
+    position: relative;
+    /* Ensure proper positioning */
+    top: -4.025cm;
+    /* Adjust positioning as needed */
+    left: 35cm;
+    /* Adjust positioning as needed */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .sort-button:hover {
-    background-color: #003d7a; /* Darker shade for hover effect */
-    color: white;               /* Ensure text color remains visible */
+    background-color: #003d7a;
+    /* Darker shade for hover effect */
+    color: white;
+    /* Ensure text color remains visible */
 }
 
 .speech-bubble {

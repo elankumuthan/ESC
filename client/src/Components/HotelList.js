@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../Styles/HotelList.css';
 import { useNavigate, useLocation } from "react-router-dom";
-import FilterComponent from './FilterComponent';
 import PaginationComponent from './PaginationComponent';
 import HotelMap from './HotelMap'; // Import the HotelMap component
 
@@ -104,21 +103,7 @@ const HotelList = ({ hotels, hotelPrices, currentImageIndices, setCurrentImageIn
 
     return (
         <div className="hotel-list-page">
-            <div className="filters-and-sort">
-                <FilterComponent
-                    selectedRating={selectedRating}
-                    setSelectedRating={setSelectedRating}
-                    selectedScore={selectedScore}
-                    setSelectedScore={setSelectedScore}
-                    resetFilter={() => {
-                        setSelectedRating(null);
-                        setSelectedScore([0, 100]);
-                    }}
-                    setPage={setCurrentPage}
-                />
-                <button className="sort-button">SORT</button>
-                <button class="filter-button">FILTER</button>
-            </div>
+
             <div className="hotel-grid">
                 {paginatedHotels.map(hotel => (
                     <div key={hotel.id} onClick={(event) => handleHotelClick(event, hotel.id, hotel.name)}>
