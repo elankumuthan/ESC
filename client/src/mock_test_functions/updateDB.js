@@ -3,7 +3,6 @@
 import axios from "axios";
 
 async function updateDB(data){
-    //mock navigate
     //mock payeeID
     //mock state
     const test_payeeID = "pm_1PjXrWBQYdvRSbbU2jFqDWYu";
@@ -12,6 +11,7 @@ async function updateDB(data){
         const res=await axios.post("http://localhost:3004/booking", data);
         console.log(`Data added!`);
         //added for testing
+        //remove navigate for test
         return res;
 
     } catch (error) {

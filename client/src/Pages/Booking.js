@@ -14,7 +14,7 @@ let paymentIntentStatus={};
 
 // Payment Button Component included by form component that will call handlebuttonclick function
 //that will pay AND THEN when payment successful submit the form
-function Button({ isProcessingStripe, submitPayment }) {
+export function Button({ isProcessingStripe, submitPayment }) {
     //create stripe and elements instance
     const stripe = useStripe();
     const elements = useElements();
@@ -43,6 +43,8 @@ function Button({ isProcessingStripe, submitPayment }) {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '15vh' }}>
             <button
+                data-testid="payment-button"
+                type="button" 
                 style={isProcessingStripe ? buttonDisabledStyle : buttonStyle}
                 onClick={() => submitPayment(stripe, elements)}
                 disabled={isProcessingStripe}
@@ -58,7 +60,7 @@ function Button({ isProcessingStripe, submitPayment }) {
 
 
 //form component
-function EachHotel() {
+export default function EachHotel() {
     let location = useLocation();
     let navigate = useNavigate();
 
@@ -149,13 +151,13 @@ function EachHotel() {
             payment_method=payment_method_update;
             // Validate the form before proceeding with the payment
             const formIsValid = await formikRef.current.validateForm();
+
             if (Object.keys(formIsValid).length > 0) {
                     setIsProcessingStripe(false);
                     setLoading(false);
                 }
 
             formikRef.current.submitForm();
-            
      } 
     }
     //useEffect will be called ONLY first time screen renders to ensure that only one payment transaction
@@ -180,6 +182,7 @@ function EachHotel() {
             })
             .catch(error => console.error('Error fetching client secret:', error));
     }, []);
+   
 
     return (
         <>
@@ -201,7 +204,7 @@ function EachHotel() {
                     onSubmit={updateDB} // Formik's onSubmit is not used directly
                     innerRef={formikRef} //get a ref to this form instance so that handleSubmitClick triggered by payment button can trigger submit form
                 >
-                    <Form>
+                    <Form role='form' >
                         <div className="form-group">
                             <label htmlFor="infirstName">First Name</label>
                             <Field id="infirstName" name="firstName" placeholder="John" className="form-field" />
@@ -233,6 +236,7 @@ function EachHotel() {
                         </div>
 
                         <div>
+                            
                             {clientSecret && (
                                 <Elements stripe={stripePromise} options={{ clientSecret }}>
                                     <PaymentElement />
@@ -255,4 +259,4 @@ function EachHotel() {
     );
 }
 
-export default EachHotel;
+

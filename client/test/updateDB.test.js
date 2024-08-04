@@ -1,4 +1,4 @@
-import updateDB from "../src/test_functions/updateDB";
+import updateDB from "../src/mock_test_functions/updateDB";
 
 // Mock the axios module
 //jest.mock("axios");
