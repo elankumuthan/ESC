@@ -34,4 +34,20 @@ router.get("/:hotelId/price", async (req, res) => {
     }
 });
 
+// Get request to fetch hotel details based on the hotel ID
+router.get('/:hotelId', async (req, res) => {
+    const { hotelId } = req.params;
+
+    // External API URL to fetch hotel details
+    const apiUrl = `https://hotelapi.loyalty.dev/api/hotels/${hotelId}`;
+
+    try {
+        const response = await axios.get(apiUrl);
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error fetching hotel details:', error);
+        res.status(error.response?.status || 500).json({ message: 'Error fetching hotel details' });
+    }
+});
+
 module.exports = router;

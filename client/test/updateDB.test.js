@@ -22,7 +22,7 @@ describe("Integration Test calling backend to create a booking", () => {
             price: "1000",
             payeeID: "4242",
         };
-        
+
         // Call updateDB with valid data
         const result = await updateDB(valid_data);
 
@@ -49,7 +49,7 @@ describe("Integration Test calling backend to create a booking", () => {
             price: "1000",
             payeeID: "4242",
         };
-        
+
         await expect(updateDB(invalid_data)).rejects.toThrow();
     });
 });

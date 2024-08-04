@@ -17,10 +17,10 @@ function App() {
       <SelectedCountryProvider>
         <Router basename="/">
           <Routes>
-          <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/hotels" element={<Hotels />} />
             <Route path="/hoteldetails" element={<HotelDetails />} />
-            <Route path="/booking" element={<EachHotel />} /> 
+            <Route path="/booking" element={<EachHotel />} />
             <Route path="/confirmation" element={<Confirmation />} />
           </Routes>
         </Router>

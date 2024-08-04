@@ -27,13 +27,13 @@ const originalError = console.error;
 const originalWarn = console.warn;
 
 beforeAll(() => {
-  console.error = jest.fn();
-  console.warn = jest.fn();
+    console.error = jest.fn();
+    console.warn = jest.fn();
 });
 
 afterAll(() => {
-  console.error = originalError;
-  console.warn = originalWarn;
+    console.error = originalError;
+    console.warn = originalWarn;
 });
 
 test('passes destinationId from the first page to the second and shows the list of hotels', async () => {

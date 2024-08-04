@@ -1,0 +1,73 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+#rooms-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.room {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  transition: transform 0.3s;
+}
+
+.room:hover {
+  transform: scale(1.02);
+}
+
+.room h2 {
+  margin: 0 0 10px;
+  font-size: 1.5em;
+  color: #0056b3;
+  cursor: pointer;
+}
+
+.room h2:hover {
+  text-decoration: underline;
+}
+
+.room-details {
+  display: none;
+}
+
+.room.active .room-details {
+  display: block;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+  margin-top: 10px;
+}
+
+.room-details p {
+  margin: 10px 0;
+}
+
+.room-details img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+.room-details .amenities {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.room-details .amenities div {
+  background-color: #e0f7fa;
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin: 5px;
+  font-size: 0.9em;
+}

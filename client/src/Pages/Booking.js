@@ -9,8 +9,8 @@ import '../Styles/bookingform.css';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 const stripePromise = loadStripe("pk_test_51PVRhkBQYdvRSbbUXQbqZZEgSjlMuM8FukpdV9gtGgYfa0JnICzsxzDtP484SVHZ81fLrPyCt7qEOcagnpfRFP8M009ejwRR6i");
-let payment_method="";
-let paymentIntentStatus={};
+let payment_method = "";
+let paymentIntentStatus = {};
 
 // Payment Button Component included by form component that will call handlebuttonclick function
 //that will pay AND THEN when payment successful submit the form
@@ -44,7 +44,7 @@ export function Button({ isProcessingStripe, submitPayment }) {
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '15vh' }}>
             <button
                 data-testid="payment-button"
-                type="button" 
+                type="button"
                 style={isProcessingStripe ? buttonDisabledStyle : buttonStyle}
                 onClick={() => submitPayment(stripe, elements)}
                 disabled={isProcessingStripe}
@@ -70,7 +70,7 @@ export default function EachHotel() {
     const effectRan = useRef(false); // Track if the effect has run
     const [isProcessingStripe, setIsProcessingStripe] = useState(false);//states for Stripe
     const formikRef = useRef(null);//form instance
-    
+
     const personalDetails = {
         firstName: "",
         lastName: "",
@@ -119,7 +119,7 @@ export default function EachHotel() {
         } finally {
             setLoading(false);
         }
-        
+
     };
 
     //function called when payment button clicked, handle payment AND form submission
@@ -131,34 +131,34 @@ export default function EachHotel() {
         setLoading(true); // Show loading screen immediately
         paymentIntentStatus = await stripe.retrievePaymentIntent(clientSecret);
         if (paymentIntentStatus.paymentIntent.status !== 'succeeded') {
-                // Confirm the payment with Stripe
-                const { error } = await stripe.confirmPayment({
-                    elements,
-                    redirect: 'if_required'
-                });
-    
-                if (error) {
-                    console.error('Error during payment:', error);
-                    setIsProcessingStripe(false);
-                    setLoading(false); // Hide loading screen if payment fails
-                    return;
-                } 
-                paymentIntentStatus = await stripe.retrievePaymentIntent(clientSecret);
+            // Confirm the payment with Stripe
+            const { error } = await stripe.confirmPayment({
+                elements,
+                redirect: 'if_required'
+            });
+
+            if (error) {
+                console.error('Error during payment:', error);
+                setIsProcessingStripe(false);
+                setLoading(false); // Hide loading screen if payment fails
+                return;
             }
-        
+            paymentIntentStatus = await stripe.retrievePaymentIntent(clientSecret);
+        }
+
         if (paymentIntentStatus.paymentIntent.status === 'succeeded') {
-            const payment_method_update=paymentIntentStatus.paymentIntent.payment_method;
-            payment_method=payment_method_update;
+            const payment_method_update = paymentIntentStatus.paymentIntent.payment_method;
+            payment_method = payment_method_update;
             // Validate the form before proceeding with the payment
             const formIsValid = await formikRef.current.validateForm();
 
             if (Object.keys(formIsValid).length > 0) {
-                    setIsProcessingStripe(false);
-                    setLoading(false);
-                }
+                setIsProcessingStripe(false);
+                setLoading(false);
+            }
 
             formikRef.current.submitForm();
-     } 
+        }
     }
     //useEffect will be called ONLY first time screen renders to ensure that only one payment transaction
     //determined by the clientSecret is called
@@ -182,7 +182,7 @@ export default function EachHotel() {
             })
             .catch(error => console.error('Error fetching client secret:', error));
     }, []);
-   
+
 
     return (
         <>
@@ -236,7 +236,7 @@ export default function EachHotel() {
                         </div>
 
                         <div>
-                            
+
                             {clientSecret && (
                                 <Elements stripe={stripePromise} options={{ clientSecret }}>
                                     <PaymentElement />
@@ -258,5 +258,3 @@ export default function EachHotel() {
         </>
     );
 }
-
-

@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 function Confirmation() {
   const location = useLocation();
-  const { startDate, endDate, guests, destinationId, hotelName, hotelId, roomType, roomPrice } = location.state || {};
+  const { startDate, endDate, guests, destinationId, hotelName, hotelId, roomDescription, roomPrice } = location.state || {};
 
   return (
     <>
@@ -78,8 +78,8 @@ function Confirmation() {
                                           <li>Details: <strong>{guests ? `Adults: ${guests.adults}, Children: ${guests.children}, Rooms: ${guests.rooms}` : 'N/A'}</strong></li>
                                           <li>Check in: <strong>{startDate}</strong></li>
                                           <li>Check out: <strong>{endDate}</strong></li>
-                                          <li>Room Type: <strong>{roomType}</strong></li>
-                                          <li>Cost: <strong>{roomPrice}</strong></li>
+                                          <li>Room Type: <strong>{roomDescription}</strong></li>
+                                          <li>Cost: <strong>${roomPrice}</strong></li>
                                         </ul>
                                         <p>Kind regards</p>
                                         <p>Ascenda Bookings Team</p>

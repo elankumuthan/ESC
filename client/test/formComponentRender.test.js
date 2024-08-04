@@ -1,9 +1,9 @@
 //unit tests to ensure components rendered properly 
 
-import EachHotel,{Button} from '../src/Pages/Booking';
+import EachHotel, { Button } from '../src/Pages/Booking';
 import React from 'react';
-import {render,screen,waitFor,fireEvent,act} from '@testing-library/react';
-import {MemoryRouter,Route,Routes} from 'react-router-dom';
+import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
@@ -47,12 +47,12 @@ const createMockStripe = (paymentIntentStatus) => ({
     }),
 });
 
-let mockStripe=createMockStripe('succeeded');
+let mockStripe = createMockStripe('succeeded');
 const mockElements = {
     getElement: jest.fn(),
-  };
+};
 
- // Mock the Stripe context
+// Mock the Stripe context
 jest.mock('@stripe/react-stripe-js', () => ({
     Elements: jest.fn(({ children }) => <div>{children}</div>),
     PaymentElement: jest.fn(() => <div data-testid="payment-element"></div>),
@@ -64,10 +64,10 @@ jest.mock('@stripe/react-stripe-js', () => ({
 
 
 //test for rendering of all components of form starts here
-describe ("unit test to ensure Booking Form components rendered on screen following correct logic",()=>{
-    
+describe("unit test to ensure Booking Form components rendered on screen following correct logic", () => {
 
-    test ('Form is rendered on Booking Page',()=>{
+
+    test('Form is rendered on Booking Page', () => {
         // Mock data
         const mockData = {
             startDate: '2024-07-20',
@@ -108,24 +108,24 @@ describe ("unit test to ensure Booking Form components rendered on screen follow
     })
 
     //test for button rendered only when client secret present
-    test('Button and Payment Element is rendered on screen when clientSecret is present',()=>{
+    test('Button and Payment Element is rendered on screen when clientSecret is present', () => {
         // Mock stripePromise and set clientSecret
         const isProcessingStripe = false;
         const stripePromise = loadStripe("pk_test_51PVRhkBQYdvRSbbUXQbqZZEgSjlMuM8FukpdV9gtGgYfa0JnICzsxzDtP484SVHZ81fLrPyCt7qEOcagnpfRFP8M009ejwRR6i");
-        const clientSecret='pi_3Pjxv3BQYdvRSbbU1n6BHquX_secret_75LvkrCT9l1LMfL4vNUfuumXU' ;
+        const clientSecret = 'pi_3Pjxv3BQYdvRSbbU1n6BHquX_secret_75LvkrCT9l1LMfL4vNUfuumXU';
         const handleSubmitClick = jest.fn(); // Mock function
         render(
-        <div>
-            {clientSecret && (
-                <Elements stripe={stripePromise} options={{ clientSecret }}>
-                    <PaymentElement/>
-                    <Button isProcessingStripe={isProcessingStripe} submitPayment={handleSubmitClick} />
-                </Elements>
-            )}
-        </div>)
+            <div>
+                {clientSecret && (
+                    <Elements stripe={stripePromise} options={{ clientSecret }}>
+                        <PaymentElement />
+                        <Button isProcessingStripe={isProcessingStripe} submitPayment={handleSubmitClick} />
+                    </Elements>
+                )}
+            </div>)
 
         const button = screen.getByText('Pay & Submit');
-        expect(button).toBeInTheDocument(); 
+        expect(button).toBeInTheDocument();
         // Check if PaymentElement is rendered
         const paymentElement = screen.getByTestId('payment-element');
         expect(paymentElement).toBeInTheDocument();
@@ -137,7 +137,7 @@ describe ("unit test to ensure Booking Form components rendered on screen follow
         const isProcessingStripe = false;
         const handleSubmitClick = jest.fn(); // Mock function
         const clientSecret = ''; // Empty string
-    
+
         render(
             <div>
                 {clientSecret && (
@@ -156,5 +156,3 @@ describe ("unit test to ensure Booking Form components rendered on screen follow
     });
 
 });
-
-

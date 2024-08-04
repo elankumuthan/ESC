@@ -1,7 +1,7 @@
 //Desc: This file contains the routes for the bookings table
 const express = require("express");
-const router=require("express").Router();
-const {booking} = require("../models") //booking refers to the table name 
+const router = require("express").Router();
+const { booking } = require("../models") //booking refers to the table name 
 const Model = require("../api boundary/boundary.js")
 
 //Get request to the bookings endpoint
@@ -20,16 +20,16 @@ router.post("/", async (req, res) => {
     try {
         //Creating a new booking entry in the database
         const booking_req = req.body; // the JSON format is called body
-        const payment_method=booking_req.payeeID
-        const last4 =await Model.retrieve_last4digits(payment_method);
+        const payment_method = booking_req.payeeID
+        const last4 = await Model.retrieve_last4digits(payment_method);
         booking_req.payeeID = last4;
         const newBooking = await booking.create(booking_req); //INSERT INTO bookings VALUES (booking_req)
-        
-        try{
-            response=await Model.sendEmail(booking_req,newBooking.id);
+
+        try {
+            response = await Model.sendEmail(booking_req, newBooking.id);
             console.log('Email sent:', response);
             res.status(200).send('SUCCESS!! Booking confirmed and email sent.');
-        }catch(error){
+        } catch (error) {
             console.error('Error sending email:', error);
             return res.status(500).send('Error sending confirmation email.');
         }
@@ -42,10 +42,10 @@ router.post("/", async (req, res) => {
 });
 
 //stripe getting clientSecret to handle paymentIntent( for a single transaction object )
-router.post('/checkout', async function(req,res,next){
+router.post('/checkout', async function (req, res, next) {
 
-    const paymentIntent=await Model.getPaymentSession();
-    res.send({clientSecret:paymentIntent.client_secret});
-  
-  });
+    const paymentIntent = await Model.getPaymentSession();
+    res.send({ clientSecret: paymentIntent.client_secret });
+
+});
 module.exports = router;

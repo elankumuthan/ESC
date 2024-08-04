@@ -8,13 +8,16 @@
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
-    "@mui/material": "^5.16.4",
+    "@mui/material": "^5.16.5",
+    "@mui/icons-material": "^5.16.5",
     "@react-google-maps/api": "^2.19.3",
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.1.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "ajv": "^8.17.1",
+    "ajv-keywords": "^5.1.0",
     "axios": "^1.7.2",
     "cors": "^2.8.5",
     "formik": "^2.4.6",
@@ -27,7 +30,7 @@
     "react-dates": "^21.8.0",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-slick": "^0.30.2",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4",
@@ -36,7 +39,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest ",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -60,7 +63,7 @@
   "jest": {
     "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
-      "./jest.setup.js"
+      "/GEXP/ESC/client/jest.setup.js"
     ],
     "testMatch": [
       "<rootDir>/test/**/*.test.js",
@@ -76,12 +79,7 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!(axios)/)"
-    ],
-    "reporters": [
-      "default",
-      ["jest-summary-reporter", {"failuresOnly": false}]
-    ],
-    "verbose": true
+    ]
   },
   "babel": {
     "presets": [
@@ -93,9 +91,7 @@
     "@babel/core": "^7.24.9",
     "@babel/preset-env": "^7.24.8",
     "@babel/preset-react": "^7.24.7",
-    "@testing-library/dom": "^10.4.0",
     "babel-jest": "^29.7.0",
-    "jest": "^27.5.1",
-    "jest-summary-reporter": "^0.0.2"
+    "jest": "^27.5.1"
   }
 }

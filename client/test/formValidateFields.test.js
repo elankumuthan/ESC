@@ -1,8 +1,8 @@
 //test form validate inputs while user is typing
 import EachHotel from '../src/Pages/Booking';
 import React from 'react';
-import {render,screen,waitFor,fireEvent,act} from '@testing-library/react';
-import {MemoryRouter,Route,Routes} from 'react-router-dom';
+import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 
 // Mock the image import 
@@ -15,8 +15,8 @@ global.fetch = jest.fn(() =>
 );
 
 //test form input validation
-describe ('while user types, form validation of inputs',()=>{
-    test('invalid First Name,Last Name, Phone Number,Email Inputs triggers 4 REQUIRED on screen',async()=>{
+describe('while user types, form validation of inputs', () => {
+    test('invalid First Name,Last Name, Phone Number,Email Inputs triggers 4 REQUIRED on screen', async () => {
 
         render(
             <MemoryRouter initialEntries={[{ pathname: '/hotels' }]}>
@@ -36,15 +36,8 @@ describe ('while user types, form validation of inputs',()=>{
         });
 
         const validationMessages = screen.getAllByText(/Required/i);
-        expect(validationMessages).toHaveLength(4); 
+        expect(validationMessages).toHaveLength(4);
 
     })
 
 })
-
-
-
-
-
-
-

@@ -17,16 +17,17 @@ const HotelDetails = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [roomDetails, setRoomDetails] = useState([]);
+    const [hotelDescription, setHotelDescription] = useState('');
     const [error, setError] = useState(null);
     const [value, setValue] = useState(0);
     const [openDialog, setOpenDialog] = useState(false);
     const [openAmenitiesDialog, setOpenAmenitiesDialog] = useState(false);
+    const hotelId = location.state.hotelId;
     const hotelName = location.state.hotelName;
 
     useEffect(() => {
         const fetchRoomDetails = async () => {
-            const { hotelId, startDate, endDate, guests, destinationId, hotelName } = location.state;
-
+            const { startDate, endDate, guests, destinationId } = location.state;
             const guestsCount = guests.adults + guests.children;
 
             try {
@@ -50,8 +51,19 @@ const HotelDetails = () => {
             }
         };
 
+        const fetchHotelDescription = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3004/api/hotels/${hotelId}`);
+                setHotelDescription(response.data.description);
+            } catch (error) {
+                console.error('Error fetching hotel description:', error);
+                setHotelDescription('Description not available');
+            }
+        };
+
         fetchRoomDetails();
-    }, [location.state]);
+        fetchHotelDescription();
+    }, [hotelId, location.state]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -80,10 +92,9 @@ const HotelDetails = () => {
         }
         return 'N/A';
     };
-    console.log(roomDetails);
 
     const handleBook = () => {
-        const { startDate, endDate, guests, destinationId, hotelId } = location.state;
+        const { startDate, endDate, guests, destinationId } = location.state;
         navigate('/booking', {
             state: {
                 destinationId,
@@ -103,8 +114,11 @@ const HotelDetails = () => {
     }
 
     return (
-        <div>
+        <div className="hotel-details-container">
             <h1 style={{ textAlign: 'center' }}>{hotelName}</h1>
+            <div className="hotel-description-container">
+                <p dangerouslySetInnerHTML={{ __html: hotelDescription }} />
+            </div>
             <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
                 <Tabs
                     value={value}
@@ -151,21 +165,37 @@ const HotelDetails = () => {
                             </div>
                         </div>
                     </Grid>
-                    <div style={{ marginTop: '1cm' }}>
-                        <h2>Price: ${getRoomPrice(roomDetails[value])}</h2>
-                        <h4>Amenities:</h4>
-                        <Grid container spacing={2}>
-                            {roomDetails[value]?.amenities?.slice(0, 8).map((amenity, idx) => (
-                                <Grid item xs={6} key={idx}>
-                                    {idx + 1}. {amenity}
-                                </Grid>
-                            ))}
-                        </Grid>
-                        {roomDetails[value]?.amenities?.length > 8 && (
-                            <Button variant="contained" onClick={handleOpenAmenitiesDialog} sx={{ marginTop: '10px' }}>
-                                View All Amenities
-                            </Button>
-                        )}
+                    <div className="room-info-container">
+                        <div className="price-section">
+                            <h4>Price:</h4>
+                            <p>${getRoomPrice(roomDetails[value])}</p>
+                        </div>
+                        <div className="cancellation-section">
+                            <h4>Free Cancellation:</h4>
+                            <p>{roomDetails[value]?.freeCancellation ? "Available" : "Not Available"}</p>
+                        </div>
+                        <div className="long-description-container">
+                            <h4>Room Description:</h4>
+                            <div dangerouslySetInnerHTML={{ __html: roomDetails[value]?.long_description ?? "No description available" }} />
+                        </div>
+                        <div className="amenities-section">
+                            <h4>Amenities:</h4>
+                            <Grid container spacing={2}>
+                                {roomDetails[value]?.amenities?.slice(0, 8).map((amenity, idx) => (
+                                    <Grid item xs={6} key={idx}>
+                                        <div className="amenity-card">
+                                            <span className="amenity-icon">&#10003;</span>
+                                            <span className="amenity-text">{amenity}</span>
+                                        </div>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                            {roomDetails[value]?.amenities?.length > 8 && (
+                                <Button variant="contained" onClick={handleOpenAmenitiesDialog} className="view-all-amenities-button">
+                                    View All Amenities
+                                </Button>
+                            )}
+                        </div>
                         <Button
                             variant="contained"
                             onClick={handleBook}
@@ -175,37 +205,27 @@ const HotelDetails = () => {
                         </Button>
                     </div>
 
-                    <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth maxWidth="md">
+                    <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
                         <DialogTitle>All Room Images</DialogTitle>
                         <DialogContent>
-                            <ImageList cols={3} gap={8}>
+                            <ImageList cols={3} rowHeight={200}>
                                 {roomDetails[value]?.images?.map((image, idx) => (
                                     <ImageListItem key={idx}>
-                                        <img
-                                            src={image.url}
-                                            alt={`Room image ${idx + 1}`}
-                                            loading="lazy"
-                                            style={{
-                                                width: '100%',
-                                                height: '100%',
-                                                objectFit: 'cover',
-                                                borderRadius: '8px',
-                                            }}
-                                        />
+                                        <img src={image.url} alt={`Room image ${idx + 1}`} />
                                     </ImageListItem>
                                 ))}
                             </ImageList>
                         </DialogContent>
                     </Dialog>
 
-                    <Dialog open={openAmenitiesDialog} onClose={handleCloseAmenitiesDialog} fullWidth maxWidth="sm">
+                    <Dialog open={openAmenitiesDialog} onClose={handleCloseAmenitiesDialog}>
                         <DialogTitle>All Amenities</DialogTitle>
                         <DialogContent>
-                            <ul>
-                                {roomDetails[value]?.amenities?.map((amenity, idx) => (
-                                    <li key={idx}>{amenity}</li>
-                                ))}
-                            </ul>
+                            {roomDetails[value]?.amenities?.map((amenity, idx) => (
+                                <div key={idx}>
+                                    {idx + 1}. {amenity}
+                                </div>
+                            ))}
                         </DialogContent>
                     </Dialog>
                 </>
