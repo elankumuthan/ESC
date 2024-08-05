@@ -92,7 +92,7 @@ export default function EachHotel() {
         lastName: Yup.string().required('Required'),
         phoneNo: Yup.string().matches(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s/0-9]*$/, 'Invalid Phone Number').required('Required'),
         email: Yup.string().email('Invalid email format').required('Required'),
-        special_req: Yup.string(),
+        special_req: Yup.string().matches(/^[a-zA-Z0-9\s]*$/, 'Special requests can only contain letters, numbers, and spaces'),
     });
 
     const updateDB = async (data) => {

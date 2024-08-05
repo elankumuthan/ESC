@@ -104,7 +104,7 @@ const SearchBox = () => {
         // console.log('Selected Dates:', { startDate, endDate });
         // console.log('Number of Guests:', guests);
         // console.log('Selected Country UID:', selectedCountry ? selectedCountry.uid : 'None');
-        console.log('Destination Input:', destinationInput);
+        // console.log('Destination Input:', destinationInput);
 
         //change the date to a moment object
         const formatDate = (date) => {
