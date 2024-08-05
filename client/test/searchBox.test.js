@@ -71,5 +71,4 @@ test('renders the search box with all elements', async () => {
   // Check if the 'Guests' selection is rendered
   const guestsLabel = screen.getByText(/guests/i);
   expect(guestsLabel).toBeInTheDocument();
-
 });

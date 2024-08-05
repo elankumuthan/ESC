@@ -27,7 +27,7 @@ function Destination() {
     setEndDate(endDate);
     setDestinationInput(destinationName);
 
-    const guests = JSON.stringify({ adults: 4, children: 0, rooms: 2 });
+    const guests = "2";
     const url = `/hotels?destination_id=${destinationId}&start_date=${startDate}&end_date=${endDate}&guests=${encodeURIComponent(guests)}`;
 
     window.location.href = url;
