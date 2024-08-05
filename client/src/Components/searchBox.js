@@ -100,10 +100,11 @@ const SearchBox = () => {
     };
 
     const handleSearch = async () => {
-        // console logs are for testing purposes 
-        console.log('Selected Dates:', { startDate, endDate });
-        console.log('Number of Guests:', guests);
-        console.log('Selected Country UID:', selectedCountry ? selectedCountry.uid : 'None');
+        // TESTING CODE
+        // console.log('Selected Dates:', { startDate, endDate });
+        // console.log('Number of Guests:', guests);
+        // console.log('Selected Country UID:', selectedCountry ? selectedCountry.uid : 'None');
+        console.log('Destination Input:', destinationInput);
 
         //change the date to a moment object
         const formatDate = (date) => {

@@ -31,7 +31,7 @@ describe("Integration Test calling backend to create a booking", () => {
         expect(result.data).toBe('SUCCESS!! Booking confirmed and email sent.');
     });
 
-    test("updateDB(invalid_email), bokking should fail! ", async () => {
+    test("updateDB(invalid_email), booking should fail! ", async () => {
         // Define valid test data
         const invalid_data = {
             firstName: "test",
