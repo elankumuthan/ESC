@@ -156,7 +156,7 @@ export default function EachHotel() {
                 setIsProcessingStripe(false);
                 setLoading(false);
             }
-
+            console.log('here')
             formikRef.current.submitForm();
         }
     }

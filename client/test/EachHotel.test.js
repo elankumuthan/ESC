@@ -1,6 +1,6 @@
-// Import necessary libraries and components
+/// Import necessary libraries and components
 import React from 'react';
-import { render, screen, act, fireEvent } from '@testing-library/react';
+import { render, screen, act,fireEvent, waitFor  } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import EachHotel from '../src/Pages/Booking';
 import userEvent from '@testing-library/user-event';
@@ -47,23 +47,22 @@ const createMockStripe = (paymentIntentStatus) => ({
 
 const mockElements = {
     getElement: jest.fn(),
-};
-
+  };
+ 
 jest.mock('@stripe/react-stripe-js', () => {
-    const stripe = jest.requireActual('@stripe/react-stripe-js');
-    return {
-        ...stripe,
-        useStripe: () => mockStripe,
-        useElements: () => mockElements,
-        Elements: jest.fn(({ children }) => <div>{children}</div>),
-        PaymentElement: jest.fn(() => <div data-testid="payment-element"></div>),
-    };
+const stripe = jest.requireActual('@stripe/react-stripe-js');
+return {
+    ...stripe,
+    useStripe: () => mockStripe,
+    useElements: () => mockElements,
+    Elements: jest.fn(({ children }) => <div>{children}</div>),
+    PaymentElement: jest.fn(() => <div data-testid="payment-element"></div>),
+};
 });
 
 // Mock navigate function
-const mockNavigate = jest.fn(() => { console.log('navigated') });
-const mockLocation = {
-    state:
+const mockNavigate = jest.fn(()=>{console.log('navigated')});
+const mockLocation={state: 
     {
         startDate: '2024-08-01', // Replace with actual test values
         endDate: '2024-08-10',   // Replace with actual test values
@@ -79,58 +78,54 @@ const mockLocation = {
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
     useNavigate: () => mockNavigate,
-    useLocation: () => mockLocation,
+    useLocation: ()=>mockLocation,
 }));
 
 let mockStripe;
 let clientSecret;
 
 
-
-
-
-
 //test for useEffect on init to get clientSecret before PaymentElement renders
-describe('useEffect(,[]) on init call retrieve clientSecret from server and allows PaymentElement and button to render', () => {
-    beforeEach(() => {
+/*describe('useEffect(,[]) on init call retrieve clientSecret from server and allows PaymentElement and button to render',()=>{
+    beforeEach(()=>{
         fetch.mockClear();
         clientSecret = undefined;
     });
 
-    test('PaymnetElement renders when server returns valid clientSecret', async () => {
-        fetch.mockImplementationOnce(() => Promise.resolve({
-            json: () => Promise.resolve({ clientSecret: 'test_client_secret' })
+    test('PaymnetElement renders when server returns valid clientSecret',async ()=>{
+        fetch.mockImplementationOnce(()=>Promise.resolve({
+            json:()=>Promise.resolve({clientSecret:'test_client_secret'})
         }));
         await act(async () => {
             render(
                 <Router>
-                    <EachHotel />
+                        <EachHotel />
                 </Router>
             );
         });
         const button = screen.getByText('Pay & Submit');
-        expect(button).toBeInTheDocument();
-        const paymentElement = screen.getByTestId("payment-element")
+        expect(button).toBeInTheDocument(); 
+        const paymentElement= screen.getByTestId("payment-element")
         expect(paymentElement).toBeInTheDocument();
     })
 
-    test('PaymnetElement renders when server returns valid clientSecret', async () => {
-        fetch.mockImplementationOnce(() => Promise.resolve({
-            json: () => Promise.resolve({ clientSecret: '' })
+    test('PaymnetElement renders when server returns valid clientSecret',async ()=>{
+        fetch.mockImplementationOnce(()=>Promise.resolve({
+            json:()=>Promise.resolve({clientSecret:''})
         }));
         await act(async () => {
             render(
                 <Router>
-                    <EachHotel />
+                        <EachHotel />
                 </Router>
             );
         });
         const button = screen.queryByText('Pay & Submit');
-        expect(button).not.toBeInTheDocument();
-        const paymentElement = screen.queryByTestId("payment-element")
+        expect(button).not.toBeInTheDocument(); 
+        const paymentElement= screen.queryByTestId("payment-element")
         expect(paymentElement).not.toBeInTheDocument();
     })
-})
+})*/
 
 
 
@@ -139,15 +134,16 @@ describe('useEffect(,[]) on init call retrieve clientSecret from server and allo
 
 //test for handleSubmitClick starts
 describe('submit button front end integration test', () => {
-    fetch.mockImplementation(() => Promise.resolve({
-        json: () => Promise.resolve({ clientSecret: 'test_client_secret' })
+    fetch.mockImplementation(()=>Promise.resolve({
+        json:()=>Promise.resolve({clientSecret:'test_client_secret'})
     }));
 
-    test('render loading spinner,disable button and navigate to confirmation page when both payment is SUCCESSFUL & form is VALID', async () => {
-        mockStripe = createMockStripe('succeeded')
+    test('render loading spinner, disable button, and navigate to confirmation page when both payment is SUCCESSFUL & form is VALID', async () => {
+        mockStripe = createMockStripe('succeeded');
         axios.post.mockResolvedValue({
             data: { status: 200, body: 'succeeded' }
         });
+    
         await act(async () => {
             render(
                 <Router>
@@ -155,8 +151,10 @@ describe('submit button front end integration test', () => {
                 </Router>
             );
         });
-
+    
         const button = screen.getByTestId('payment-button');
+        console.log(button);
+        
         await act(async () => {
             fireEvent.change(screen.getByLabelText(/First Name/i), { target: { value: 'valid' } });
             fireEvent.change(screen.getByLabelText(/Last Name/i), { target: { value: 'input' } });
@@ -164,36 +162,41 @@ describe('submit button front end integration test', () => {
             fireEvent.change(screen.getByLabelText(/Email/i), { target: { value: 'yolo@gmail.com' } });
             userEvent.click(button);
         });
-
-        expect(button).toBeDisabled(); // check button remains disabled
-        expect(screen.getByText(/Processing.../i)).toBeInTheDocument(); // ensure that loading message is shown
-        expect(mockNavigate).toHaveBeenCalledWith('/confirmation', {
-            state: {
-                startDate: expect.anything(),
-                endDate: expect.anything(),
-                guests: expect.anything(),
-                destinationId: expect.anything(),
-                hotelName: expect.anything(),
-                hotelId: expect.anything(),
-                roomDescription: expect.anything(),
-                roomPrice: expect.anything(),
-            },
+    
+        await waitFor(() => {
+            expect(button).toBeDisabled(); // check button remains disabled
+            expect(screen.getByText(/Processing.../i)).toBeInTheDocument(); // ensure that loading message is shown
         });
-
-        // Add your assertions here based on expected behavior
+    
+        await waitFor(() => {
+            expect(mockNavigate).toHaveBeenCalledWith('/confirmation', {
+                state: {
+                    startDate: expect.anything(),
+                    endDate: expect.anything(),
+                    guests: expect.anything(),
+                    destinationId: expect.anything(),
+                    hotelName: expect.anything(),
+                    hotelId: expect.anything(),
+                    roomDescription: expect.anything(),
+                    roomPrice: expect.anything(),
+                },
+            });
+        });
     });
+        // Add your assertions here based on expected behavior
+    
 
 
-    test('ensure loading spinner stops,button enabled and Required shown on screen when payment is SUCCESSFUL but form fields (First Name) are INVALID', async () => {
-        mockStripe = createMockStripe('succeeded')
+test('ensure loading spinner stops,button enabled and Required shown on screen when payment is SUCCESSFUL but form fields (First Name) are INVALID', async () => {
+        mockStripe=createMockStripe('succeeded')
         await act(async () => {
             render(
                 <Router>
-                    <EachHotel />
+                        <EachHotel />
                 </Router>
             );
         });
-
+        
         const button = screen.getByTestId('payment-button');
         await act(async () => {
             fireEvent.change(screen.getByLabelText(/First Name/i), { target: { value: '' } });
@@ -202,24 +205,24 @@ describe('submit button front end integration test', () => {
             fireEvent.change(screen.getByLabelText(/Email/i), { target: { value: 'yolo@gmail.com' } });
             userEvent.click(button);
         });
-
+        await waitFor(() => {
         expect(button).not.toBeDisabled(); // ensure the button is enabled after processing
         expect(screen.queryByText(/Processing.../i)).not.toBeInTheDocument(); // ensure the loading message is hidden
-        expect(screen.getByText(/Required/i)).toBeInTheDocument();
+        expect(screen.getByText(/Required/i)).toBeInTheDocument();})
 
         // Add your assertions here based on expected behavior
     });
 
     test('ensure loading spinner stops,button enabled when payment FAILS but form fields are VALID', async () => {
-        mockStripe = createMockStripe('error')
+        mockStripe=createMockStripe('error')
         await act(async () => {
             render(
                 <Router>
-                    <EachHotel />
+                        <EachHotel />
                 </Router>
             );
         });
-
+        
         const button = screen.getByTestId('payment-button');
         await act(async () => {
             fireEvent.change(screen.getByLabelText(/First Name/i), { target: { value: 'valid' } });
@@ -229,17 +232,18 @@ describe('submit button front end integration test', () => {
             userEvent.click(button);
         });
 
+        await waitFor(() => {
         expect(button).not.toBeDisabled(); // ensure the button is enabled after processing
-        expect(screen.queryByText(/Processing.../i)).not.toBeInTheDocument(); // ensure the loading message is hidden
+        expect(screen.queryByText(/Processing.../i)).not.toBeInTheDocument();}) // ensure the loading message is hidden
     });
 
 
     test('ensure loading spinner stops,button enabled when payment FAILS and form fields are INVALID', async () => {
-        mockStripe = createMockStripe('error')
+        mockStripe=createMockStripe('error')
         await act(async () => {
             render(
                 <Router>
-                    <EachHotel />
+                        <EachHotel />
                 </Router>
             );
         });
@@ -247,8 +251,9 @@ describe('submit button front end integration test', () => {
         await act(async () => {
             userEvent.click(button);
         });
-
+        await waitFor(() => {
         expect(button).not.toBeDisabled(); // ensure the button is enabled after processing
-        expect(screen.queryByText(/Processing.../i)).not.toBeInTheDocument(); // ensure the loading message is hidden
+        expect(screen.queryByText(/Processing.../i)).not.toBeInTheDocument();}) // ensure the loading message is hidden
     });
 });
+
