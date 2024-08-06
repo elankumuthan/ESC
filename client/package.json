@@ -62,7 +62,7 @@
   "jest": {
     "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
-      "/Users/elankumuthan/Desktop/ESC/client/jest.setup.js"
+      "/Users/a.k.moe/Desktop/ESC/client/jest.setup.js"
     ],
     "testMatch": [
       "<rootDir>/test/**/*.test.js",
@@ -93,6 +93,7 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/user-event": "^14.5.2",
     "babel-jest": "^29.7.0",
+    "cypress": "^13.13.2",
     "jest": "^27.5.1",
     "jest-fuzz": "^0.1.2"
   }
