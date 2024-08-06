@@ -27,14 +27,3 @@ Server: `npm run`
 Server running on [http://localhost:3004](http://localhost:3004)
 
 
-<<<<<<< HEAD
-=======
-destination search branch: elan
-
-Hotel Search Results Branch: Hahvinaash
-
-Hotel Room Details: Harshini
-
-booking_confirmation branch: Moe
->>>>>>> 26cb1535bc0b43d7cabe6b97cfee9f765e4a0f94
-
