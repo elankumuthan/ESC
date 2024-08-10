@@ -114,7 +114,7 @@ describe("sendEmail() test-suite", () => {
 
   test("expect sendEmail() with invalid email to fail", async () => {
     const invalid_email_test = {
-      firstName: "a", // Should fail
+      firstName: "a", 
       lastName: "one",
       phoneNo: "+6584572662",
       email: "invalid-email",

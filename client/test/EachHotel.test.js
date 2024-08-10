@@ -86,7 +86,7 @@ let clientSecret;
 
 
 //test for useEffect on init to get clientSecret before PaymentElement renders
-/*describe('useEffect(,[]) on init call retrieve clientSecret from server and allows PaymentElement and button to render',()=>{
+describe('useEffect(,[]) on init call retrieve clientSecret from server and allows PaymentElement and button to render',()=>{
     beforeEach(()=>{
         fetch.mockClear();
         clientSecret = undefined;
@@ -125,7 +125,7 @@ let clientSecret;
         const paymentElement= screen.queryByTestId("payment-element")
         expect(paymentElement).not.toBeInTheDocument();
     })
-})*/
+})
 
 
 

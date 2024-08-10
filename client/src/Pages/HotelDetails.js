@@ -197,6 +197,7 @@ const HotelDetails = () => {
                             )}
                         </div>
                         <Button
+                            className='book'
                             variant="contained"
                             onClick={handleBook}
                             sx={{ marginTop: '10px', backgroundColor: '#4CAF50', color: '#FFFFFF' }}
